@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Eventify</string>
+    <string name="event_image">event image</string>
 </resources>

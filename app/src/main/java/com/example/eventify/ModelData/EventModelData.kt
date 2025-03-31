@@ -1,6 +1,6 @@
 package com.example.eventify.ModelData
 
-data class eventModelData(
+data class EventModelData(
     val eventImage: Int?,
     val eventId: String,
     val eventName: String,
