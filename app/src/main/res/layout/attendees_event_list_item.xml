@@ -1,78 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/white"
-    android:layout_height="wrap_content">
+    android:layout_height="300dp"
+    android:layout_margin="8dp"
+    android:background="@color/black"
+    app:strokeWidth="0dp">
 
-    <com.google.android.material.card.MaterialCardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginVertical="16dp"
-        android:layout_marginHorizontal="8dp"
-        app:strokeWidth="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:background="@color/whiteSmoke">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ImageView
+            android:id="@+id/attendeesEventListImage"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white">
+            android:layout_height="150dp"
+            android:contentDescription="@string/event_image"
+            android:background="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            tools:src="@tools:sample/avatars" />
 
-            <ImageView
-                android:id="@+id/attendeesEventListImage"
-                android:layout_width="120dp"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/event_image"
-                android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
-                tools:src="@tools:sample/avatars" />
+        <TextView
+            android:id="@+id/attendeesEventListName"
+            style="@style/styleTextForTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/attendeesEventListImage"
+            tools:text="event name" />
 
-            <TextView
-                style="@style/styleTextForTitle"
-                android:id="@+id/attendeesEventListName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:lines="1"
-                android:ellipsize="end"
-                tools:text="event name"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/attendeesEventListImage"
-                app:layout_constraintTop_toTopOf="@+id/attendeesEventListImage" />
-
-            <TextView
-                style="@style/StyleForText"
-                android:id="@+id/attendeesEventListDescription"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:lines="3"
-                tools:text="event descripton"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/attendeesEventListImage"
-                app:layout_constraintTop_toBottomOf="@+id/attendeesEventListName" />
+        <TextView
+            android:id="@+id/attendeesEventListDescription"
+            style="@style/StyleForText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/attendeesEventListName"
+            tools:text="event descripton" />
 
 
-            <TextView
-                style="@style/StyleForText"
-                android:id="@+id/attendeesEventListDate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:lines="1"
-                tools:text="event date"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/attendeesEventListImage"
-                app:layout_constraintTop_toBottomOf="@+id/attendeesEventListDescription" />
+        <TextView
+            android:id="@+id/attendeesEventListAvailable"
+            style="@style/StyleForText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/attendeesEventListDescription"
+            tools:text="ticket available" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

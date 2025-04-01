@@ -10,5 +10,7 @@ data class EventModelData(
     val eventName: String,
     val eventDescription:  String,
     val eventDate: String,
+    val eventLocation: String,
+    val ticketAvailable: Boolean,
     val organizerId: String
 ) : Parcelable

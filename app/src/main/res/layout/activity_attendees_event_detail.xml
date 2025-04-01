@@ -13,7 +13,7 @@
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/materialButton2"
+        app:layout_constraintBottom_toTopOf="@+id/attendeesEventDetailBuyTicketButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -38,47 +38,112 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@tools:sample/avatars" />
 
-            <TextView
-                android:id="@+id/attendeesEventDetailName"
-                style="@style/styleTextForTitle"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="event name" />
+                android:layout_margin="8dp"
+                android:background="@color/whiteSmoke">
 
-            <TextView
-                style="@style/styleTextForTitle"
-                android:id="@+id/attendeesEventDetailDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:text="event date" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:background="@color/whiteSmoke">
 
-            <TextView
-                android:id="@+id/attendeesEventDetailDesc"
-                style="@style/StyleForText"
+
+                    <TextView
+                        android:id="@+id/attendeesEventDetailName"
+                        style="@style/styleTextForTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="event name" />
+
+                    <TextView
+                        style="@style/styleTextForTitle"
+                        android:id="@+id/attendeesEventDetailDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="event date" />
+
+                    <TextView
+                        android:id="@+id/attendeesEventDetailLocation"
+                        style="@style/styleTextForTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="event Location" />
+
+                    <TextView
+                        android:id="@+id/attendeesEventDetailTicketAvailable"
+                        style="@style/styleTextForTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="Ticket available" />
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/descriptionCardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="event description" />
+                android:layout_marginHorizontal="8dp"
+                android:background="@color/whiteSmoke">
+
+                <LinearLayout
+                    android:id="@+id/expandLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/whiteSmoke"
+                    android:orientation="vertical"
+                    android:animateLayoutChanges="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/styleTextForTitle"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="Description"/>
+
+                        <ImageView
+                            android:id="@+id/expandImage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_margin="8dp"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        style="@style/StyleForText"
+                        android:id="@+id/attendeesEventDetailDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        tools:text="description" />
+                </LinearLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
         </LinearLayout>
     </ScrollView>
 
+
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/materialButton2"
-        android:layout_width="100dp"
+        android:id="@+id/attendeesEventDetailBuyTicketButton"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:text="back"
+        android:layout_margin="8dp"
+        android:backgroundTint="@color/black"
+        android:text="Buy Ticket"
+        app:cornerRadius="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/materialButton"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="60dp"
-        android:text="Buy"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
 
 
