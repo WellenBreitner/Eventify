@@ -22,59 +22,56 @@
             android:background="@color/white">
 
             <ImageView
-                android:id="@+id/attendeesEventImage"
+                android:id="@+id/attendeesEventListImage"
                 android:layout_width="120dp"
                 android:layout_height="match_parent"
-                android:src="@color/black"
                 android:contentDescription="@string/event_image"
+                android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintVertical_bias="0.0"
+                tools:src="@tools:sample/avatars" />
 
             <TextView
-                android:id="@+id/attendeesEventName"
+                style="@style/styleTextForTitle"
+                android:id="@+id/attendeesEventListName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                tools:text="event name"
-                android:textStyle="bold"
-                android:textSize="18sp"
                 android:lines="1"
                 android:ellipsize="end"
+                tools:text="event name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/attendeesEventImage"
-                app:layout_constraintTop_toTopOf="@+id/attendeesEventImage" />
+                app:layout_constraintStart_toEndOf="@+id/attendeesEventListImage"
+                app:layout_constraintTop_toTopOf="@+id/attendeesEventListImage" />
 
             <TextView
-                android:id="@+id/attendeesEventDescription"
+                style="@style/StyleForText"
+                android:id="@+id/attendeesEventListDescription"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
                 android:ellipsize="end"
                 android:lines="3"
                 tools:text="event descripton"
-                android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/attendeesEventImage"
-                app:layout_constraintTop_toBottomOf="@+id/attendeesEventName" />
+                app:layout_constraintStart_toEndOf="@+id/attendeesEventListImage"
+                app:layout_constraintTop_toBottomOf="@+id/attendeesEventListName" />
 
 
             <TextView
-                android:id="@+id/attendeesEventDate"
+                style="@style/StyleForText"
+                android:id="@+id/attendeesEventListDate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
                 android:ellipsize="end"
                 android:lines="1"
                 tools:text="event date"
-                android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/attendeesEventImage"
-                app:layout_constraintTop_toBottomOf="@+id/attendeesEventDescription" />
+                app:layout_constraintStart_toEndOf="@+id/attendeesEventListImage"
+                app:layout_constraintTop_toBottomOf="@+id/attendeesEventListDescription" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

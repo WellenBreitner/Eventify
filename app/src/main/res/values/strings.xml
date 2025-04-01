@@ -1,4 +1,15 @@
 <resources>
     <string name="app_name">Eventify</string>
     <string name="event_image">event image</string>
+
+    <style name="styleTextForTitle" parent="TextAppearance.AppCompat">
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="StyleForText" parent="TextAppearance.AppCompat">
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:textSize">15sp</item>
+    </style>
 </resources>
