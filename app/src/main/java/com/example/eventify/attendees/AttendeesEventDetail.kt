@@ -3,11 +3,7 @@ package com.example.eventify.attendees
 import android.animation.LayoutTransition
 import android.os.Build
 import android.os.Bundle
-import android.provider.Telephony.Mms.Intents
-import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -16,12 +12,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.Lifecycle
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.example.eventify.ModelData.EventModelData
 import com.example.eventify.R
-import org.w3c.dom.Text
 
 class AttendeesEventDetail : AppCompatActivity() {
 
