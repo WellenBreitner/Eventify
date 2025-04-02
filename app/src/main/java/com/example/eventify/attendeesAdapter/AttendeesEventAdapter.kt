@@ -22,7 +22,7 @@ class AttendeesEventAdapter (
         val eventImage: ImageView = itemView.findViewById(R.id.attendeesEventListImage)
         val eventName: TextView = itemView.findViewById(R.id.attendeesEventListName)
         val eventDesc: TextView = itemView.findViewById(R.id.attendeesEventListDescription)
-        val eventAvailable: TextView = itemView.findViewById(R.id.attendeesEventListAvailable)
+
     }
 
     override fun onCreateViewHolder(
@@ -42,11 +42,11 @@ class AttendeesEventAdapter (
         holder.eventName.text = event.eventName
         holder.eventDesc.text = event.eventDescription
 
-        if (event.ticketAvailable){
-            holder.eventAvailable.text = "Ticket Available"
-        }else{
-            holder.eventAvailable.text = "Sold Out"
-        }
+//        if (event.ticketAvailable){
+//            holder.eventAvailable.text = "Ticket Available"
+//        }else{
+//            holder.eventAvailable.text = "Sold Out"
+//        }
 
 
         holder.itemView.setOnClickListener {

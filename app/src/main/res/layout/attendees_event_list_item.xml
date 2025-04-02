@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="wrap_content"
     android:layout_margin="8dp"
     android:background="@color/black"
-    app:strokeWidth="0dp">
+    app:strokeWidth="0dp"
+    app:cardBackgroundColor="@color/whiteSmoke">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/whiteSmoke">
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/attendeesEventListImage"
@@ -51,7 +51,7 @@
 
 
         <TextView
-            android:id="@+id/attendeesEventListAvailable"
+            android:id="@+id/attendeesEventListTicketAvailable"
             style="@style/StyleForText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -60,7 +60,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/attendeesEventListDescription"
-            tools:text="ticket available" />
+            android:text="ticket available" />
+
+        <TextView
+            android:id="@+id/attendeesEventListTicketPrice"
+            style="@style/StyleForText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/attendeesEventListTicketAvailable"
+            android:text="ticket price" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

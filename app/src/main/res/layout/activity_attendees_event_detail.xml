@@ -42,58 +42,58 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:background="@color/whiteSmoke">
+                app:cardBackgroundColor="@color/whiteSmoke">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:background="@color/whiteSmoke">
-
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/attendeesEventDetailName"
                         style="@style/styleTextForTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:text="event name" />
+                        tools:text="Event name" />
 
                     <TextView
-                        style="@style/styleTextForTitle"
+                        style="@style/StyleForText"
                         android:id="@+id/attendeesEventDetailDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:text="event date" />
+                        tools:text="Event date" />
 
                     <TextView
                         android:id="@+id/attendeesEventDetailLocation"
-                        style="@style/styleTextForTitle"
+                        style="@style/StyleForText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:text="event Location" />
+                        tools:text="Event location" />
 
-                    <TextView
-                        android:id="@+id/attendeesEventDetailTicketAvailable"
-                        style="@style/styleTextForTitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:text="Ticket available" />
                 </LinearLayout>
 
+
+<!--                <TextView-->
+<!--                    android:id="@+id/attendeesEventDetailTicketAvailable"-->
+<!--                    style="@style/styleTextForTitle"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    tools:text="Ticket available" />-->
+
             </com.google.android.material.card.MaterialCardView>
+
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/descriptionCardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
-                android:background="@color/whiteSmoke">
+                app:cardBackgroundColor="@color/whiteSmoke">
 
                 <LinearLayout
                     android:id="@+id/expandLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/whiteSmoke"
                     android:orientation="vertical"
                     android:animateLayoutChanges="true">
 
@@ -107,7 +107,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="Description"/>
+                            android:text="Description" />
 
                         <ImageView
                             android:id="@+id/expandImage"
@@ -115,18 +115,60 @@
                             android:layout_height="match_parent"
                             android:layout_margin="8dp"
                             android:contentDescription="expand image" />
-
                     </LinearLayout>
+                    <TextView
+                        android:id="@+id/attendeesEventDetailDesc"
+                        style="@style/StyleForText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:text="Description"
+                        android:visibility="gone"/>
+
+                </LinearLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:cardBackgroundColor="@color/whiteSmoke">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
                     <TextView
                         style="@style/StyleForText"
-                        android:id="@+id/attendeesEventDetailDesc"
+                        android:id="@+id/attendeesEventTicketType"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        tools:text="description" />
-                </LinearLayout>
+                        android:text="Ticket type" />
 
+                    <TextView
+                        style="@style/StyleForText"
+                        android:id="@+id/attendeesEventTicketRemaining"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ticket remaining" />
+
+                    <TextView
+                        style="@style/StyleForText"
+                        android:id="@+id/attendeesEventTicketAvailable"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ticket available" />
+
+                    <TextView
+                        style="@style/styleTextForTitle"
+                        android:id="@+id/attendeesEventTicketPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ticket price" />
+
+                </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
