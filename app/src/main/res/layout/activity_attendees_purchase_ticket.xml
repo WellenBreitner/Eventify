@@ -33,13 +33,9 @@
 
     </LinearLayout>
 
-
-
-
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:fillViewport="true">
 
         <HorizontalScrollView
@@ -49,7 +45,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/eventSeatSelectionForPurchasesTicket"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="300dp"
                 android:layout_margin="8dp"
                 tools:listitem="@layout/seat_item"/>
