@@ -12,11 +12,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.eventify.ModelData.SeatModelData
 import com.example.eventify.R
 import com.example.eventify.attendeesAdapter.SeatAdapter
+import com.google.android.material.button.MaterialButton
 
 class AttendeesPurchaseTicket : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var numberOfTicket: TextView
+    private lateinit var attendeesSelectTypeButton: MaterialButton
 
     private val seats = mutableListOf<SeatModelData>()
     private val rows = listOf("A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L","AA","BB","CC","DD","EE")
@@ -38,11 +40,16 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
     }
 
     private fun initializeListener() {
+        attendeesSelectTypeButton.setOnClickListener {
+            attendeesSelectTypeOnClick()
+        }
     }
 
     private fun initializeUI() {
+        recyclerView = findViewById(R.id.eventSeatSelectionForPurchasesTicket)
+        attendeesSelectTypeButton = findViewById(R.id.attendeesSelectTicketType)
+        numberOfTicket = findViewById(R.id.numberOfPurchaseTicket)
         initializeRecycleViewAndSeatSelectionFeature()
-
     }
 
     private fun seatSetup(){
@@ -54,15 +61,11 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
     }
 
     private fun initializeRecycleViewAndSeatSelectionFeature(){
-        recyclerView = findViewById(R.id.eventSeatSelectionForPurchasesTicket)
         recyclerView.layoutManager = GridLayoutManager(this,cols)
         seatSetup()
         val adapter = SeatAdapter(seats)
         recyclerView.adapter = adapter
         recyclerView.setHasFixedSize(true)
-
-        numberOfTicket = findViewById(R.id.numberOfPurchaseTicket)
-
 
         adapter.setSeatOnClick(object:SeatAdapter.seatOnClick{
             override fun onClick(seatModelData: SeatModelData) {
@@ -80,4 +83,12 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
             }
         })
     }
+
+    private fun attendeesSelectTypeOnClick() {
+        val fragment = AttendeesTicketType()
+        val fragmentManager = supportFragmentManager
+        fragment.show(fragmentManager,"Attendees Ticket Type Dialog Fragment")
+    }
+
+
 }

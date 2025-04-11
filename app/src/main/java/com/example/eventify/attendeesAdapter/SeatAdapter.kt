@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.eventify.ModelData.SeatModelData
 import com.example.eventify.R
 
-class SeatAdapter(val seatList: MutableList<SeatModelData>) :
+class SeatAdapter(private val seatList: MutableList<SeatModelData>) :
     RecyclerView.Adapter<SeatAdapter.ViewHolder>(){
 
     private lateinit var listener: seatOnClick

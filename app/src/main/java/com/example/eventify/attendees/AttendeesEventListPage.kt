@@ -93,7 +93,6 @@ class AttendeesEventListPage : AppCompatActivity() {
     }
 
     fun onClick(event: EventModelData){
-        Toast.makeText(this, "kamu click " + event.eventName, Toast.LENGTH_SHORT).show()
         val intent = Intent(this,AttendeesEventDetail::class.java)
         intent.putExtra(AttendeesEventDetail.EXTRA_EVENT_DETAIL,event)
         startActivity(intent)
