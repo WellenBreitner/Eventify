@@ -1,6 +1,5 @@
 package com.example.eventify.ModelData
 
-import java.util.UUID
 
 data class TicketModelData(
     val ticketId: String,
@@ -10,4 +9,5 @@ data class TicketModelData(
     val totalTicket: Int,
     val ticketRemaining: Int,
     val ticketAvailable: Boolean,
+    // val ticket limit : Int,
 )

@@ -22,7 +22,6 @@ class AttendeesEventAdapter (
         val eventImage: ImageView = itemView.findViewById(R.id.attendeesEventListImage)
         val eventName: TextView = itemView.findViewById(R.id.attendeesEventListName)
         val eventDesc: TextView = itemView.findViewById(R.id.attendeesEventListDescription)
-
     }
 
     override fun onCreateViewHolder(

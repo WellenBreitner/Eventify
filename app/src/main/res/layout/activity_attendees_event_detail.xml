@@ -8,7 +8,6 @@
     android:background="@color/white"
     tools:context=".attendees.AttendeesEventDetail">
 
-
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"

@@ -5,26 +5,55 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="8dp"
     tools:context=".attendees.AttendeesPurchaseTicket">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="500px">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <TextView
             style="@style/styleTextForTitle"
             android:textSize="15sp"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="Number of ticket" />
+
+        <TextView
+            style="@style/styleTextForTitle"
+            android:id="@+id/numberOfPurchaseTicket"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="Number of ticket"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_weight="1"
+            android:text="0"
+            android:textAlignment="textEnd"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 
+
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scrollbars="horizontal">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/eventSeatSelectionForPurchasesTicket"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_margin="8dp"
+                tools:listitem="@layout/seat_item"/>
+        </HorizontalScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>
