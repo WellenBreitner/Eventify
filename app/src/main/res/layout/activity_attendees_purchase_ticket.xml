@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
     tools:context=".attendees.AttendeesPurchaseTicket">
@@ -15,14 +15,21 @@
         android:layout_margin="8dp"
         android:orientation="vertical">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
+            style="@style/StyleForText"
             android:id="@+id/attendeesSelectTicketType"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="Select Ticket Type"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            app:strokeColor="@color/black"
+            app:strokeWidth="2dp"
+            app:cornerRadius="0dp"/>
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="350dp"
             android:scaleType="fitXY"
             android:src="@drawable/seatlayout"/>
 
@@ -44,6 +51,29 @@
                     tools:listitem="@layout/seat_item"/>
             </HorizontalScrollView>
         </androidx.core.widget.NestedScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/styleTextForTitle"
+                android:textSize="15sp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Ticket type" />
+
+            <TextView
+                style="@style/styleTextForTitle"
+                android:id="@+id/ticketTypeAttendeesChoose"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textAlignment="textEnd"/>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
