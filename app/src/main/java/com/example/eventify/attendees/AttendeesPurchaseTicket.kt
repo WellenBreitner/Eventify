@@ -46,7 +46,6 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
     }
 
     private fun initializeUI() {
-        recyclerView = findViewById(R.id.eventSeatSelectionForPurchasesTicket)
         attendeesSelectTypeButton = findViewById(R.id.attendeesSelectTicketType)
         numberOfTicket = findViewById(R.id.numberOfPurchaseTicket)
         initializeRecycleViewAndSeatSelectionFeature()
@@ -61,6 +60,7 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
     }
 
     private fun initializeRecycleViewAndSeatSelectionFeature(){
+        recyclerView = findViewById(R.id.eventSeatSelectionForPurchasesTicket)
         recyclerView.layoutManager = GridLayoutManager(this,cols)
         seatSetup()
         val adapter = SeatAdapter(seats)

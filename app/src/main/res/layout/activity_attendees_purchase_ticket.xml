@@ -15,17 +15,10 @@
         android:layout_margin="8dp"
         android:orientation="vertical">
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/attendeesSelectTicketType"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="8dp"
-            android:text="Select Ticket Type"
-            android:textColor="@color/black"
-            android:backgroundTint="@color/white"
-            app:cornerRadius="0dp"
-            app:strokeWidth="2dp"
-            app:strokeColor="@color/black"/>
+            android:layout_height="wrap_content"/>
 
         <ImageView
             android:layout_width="match_parent"
