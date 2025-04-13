@@ -13,13 +13,18 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBar.LayoutParams
 import androidx.constraintlayout.widget.Group
 import androidx.core.view.marginTop
+import androidx.lifecycle.ViewModelProvider
 import com.example.eventify.R
+import com.example.eventify.attendeesViewModel.TicketTypeViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.button.MaterialButton
 
 
 class AttendeesTicketType : BottomSheetDialogFragment() {
     private lateinit var ticketTypeRadioGroup: RadioGroup
-    private lateinit var radioButton: RadioButton
+    private lateinit var attendeesSaveTicketTypeButton : MaterialButton
+    private lateinit var ticketTypeRadioButton: RadioButton
+    private lateinit var taskViewModel: TicketTypeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,21 +33,32 @@ class AttendeesTicketType : BottomSheetDialogFragment() {
         val view = inflater.inflate(R.layout.fragment_attendees_ticket_type, container, false)
 
         // testing purpose
-        val array = arrayOf("option1","option2","option3","option4","option5","option6","option7","option8","option9","option10",
-            "option11","option12","option13","option14","option15","option16","option17","option18","option19","option20",
-            "option21","option22","option23","option24","option25","option26","option27","option28","option29","option30")
+        val dummyData = hashMapOf(
+            "lecture" to 500,
+            "child" to 1000,
+            "adult" to 1500,
+            "VIP" to 5000)
 
+        val arrayDummy = dummyData.keys.toList()
         ticketTypeRadioGroup = view.findViewById(R.id.attendeesTicketTypeRadioButton)
+        attendeesSaveTicketTypeButton = view.findViewById(R.id.attendeesSaveTicketTypeButton)
+        taskViewModel = ViewModelProvider(requireActivity())[TicketTypeViewModel::class.java]
 
-        for (i in array.indices){
-            radioButton = RadioButton(requireActivity())
-            radioButton.text = array[i]
-            radioButton.textSize =18f
-            radioButton.id = View.generateViewId()
-            radioButton.tag = array[i]
+        for ((key,value) in dummyData) {
+            ticketTypeRadioButton = RadioButton(requireActivity())
+            ticketTypeRadioButton.text = "${key} (${value})"
+            ticketTypeRadioButton.textSize = 18f
+            ticketTypeRadioButton.id = View.generateViewId()
+            ticketTypeRadioButton.tag = key
 
-            if (array[0] == radioButton.tag.toString()){
-                radioButton.isChecked = true
+            if (taskViewModel.selectedData.value == null) {
+                if (arrayDummy[0] == ticketTypeRadioButton.tag.toString()) {
+                    ticketTypeRadioButton.isChecked = true
+                }
+            } else{
+                if (taskViewModel.selectedData.value == ticketTypeRadioButton.tag.toString()) {
+                    ticketTypeRadioButton.isChecked = true
+                }
             }
 
             val params = RadioGroup.LayoutParams(
@@ -51,18 +67,19 @@ class AttendeesTicketType : BottomSheetDialogFragment() {
             )
 
             params.setMargins(0,20,0,0)
-            radioButton.layoutParams = params
-            radioButton.textSize =18f
-            ticketTypeRadioGroup.addView(radioButton)
+            ticketTypeRadioButton.layoutParams = params
+            ticketTypeRadioButton.textSize = 18f
+            ticketTypeRadioGroup.addView(ticketTypeRadioButton)
         }
 
-        ticketTypeRadioGroup.setOnCheckedChangeListener{_, _ ->
+        attendeesSaveTicketTypeButton.setOnClickListener {
             val selectedId = ticketTypeRadioGroup.checkedRadioButtonId
             val selectedRadioButton = view.findViewById<RadioButton>(selectedId)
             val selectedValue = selectedRadioButton?.tag.toString()
 
-            Toast.makeText(requireActivity(), "Yang dipilih: $selectedValue", Toast.LENGTH_SHORT).show()
 
+            taskViewModel.selectedData.value = selectedValue
+            dismiss()
         }
 
         return view

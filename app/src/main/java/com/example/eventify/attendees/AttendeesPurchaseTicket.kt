@@ -7,11 +7,14 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventify.ModelData.SeatModelData
 import com.example.eventify.R
 import com.example.eventify.attendeesAdapter.SeatAdapter
+import com.example.eventify.attendeesViewModel.TicketTypeViewModel
 import com.google.android.material.button.MaterialButton
 
 class AttendeesPurchaseTicket : AppCompatActivity() {
@@ -19,6 +22,8 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var numberOfTicket: TextView
     private lateinit var attendeesSelectTypeButton: MaterialButton
+    private lateinit var taskViewModel: TicketTypeViewModel
+    private lateinit var ticketType: TextView
 
     private val seats = mutableListOf<SeatModelData>()
     private val rows = listOf("A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L","AA","BB","CC","DD","EE")
@@ -48,6 +53,13 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
     private fun initializeUI() {
         attendeesSelectTypeButton = findViewById(R.id.attendeesSelectTicketType)
         numberOfTicket = findViewById(R.id.numberOfPurchaseTicket)
+        ticketType = findViewById(R.id.ticketTypeAttendeesChoose)
+        taskViewModel = ViewModelProvider(this)[TicketTypeViewModel::class.java]
+
+        taskViewModel.selectedData.observe(this){ data ->
+            ticketType.text = data
+        }
+
         initializeRecycleViewAndSeatSelectionFeature()
     }
 
