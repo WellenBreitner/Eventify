@@ -12,4 +12,14 @@ data class EventModelData(
     val eventDate: String,
     val eventLocation: String,
     val organizerId: String
-) : Parcelable
+) : Parcelable{
+    constructor() : this(
+        eventImage = null,
+        eventId = "",
+        eventName = "",
+        eventDescription = "",
+        eventDate = "",
+        eventLocation = "",
+        organizerId = ""
+    )
+}

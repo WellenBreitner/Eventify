@@ -1,6 +1,5 @@
 package com.example.eventify.ModelData
 
-
 data class TicketModelData(
     val ticketId: String,
     val eventId: String,

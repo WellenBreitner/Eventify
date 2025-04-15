@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventify.ModelData.SeatModelData
@@ -22,8 +21,10 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var numberOfTicket: TextView
     private lateinit var attendeesSelectTypeButton: MaterialButton
-    private lateinit var taskViewModel: TicketTypeViewModel
-    private lateinit var ticketType: TextView
+    private lateinit var ticketTypeViewModel: TicketTypeViewModel
+    private lateinit var ticketTypeTextView: TextView
+    private lateinit var attendeesTicketTotalPriceTextView: TextView
+
 
     private val seats = mutableListOf<SeatModelData>()
     private val rows = listOf("A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L","AA","BB","CC","DD","EE")
@@ -53,11 +54,12 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
     private fun initializeUI() {
         attendeesSelectTypeButton = findViewById(R.id.attendeesSelectTicketType)
         numberOfTicket = findViewById(R.id.numberOfPurchaseTicket)
-        ticketType = findViewById(R.id.ticketTypeAttendeesChoose)
-        taskViewModel = ViewModelProvider(this)[TicketTypeViewModel::class.java]
+        ticketTypeTextView = findViewById(R.id.ticketTypeAttendeesChoose)
+        attendeesTicketTotalPriceTextView = findViewById(R.id.attendeesTicketTotalPrice)
+        ticketTypeViewModel = ViewModelProvider(this)[TicketTypeViewModel::class.java]
 
-        taskViewModel.selectedData.observe(this){ data ->
-            ticketType.text = data
+        ticketTypeViewModel.getTicketTypeData.observe(this){ data ->
+            ticketTypeTextView.text = ticketTypeViewModel.getCurrentTicketType
         }
 
         initializeRecycleViewAndSeatSelectionFeature()
@@ -77,7 +79,6 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
         seatSetup()
         val adapter = SeatAdapter(seats)
         recyclerView.adapter = adapter
-        recyclerView.setHasFixedSize(true)
 
         adapter.setSeatOnClick(object:SeatAdapter.seatOnClick{
             override fun onClick(seatModelData: SeatModelData) {
@@ -92,6 +93,10 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
                     bookSeat.remove(seatModelData.label)
                 }
                 numberOfTicket.text = bookSeat.size.toString()
+
+                ticketTypeViewModel.getTicketPriceData.observe(this@AttendeesPurchaseTicket){data ->
+                    attendeesTicketTotalPriceTextView.text = (data.toInt() * bookSeat.size).toString()
+                }
             }
         })
     }

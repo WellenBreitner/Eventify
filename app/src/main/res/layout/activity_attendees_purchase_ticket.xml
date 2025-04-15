@@ -99,6 +99,30 @@
                 android:textAlignment="textEnd"/>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/styleTextForTitle"
+                android:textSize="15sp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Total Price" />
+
+            <TextView
+                style="@style/styleTextForTitle"
+                android:id="@+id/attendeesTicketTotalPrice"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="0"
+                android:textAlignment="textEnd"/>
+        </LinearLayout>
+
 <!--        <com.google.android.material.textfield.TextInputLayout-->
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="wrap_content"-->

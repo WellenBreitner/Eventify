@@ -1,18 +1,11 @@
 package com.example.eventify.attendees
 
 import android.os.Bundle
-import android.text.Layout
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
-import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.ActionBar.LayoutParams
-import androidx.constraintlayout.widget.Group
-import androidx.core.view.marginTop
 import androidx.lifecycle.ViewModelProvider
 import com.example.eventify.R
 import com.example.eventify.attendeesViewModel.TicketTypeViewModel
@@ -24,7 +17,7 @@ class AttendeesTicketType : BottomSheetDialogFragment() {
     private lateinit var ticketTypeRadioGroup: RadioGroup
     private lateinit var attendeesSaveTicketTypeButton : MaterialButton
     private lateinit var ticketTypeRadioButton: RadioButton
-    private lateinit var taskViewModel: TicketTypeViewModel
+    private lateinit var ticketViewModel: TicketTypeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,21 +35,18 @@ class AttendeesTicketType : BottomSheetDialogFragment() {
         val arrayDummy = dummyData.keys.toList()
         ticketTypeRadioGroup = view.findViewById(R.id.attendeesTicketTypeRadioButton)
         attendeesSaveTicketTypeButton = view.findViewById(R.id.attendeesSaveTicketTypeButton)
-        taskViewModel = ViewModelProvider(requireActivity())[TicketTypeViewModel::class.java]
+        ticketViewModel = ViewModelProvider(requireActivity())[TicketTypeViewModel::class.java]
 
         for ((key,value) in dummyData) {
             ticketTypeRadioButton = RadioButton(requireActivity())
             ticketTypeRadioButton.text = "${key} (${value})"
-            ticketTypeRadioButton.textSize = 18f
             ticketTypeRadioButton.id = View.generateViewId()
             ticketTypeRadioButton.tag = key
 
-            if (taskViewModel.selectedData.value == null) {
-                if (arrayDummy[0] == ticketTypeRadioButton.tag.toString()) {
-                    ticketTypeRadioButton.isChecked = true
-                }
+            if (ticketViewModel.getTicketTypeData.value == null) {
+
             } else{
-                if (taskViewModel.selectedData.value == ticketTypeRadioButton.tag.toString()) {
+                if (ticketViewModel.getTicketTypeData.value == ticketTypeRadioButton.tag.toString()) {
                     ticketTypeRadioButton.isChecked = true
                 }
             }
@@ -76,9 +66,11 @@ class AttendeesTicketType : BottomSheetDialogFragment() {
             val selectedId = ticketTypeRadioGroup.checkedRadioButtonId
             val selectedRadioButton = view.findViewById<RadioButton>(selectedId)
             val selectedValue = selectedRadioButton?.tag.toString()
+            val selectedPrice = dummyData.getValue(selectedValue)
 
 
-            taskViewModel.selectedData.value = selectedValue
+            ticketViewModel.setTicketType(selectedValue)
+            ticketViewModel.setTicketPrice(selectedPrice.toString())
             dismiss()
         }
 
