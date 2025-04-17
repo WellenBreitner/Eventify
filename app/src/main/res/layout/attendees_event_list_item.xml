@@ -11,9 +11,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="8dp">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/attendeesEventListImage"
             android:layout_width="match_parent"
             android:layout_height="150dp"
@@ -23,6 +24,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
             tools:src="@tools:sample/avatars" />
 
         <TextView
@@ -49,6 +51,19 @@
             app:layout_constraintTop_toBottomOf="@+id/attendeesEventListName"
             tools:text="event descripton" />
 
+        <TextView
+            android:id="@+id/attendeesEventListDate"
+            style="@style/StyleForText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="29dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="event date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/attendeesEventListDescription" />
+
 
         <TextView
             android:id="@+id/attendeesEventListTicketAvailable"
@@ -57,22 +72,12 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:lines="1"
+            android:text="ticket available"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/attendeesEventListDescription"
-            android:text="ticket available" />
+            app:layout_constraintTop_toBottomOf="@+id/attendeesEventListDate" />
 
-        <TextView
-            android:id="@+id/attendeesEventListTicketPrice"
-            style="@style/StyleForText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:lines="1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/attendeesEventListTicketAvailable"
-            android:text="ticket price" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
