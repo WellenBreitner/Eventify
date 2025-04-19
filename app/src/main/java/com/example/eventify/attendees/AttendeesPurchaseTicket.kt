@@ -1,7 +1,7 @@
 package com.example.eventify.attendees
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.HorizontalScrollView
@@ -25,23 +25,24 @@ import com.google.android.material.button.MaterialButton
 
 class AttendeesPurchaseTicket : AppCompatActivity() {
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var numberOfTicket: TextView
-    private lateinit var attendeesSelectTypeButton: MaterialButton
     private lateinit var ticketTypeViewModel: TicketTypeViewModel
-    private lateinit var ticketTypeTextView: TextView
-    private lateinit var attendeesTicketTotalPriceTextView: TextView
+    private lateinit var recyclerView: RecyclerView
     private lateinit var horizontalScrollView: HorizontalScrollView
     private lateinit var seatInformationLayout: LinearLayout
+    private lateinit var numberOfTicket: TextView
+    private lateinit var ticketTypeTextView: TextView
+    private lateinit var attendeesTicketTotalPriceTextView: TextView
     private lateinit var selectedSeatTextView: TextView
+    private lateinit var attendeesSelectTypeButton: MaterialButton
+    private lateinit var attendeesBookingButton: MaterialButton
 
-    private var isTicketTypeSelected = false
-    private var isRecyclerInitialized = false
-    private val seats = mutableListOf<SeatModelData>()
+    private val bookSeat = ArrayList<String>()
     private var unavailableSeats = hashSetOf<String>()
+    private val seats = mutableListOf<SeatModelData>()
     private val rows = listOf("A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L","AA","BB","CC","DD","EE")
     private val cols = 50
-    private val bookSeat = ArrayList<String>()
+    private var isTicketTypeSelected = false
+    private var isRecyclerInitialized = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,18 +62,24 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
         attendeesSelectTypeButton.setOnClickListener {
             attendeesSelectTypeOnClick()
         }
+
+        attendeesBookingButton.setOnClickListener {
+            attendeesBookingButtonOnClick()
+        }
     }
 
     private fun initializeUI() {
+        ticketTypeViewModel = ViewModelProvider(this)[TicketTypeViewModel::class.java]
         recyclerView = findViewById(R.id.eventSeatSelectionForPurchasesTicket)
-        attendeesSelectTypeButton = findViewById(R.id.attendeesSelectTicketType)
+        horizontalScrollView = findViewById(R.id.horizontalScrollViewForRecyclerView)
+        seatInformationLayout = findViewById(R.id.seatInformation)
         numberOfTicket = findViewById(R.id.numberOfPurchaseTicket)
         ticketTypeTextView = findViewById(R.id.ticketTypeAttendeesChoose)
         attendeesTicketTotalPriceTextView = findViewById(R.id.attendeesTicketTotalPrice)
-        horizontalScrollView = findViewById(R.id.horizontalScrollViewForRecyclerView)
-        seatInformationLayout = findViewById(R.id.seatInformation)
         selectedSeatTextView = findViewById(R.id.attendeesSelectSeat)
-        ticketTypeViewModel = ViewModelProvider(this)[TicketTypeViewModel::class.java]
+        attendeesSelectTypeButton = findViewById(R.id.attendeesSelectTicketType)
+        attendeesBookingButton = findViewById(R.id.attendeesBookingButton)
+
         ticketTypeViewModel.setEventID(intent.getStringExtra("event_id").toString())
         ticketTypeViewModel.getTicketTypeData.observe(this){data ->
             ticketTypeTextView.text = data
@@ -80,9 +87,10 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
 
             if (isTicketTypeSelected) {
                 showNestedScrollWithAnimation(true)
-            } else {
 
+            } else {
                 showNestedScrollWithAnimation(false)
+
             }
         }
 
@@ -165,5 +173,20 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
         val fragment = AttendeesTicketType()
         val fragmentManager = supportFragmentManager
         fragment.show(fragmentManager,"Attendees Ticket Type Dialog Fragment")
+    }
+
+    private fun attendeesBookingButtonOnClick() {
+        val numberTicket = numberOfTicket.text.toString()
+        if (isTicketTypeSelected){
+            if(numberTicket.toInt() > 0){
+                val intent = Intent(this,AttendeesPaymentInformation::class.java)
+                startActivity(intent)
+            }else{
+                Toast.makeText(this, "You required to select seat", Toast.LENGTH_SHORT).show()
+            }
+        }else{
+            Toast.makeText(this, "You required to select ticket type first", Toast.LENGTH_SHORT).show()
+        }
+
     }
 }

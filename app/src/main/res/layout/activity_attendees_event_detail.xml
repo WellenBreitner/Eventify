@@ -70,17 +70,7 @@
                         tools:text="Event location" />
 
                 </LinearLayout>
-
-
-<!--                <TextView-->
-<!--                    android:id="@+id/attendeesEventDetailTicketAvailable"-->
-<!--                    style="@style/styleTextForTitle"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    tools:text="Ticket available" />-->
-
             </com.google.android.material.card.MaterialCardView>
-
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/descriptionCardView"
