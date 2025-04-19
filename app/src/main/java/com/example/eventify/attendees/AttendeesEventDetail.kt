@@ -13,10 +13,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.example.eventify.ModelData.EventModelData
 import com.example.eventify.R
+import com.example.eventify.attendeesViewModel.TicketTypeViewModel
 import com.google.android.material.button.MaterialButton
 
 class AttendeesEventDetail : AppCompatActivity() {
@@ -30,10 +32,14 @@ class AttendeesEventDetail : AppCompatActivity() {
     private lateinit var eventDetailDate:TextView
     private lateinit var eventDetailLocation:TextView
     private lateinit var eventDetailDescription:TextView
+    private lateinit var eventTicketRemaining: TextView
+    private lateinit var eventTicketAvailable: TextView
+    private lateinit var eventID: String
     private lateinit var cardviewDesc:CardView
     private lateinit var expandLayout:LinearLayout
     private lateinit var expandImage:ImageView
     private lateinit var buyTicketButton: MaterialButton
+    private lateinit var eventIDViewModel: TicketTypeViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,12 +62,14 @@ class AttendeesEventDetail : AppCompatActivity() {
         eventDetailDate = findViewById(R.id.attendeesEventDetailDate)
         eventDetailLocation = findViewById(R.id.attendeesEventDetailLocation)
         eventDetailDescription = findViewById(R.id.attendeesEventDetailDesc)
+        eventTicketRemaining = findViewById(R.id.attendeesEventTicketRemaining)
+        eventTicketAvailable = findViewById(R.id.attendeesEventTicketAvailable)
         cardviewDesc = findViewById(R.id.descriptionCardView)
         expandLayout = findViewById(R.id.expandLayout)
         expandImage = findViewById(R.id.expandImage)
         buyTicketButton = findViewById(R.id.attendeesEventDetailBuyTicketButton)
 
-        getEventDataByIntent()
+        getEventAndTicketDataByIntent()
     }
 
     private fun initializeListener() {
@@ -69,25 +77,37 @@ class AttendeesEventDetail : AppCompatActivity() {
         buyTicketButtonOnClick()
     }
 
-    private fun getEventDataByIntent() {
-        val getEvent = if (Build.VERSION.SDK_INT >= 33){
+    private fun getEventAndTicketDataByIntent() {
+        val getEventAndTicket = if (Build.VERSION.SDK_INT >= 33){
             intent.getParcelableExtra(EXTRA_EVENT_DETAIL,EventModelData::class.java)
         }else{
             @Suppress("DEPRECATION")
             intent.getParcelableExtra(EXTRA_EVENT_DETAIL)
         }
 
-        if(getEvent!=null){
-            val name = getEvent.eventName
-            val date = "Date: ${ getEvent.eventDate}"
-            val location = "Location: ${getEvent.eventLocation}"
-            val description = getEvent.eventDescription
+        if(getEventAndTicket!=null) {
+            val getEventName = getEventAndTicket.eventName
+            val getEventDate = "Date: ${getEventAndTicket.eventDate}"
+            val getEventLocation = "Location: ${getEventAndTicket.eventLocation}"
+            val getEventDescription = getEventAndTicket.eventDescription
+            val getTicketRemaining = "Ticket Remaining: ${getEventAndTicket.ticket?.ticketRemaining}"
+            val getTicketAvailable = if (getEventAndTicket.ticket?.ticketAvailable == true) {
+                "Ticket Available: Available"
+            } else {
+                "Ticket Available: Sold out"
+            }
 
+            eventID = getEventAndTicket.eventId
             eventDetailImage.setImageResource(R.color.black)
-            eventDetailName.text = name
-            eventDetailDate.text = date
-            eventDetailLocation.text = location
-            eventDetailDescription.text = description
+            eventDetailName.text = getEventName
+            eventDetailDate.text = getEventDate
+            eventDetailLocation.text = getEventLocation
+            eventDetailDescription.text = getEventDescription
+            eventTicketRemaining.text = getTicketRemaining
+            eventTicketAvailable.text = getTicketAvailable
+
+            eventIDViewModel = ViewModelProvider(this)[TicketTypeViewModel::class.java]
+            eventIDViewModel.setEventID(getEventAndTicket.eventId)
         }
     }
 
@@ -110,6 +130,7 @@ class AttendeesEventDetail : AppCompatActivity() {
     private fun buyTicketButtonOnClick() {
         buyTicketButton.setOnClickListener {
             val intent = Intent(this,AttendeesPurchaseTicket::class.java)
+            intent.putExtra("event_id",eventID)
             startActivity(intent)
         }
     }

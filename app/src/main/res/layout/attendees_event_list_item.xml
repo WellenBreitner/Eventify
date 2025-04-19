@@ -40,30 +40,28 @@
             tools:text="event name" />
 
         <TextView
-            android:id="@+id/attendeesEventListDescription"
-            style="@style/StyleForText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:lines="3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/attendeesEventListName"
-            tools:text="event descripton" />
-
-        <TextView
             android:id="@+id/attendeesEventListDate"
             style="@style/StyleForText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="29dp"
             android:ellipsize="end"
             android:lines="1"
             android:text="event date"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/attendeesEventListDescription" />
+            app:layout_constraintTop_toBottomOf="@+id/attendeesEventListName" />
 
+        <TextView
+            android:id="@+id/attendeesEventListLocation"
+            style="@style/StyleForText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/attendeesEventListDate"
+            tools:text="event location" />
 
         <TextView
             android:id="@+id/attendeesEventListTicketAvailable"
@@ -75,7 +73,7 @@
             android:text="ticket available"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/attendeesEventListDate" />
+            app:layout_constraintTop_toBottomOf="@+id/attendeesEventListLocation" />
 
 
 

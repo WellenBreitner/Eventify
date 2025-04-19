@@ -3,4 +3,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="whiteSmoke">#F5F5F5</color>
+    <color name="seatBooked">#A62C2C</color>
+    <color name="seatAvailable">#5F8B4C</color>
 </resources>

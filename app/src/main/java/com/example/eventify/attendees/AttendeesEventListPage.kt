@@ -20,9 +20,7 @@ import com.google.firebase.database.database
 class AttendeesEventListPage : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var events: ArrayList<EventModelData>
-    private lateinit var tickets: ArrayList<TicketModelData>
     private lateinit var eventDatabaseReference: DatabaseReference
-    private lateinit var ticketDatabaseReference: DatabaseReference
     private lateinit var adapter: AttendeesEventAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +39,6 @@ class AttendeesEventListPage : AppCompatActivity() {
 
     private fun initializeUI() {
         events = ArrayList()
-        tickets = ArrayList()
         recyclerView = findViewById(R.id.attendeesEventListRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = AttendeesEventAdapter(events)
@@ -52,8 +49,8 @@ class AttendeesEventListPage : AppCompatActivity() {
 
     private fun initializeListener() {
         adapter.setOnClickEventListener(object: AttendeesEventAdapter.onClickEventListener {
-            override fun onClickItem(data: EventModelData) {
-                onClick(data)
+            override fun onClickItem(dataEvent: EventModelData) {
+                onClick(dataEvent)
             }
         })
 
@@ -61,6 +58,7 @@ class AttendeesEventListPage : AppCompatActivity() {
 
     private fun getDataEventForAttendees(){
         events.clear()
+
         eventDatabaseReference = Firebase.database.getReference("events")
 
         eventDatabaseReference.get()
@@ -75,7 +73,16 @@ class AttendeesEventListPage : AppCompatActivity() {
                                 event.eventDescription,
                                 event.eventDate,
                                 event.eventLocation,
-                                event.organizerId)
+                                event.organizerId,
+                                TicketModelData(
+                                    event.ticket?.ticketId,
+                                    event.eventId,
+                                    event.ticket?.ticketType,
+                                    event.ticket?.ticketRemaining,
+                                    event.ticket?.ticketAvailable,
+                                    event.ticket?.ticketLimit
+                                )
+                            )
                             )
                         }
                     }
@@ -87,35 +94,7 @@ class AttendeesEventListPage : AppCompatActivity() {
             .addOnFailureListener {
                 Log.e("database", "Firebase error", it)
             }
-
-
-
-        ticketDatabaseReference = Firebase.database.getReference("tickets")
-        ticketDatabaseReference.get()
-            .addOnSuccessListener { dataTicket ->
-                if (dataTicket.exists()){
-                    for (ticket in dataTicket.children){
-                        val ticket = ticket.getValue(TicketModelData::class.java)
-                            if (ticket != null ){
-
-                                tickets.add(TicketModelData(
-                                    ticket.ticketId,
-                                    ticket.eventId,
-                                    ticket.ticketType,
-                                    ticket.ticketRemaining,
-                                    ticket.ticketAvailable,
-                                    ticket.ticketLimit))
-                        }
-                    }
-                }else{
-                    Log.e("database", "No Ticket found")
-                }
-
-            }
-            .addOnFailureListener {
-                Log.e("database", "Firebase error", it)
-            }
-        }
+    }
 
 
     fun onClick(event: EventModelData){

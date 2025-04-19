@@ -1,6 +1,11 @@
 package com.example.eventify.attendees
 
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.view.ViewGroup
+import android.widget.HorizontalScrollView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -10,6 +15,8 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
 import com.example.eventify.ModelData.SeatModelData
 import com.example.eventify.R
 import com.example.eventify.attendeesAdapter.SeatAdapter
@@ -24,11 +31,16 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
     private lateinit var ticketTypeViewModel: TicketTypeViewModel
     private lateinit var ticketTypeTextView: TextView
     private lateinit var attendeesTicketTotalPriceTextView: TextView
+    private lateinit var horizontalScrollView: HorizontalScrollView
+    private lateinit var seatInformationLayout: LinearLayout
+    private lateinit var selectedSeatTextView: TextView
 
-
+    private var isTicketTypeSelected = false
+    private var isRecyclerInitialized = false
     private val seats = mutableListOf<SeatModelData>()
+    private var unavailableSeats = hashSetOf<String>()
     private val rows = listOf("A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L","AA","BB","CC","DD","EE")
-    private val cols = 21+13+13
+    private val cols = 50
     private val bookSeat = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,17 +64,48 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
     }
 
     private fun initializeUI() {
+        recyclerView = findViewById(R.id.eventSeatSelectionForPurchasesTicket)
         attendeesSelectTypeButton = findViewById(R.id.attendeesSelectTicketType)
         numberOfTicket = findViewById(R.id.numberOfPurchaseTicket)
         ticketTypeTextView = findViewById(R.id.ticketTypeAttendeesChoose)
         attendeesTicketTotalPriceTextView = findViewById(R.id.attendeesTicketTotalPrice)
+        horizontalScrollView = findViewById(R.id.horizontalScrollViewForRecyclerView)
+        seatInformationLayout = findViewById(R.id.seatInformation)
+        selectedSeatTextView = findViewById(R.id.attendeesSelectSeat)
         ticketTypeViewModel = ViewModelProvider(this)[TicketTypeViewModel::class.java]
+        ticketTypeViewModel.setEventID(intent.getStringExtra("event_id").toString())
+        ticketTypeViewModel.getTicketTypeData.observe(this){data ->
+            ticketTypeTextView.text = data
+            isTicketTypeSelected = data != "Not selected"
 
-        ticketTypeViewModel.getTicketTypeData.observe(this){ data ->
-            ticketTypeTextView.text = ticketTypeViewModel.getCurrentTicketType
+            if (isTicketTypeSelected) {
+                showNestedScrollWithAnimation(true)
+            } else {
+
+                showNestedScrollWithAnimation(false)
+            }
         }
 
-        initializeRecycleViewAndSeatSelectionFeature()
+        unavailableSeats = hashSetOf(
+            "A9","A10","A11","A12","A13","A14","A34","A35","A44","A45","A46","A47","A48","A49","A50",
+            "B11","B12","B13","B14","B34","B35","B45","B46","B47","B48","B49","B50",
+            "C12","C13","C14","C34","C35","C47","C48","C49","C50",
+            "D13","D14","D35","D48","D49","D50",
+            "E13","E14","E32","E33","E34","E35","E48","E49","E50",
+            "F13","F14","F33","F34","F35","F48","F49","F50",
+            "G13","G14","G32","G33","G34","G35","G48","G49","G50",
+            "H12","H13","H14","H33","H34","H35","H36","H47","H48","H49","H50",
+            "J11","J12","J13","J14","J30","J31","J32","J33","J34","J35","J46","J46","J47","J48","J49","J50",
+            "K9","K10","K11","K12","K13","K14","K31","K32","K33","K34","K35","K44","K45","K46","K47","K48","K49","K50",
+            "L6","L7","L8","L9","L10","L11","L12","L13","L14","L15","L16","L17","L18","L19",
+            "L20","L21","L22","L23","L24","L25","L26","L27","L28","L29",
+            "L30","L31","L32","L33","L34","L35",
+            "L41","L42","L43","L44","L45","L46","L47","L48","L49","L50",
+            "AA14","BB14","CC14","DD14","DD36","DD50",
+            "EE13","EE14","EE15","EE16","EE17","EE18","EE19",
+            "EE20","EE21","EE22","EE23","EE24","EE25","EE26","EE27","EE28","EE29",
+            "EE30","EE31","EE32","EE33","EE34","EE35","EE36","EE49","EE50"
+            )
     }
 
     private fun seatSetup(){
@@ -73,32 +116,49 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
         }
     }
 
+    private fun showNestedScrollWithAnimation(show: Boolean) {
+        TransitionManager.beginDelayedTransition(horizontalScrollView.parent as ViewGroup, AutoTransition())
+        TransitionManager.beginDelayedTransition(seatInformationLayout.parent as ViewGroup, AutoTransition())
+        horizontalScrollView.visibility = if (show) View.VISIBLE else View.GONE
+        seatInformationLayout.visibility = if (show) View.VISIBLE else View.GONE
+        if (show && !isRecyclerInitialized) {
+            initializeRecycleViewAndSeatSelectionFeature()
+            isRecyclerInitialized = true
+        }
+    }
+
     private fun initializeRecycleViewAndSeatSelectionFeature(){
-        recyclerView = findViewById(R.id.eventSeatSelectionForPurchasesTicket)
-        recyclerView.layoutManager = GridLayoutManager(this,cols)
-        seatSetup()
-        val adapter = SeatAdapter(seats)
-        recyclerView.adapter = adapter
+            recyclerView.layoutManager = GridLayoutManager(this,cols)
+            recyclerView.setHasFixedSize(true)
+            seatSetup()
+            val adapter = SeatAdapter(seats,unavailableSeats)
+            recyclerView.adapter = adapter
 
-        adapter.setSeatOnClick(object:SeatAdapter.seatOnClick{
-            override fun onClick(seatModelData: SeatModelData) {
-                if (!seatModelData.isSelected){
-                    Toast.makeText(this@AttendeesPurchaseTicket, "${seatModelData.label} selected", Toast.LENGTH_SHORT).show()
-                    seatModelData.isSelected = true
-                    bookSeat.add(seatModelData.label)
+            adapter.setSeatOnClick(object:SeatAdapter.seatOnClick{
+                override fun onClick(seatModelData: SeatModelData) {
 
-                }else{
-                    Toast.makeText(this@AttendeesPurchaseTicket, "${seatModelData.label} unselected", Toast.LENGTH_SHORT).show()
-                    seatModelData.isSelected = false
-                    bookSeat.remove(seatModelData.label)
+                    if (!seatModelData.isSelected){
+                        Toast.makeText(this@AttendeesPurchaseTicket, "${seatModelData.label} selected", Toast.LENGTH_SHORT).show()
+                        seatModelData.isSelected = true
+                        bookSeat.add(seatModelData.label)
+
+                    }else{
+                        Toast.makeText(this@AttendeesPurchaseTicket, "${seatModelData.label} unselected", Toast.LENGTH_SHORT).show()
+                        seatModelData.isSelected = false
+                        bookSeat.remove(seatModelData.label)
+                    }
+                    numberOfTicket.text = bookSeat.size.toString()
+
+                    ticketTypeViewModel.getTicketPriceData.observe(this@AttendeesPurchaseTicket){data ->
+                        attendeesTicketTotalPriceTextView.text = (data.toInt() * bookSeat.size).toString()
+                    }
+
+                    selectedSeatTextView.text = ""
+                    for (i in bookSeat){
+                        selectedSeatTextView.append("$i,")
+                    }
                 }
-                numberOfTicket.text = bookSeat.size.toString()
-
-                ticketTypeViewModel.getTicketPriceData.observe(this@AttendeesPurchaseTicket){data ->
-                    attendeesTicketTotalPriceTextView.text = (data.toInt() * bookSeat.size).toString()
-                }
-            }
-        })
+            })
     }
 
     private fun attendeesSelectTypeOnClick() {
@@ -106,6 +166,4 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
         val fragmentManager = supportFragmentManager
         fragment.show(fragmentManager,"Attendees Ticket Type Dialog Fragment")
     }
-
-
 }

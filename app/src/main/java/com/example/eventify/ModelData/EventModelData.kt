@@ -2,7 +2,6 @@ package com.example.eventify.ModelData
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import java.util.UUID
 
 @Parcelize
 data class EventModelData(
@@ -12,7 +11,8 @@ data class EventModelData(
     val eventDate: String,
     val eventLocation: String,
     val organizerId: String,
-    val eventImage: Int? = null
+    val ticket: TicketModelData?,
+    val eventImage: Int? = null,
 ) : Parcelable{
     constructor() : this(
         eventId = "",
@@ -21,6 +21,7 @@ data class EventModelData(
         eventDate = "",
         eventLocation = "",
         organizerId = "",
+        ticket = null,
         eventImage = null,
     )
 }

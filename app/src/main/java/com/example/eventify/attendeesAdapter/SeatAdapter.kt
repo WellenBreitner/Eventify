@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventify.ModelData.SeatModelData
 import com.example.eventify.R
-import com.example.eventify.attendeesViewModel.TicketTypeViewModel
 import com.google.android.material.button.MaterialButton
 
-class SeatAdapter(private val seatList: MutableList<SeatModelData>) :
+class SeatAdapter(private val seatList: MutableList<SeatModelData>,
+    private val unavailableSeats: HashSet<String>) :
     RecyclerView.Adapter<SeatAdapter.ViewHolder>(){
     private lateinit var listener: seatOnClick
 
@@ -30,19 +30,25 @@ class SeatAdapter(private val seatList: MutableList<SeatModelData>) :
         val seat = seatList[position]
         holder.seatButton.text = seat.label
 
-        when(seat.isSelected){
-            true -> holder.seatButton.setBackgroundColor(Color.parseColor("#A62C2C"))
-            false-> holder.seatButton.setBackgroundColor(Color.parseColor("#5F8B4C"))
+        holder.seatButton.isEnabled = true
+        holder.seatButton.setTextColor(Color.WHITE)
+
+        val backgroundColor = if (seat.isSelected) "#A62C2C" else "#5F8B4C"
+        holder.seatButton.setBackgroundColor(Color.parseColor(backgroundColor))
+
+        if (seat.label in unavailableSeats) {
+            holder.seatButton.setBackgroundColor(Color.parseColor("#F5F5F5"))
+            holder.seatButton.isEnabled = false
+            holder.seatButton.setTextColor(Color.BLACK)
         }
 
         holder.seatButton.setOnClickListener {
             listener.onClick(seat)
-            when(seat.isSelected){
-                true -> holder.seatButton.setBackgroundColor(Color.parseColor("#A62C2C"))
-                false-> holder.seatButton.setBackgroundColor(Color.parseColor("#5F8B4C"))
-            }
+            val newColor = if (seat.isSelected) "#A62C2C" else "#5F8B4C"
+            holder.seatButton.setBackgroundColor(Color.parseColor(newColor))
         }
     }
+
 
     override fun getItemCount(): Int {
         return seatList.size

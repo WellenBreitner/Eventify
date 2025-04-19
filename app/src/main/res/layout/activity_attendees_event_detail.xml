@@ -141,13 +141,6 @@
 
                     <TextView
                         style="@style/StyleForText"
-                        android:id="@+id/attendeesEventTicketType"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Ticket type" />
-
-                    <TextView
-                        style="@style/StyleForText"
                         android:id="@+id/attendeesEventTicketRemaining"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -159,13 +152,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Ticket available" />
-
-                    <TextView
-                        style="@style/styleTextForTitle"
-                        android:id="@+id/attendeesEventTicketPrice"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Ticket price" />
 
                 </LinearLayout>
 
@@ -186,7 +172,4 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
