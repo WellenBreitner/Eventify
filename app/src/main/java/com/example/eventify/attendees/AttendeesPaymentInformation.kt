@@ -28,6 +28,7 @@ class AttendeesPaymentInformation : AppCompatActivity() , PaymentResultListener 
     private lateinit var discountTextView: TextView
     private lateinit var totalPriceTextView: TextView
     private lateinit var payButton: MaterialButton
+    private lateinit var promotionCode: MaterialButton
     private var getPaymentInformation: BookingModelData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -2,6 +2,7 @@ package com.example.eventify.attendees
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.HorizontalScrollView
@@ -23,8 +24,13 @@ import com.example.eventify.R
 import com.example.eventify.attendeesAdapter.SeatAdapter
 import com.example.eventify.attendeesViewModel.TicketTypeViewModel
 import com.google.android.material.button.MaterialButton
+import com.google.firebase.Firebase
+import com.google.firebase.database.database
+import kotlin.math.log
 
 class AttendeesPurchaseTicket : AppCompatActivity() {
+
+    
 
     private lateinit var ticketTypeViewModel: TicketTypeViewModel
     private lateinit var recyclerView: RecyclerView
@@ -39,8 +45,9 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
     private lateinit var getEventID: String
     private lateinit var getPriceForEach: String
 
-    private val bookSeat = ArrayList<String>()
+    private val selectedSeat = ArrayList<String>()
     private var unavailableSeats = hashSetOf<String>()
+    private var bookedSeat = hashSetOf<String>()
     private val seats = mutableListOf<SeatModelData>()
     private val rows = listOf("A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L","AA","BB","CC","DD","EE")
     private val cols = 50
@@ -84,6 +91,7 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
         attendeesSelectTypeButton = findViewById(R.id.attendeesSelectTicketType)
         attendeesBookingButton = findViewById(R.id.attendeesBookingButton)
         getEventID = intent.getStringExtra("event_id").toString()
+
 
         ticketTypeViewModel.setEventID(getEventID)
         ticketTypeViewModel.getTicketTypeData.observe(this){data ->
@@ -135,8 +143,7 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
         horizontalScrollView.visibility = if (show) View.VISIBLE else View.GONE
         seatInformationLayout.visibility = if (show) View.VISIBLE else View.GONE
         if (show && !isRecyclerInitialized) {
-            initializeRecycleViewAndSeatSelectionFeature()
-            isRecyclerInitialized = true
+            getSelectedSeat()
         }
     }
 
@@ -144,7 +151,7 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
             recyclerView.layoutManager = GridLayoutManager(this,cols)
             recyclerView.setHasFixedSize(true)
             seatSetup()
-            val adapter = SeatAdapter(seats,unavailableSeats)
+            val adapter = SeatAdapter(seats,unavailableSeats,bookedSeat)
             recyclerView.adapter = adapter
 
             adapter.setSeatOnClick(object:SeatAdapter.seatOnClick{
@@ -153,27 +160,27 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
                     if (!seatModelData.isSelected){
                         Toast.makeText(this@AttendeesPurchaseTicket, "${seatModelData.label} selected", Toast.LENGTH_SHORT).show()
                         seatModelData.isSelected = true
-                        bookSeat.add(seatModelData.label)
+                        selectedSeat.add(seatModelData.label)
 
                     }else{
                         Toast.makeText(this@AttendeesPurchaseTicket, "${seatModelData.label} unselected", Toast.LENGTH_SHORT).show()
                         seatModelData.isSelected = false
-                        bookSeat.remove(seatModelData.label)
+                        selectedSeat.remove(seatModelData.label)
                     }
-                    numberOfTicket.text = bookSeat.size.toString()
+                    numberOfTicket.text = selectedSeat.size.toString()
 
                     ticketTypeViewModel.getTicketPriceData.observe(this@AttendeesPurchaseTicket){data ->
                         getPriceForEach = data
-                        price = (data.toInt() * bookSeat.size)
-                        val convertCurrency = "${ (data.toInt() * bookSeat.size).toDouble()}"
+                        price = (data.toInt() * selectedSeat.size)
+                        val convertCurrency = "${ (data.toInt() * selectedSeat.size).toDouble()}"
                         attendeesTicketTotalPriceTextView.text = "$${convertCurrency}"
                     }
 
                     selectedSeatTextView.text = ""
-                    if (bookSeat.size == 0 ) {
+                    if (selectedSeat.size == 0 ) {
                         selectedSeatTextView.text = "Not selected"
                     }else{
-                        selectedSeatTextView.text = bookSeat.joinToString(",")
+                        selectedSeatTextView.text = selectedSeat.joinToString(",")
                     }
                 }
             })
@@ -194,14 +201,14 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
                     BookingModelData(
                         null,
                         null,
-                        "testing",
-                        "testing@gmail.com",
+                        null,
+                        null,
                         getEventID,
                         ticketTypeTextView.text.toString(),
                         numberTicket,
                         getPriceForEach,
                         price,
-                        bookSeat
+                        selectedSeat
                     )
                 )
                 startActivity(intent)
@@ -211,6 +218,25 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
         }else{
             Toast.makeText(this, "You required to select ticket type first", Toast.LENGTH_SHORT).show()
         }
+    }
 
+    private fun getSelectedSeat(){
+        val bookingRef = Firebase.database.getReference("bookings")
+        bookingRef.get().addOnSuccessListener { eventid ->
+            if (eventid.exists()){
+                for (id in eventid.children){
+                    val event_id = id.getValue(BookingModelData::class.java)
+                    if (event_id?.eventID == getEventID){
+                        event_id.selectedSeat.let { seat ->
+                            event_id.selectedSeat.forEach { seat ->
+                                bookedSeat.add(seat.trim().uppercase())
+                            }
+                        }
+                    }
+                }
+            }
+            initializeRecycleViewAndSeatSelectionFeature()
+            isRecyclerInitialized = true
+        }
     }
 }

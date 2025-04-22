@@ -11,7 +11,8 @@ data class TicketModelData(
     val ticketRemaining: Int? = null,
     val ticketAvailable: Boolean? = null,
     val ticketLimit: Int? = null,
-    val promotionCode: String? = null
+    val promotionCode: String? = null,
+    val discount: Int? = null
 ): Parcelable {
     constructor() : this(
         ticketId = null,
@@ -20,6 +21,7 @@ data class TicketModelData(
         ticketRemaining = null,
         ticketAvailable = null,
         ticketLimit = null,
-        promotionCode = null
+        promotionCode = null,
+        discount = null
     )
 }

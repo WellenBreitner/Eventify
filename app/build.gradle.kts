@@ -45,8 +45,6 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.firebase.database)
     implementation("com.razorpay:checkout:1.6.40")
-    implementation("com.midtrans:uikit:2.0.0")
-    implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation(platform(libs.firebase.bom))
     implementation(libs.google.firebase.analytics)
     testImplementation(libs.junit)
