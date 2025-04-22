@@ -21,10 +21,6 @@
             android:name=".attendees.AttendeesPurchaseTicket"
             android:exported="false" />
         <activity
-            android:name=".attendees.BottomNavigation"
-            android:exported="false"
-            android:label="@string/title_activity_bottom_navigation" />
-        <activity
             android:name=".attendees.AttendeesEventDetail"
             android:exported="false" />
         <activity
@@ -36,6 +32,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_test_sg_kHjyvBwkGj1Jlh"/>
+        <meta-data
+            android:name="com.google.gms.wallet.api.enabled"
+            android:value="true"/>
     </application>
 
 </manifest>

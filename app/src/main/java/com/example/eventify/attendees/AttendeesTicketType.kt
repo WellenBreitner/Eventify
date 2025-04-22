@@ -67,24 +67,18 @@ class AttendeesTicketType : BottomSheetDialogFragment() {
                             for ((keys, value) in eventTicketType) {
                                 ticketTypeHashMap[keys] = value
 
-                                ticketTypeRadioButton = RadioButton(requireActivity())
-                                ticketTypeRadioButton.text = "${keys} (${value})"
-                                ticketTypeRadioButton.id = View.generateViewId()
-                                ticketTypeRadioButton.tag = keys
-
+                                ticketTypeRadioButton = RadioButton(requireActivity()).apply {
+                                    text = "${keys} (${value})"
+                                    textSize = 18f
+                                    id = View.generateViewId()
+                                    tag = keys
+                                    setPadding(10,10,10,10)
+                                }
 
                                 if (ticketViewModel.getTicketTypeData.value == ticketTypeRadioButton.tag.toString()) {
                                         ticketTypeRadioButton.isChecked = true
                                 }
 
-                                val params = RadioGroup.LayoutParams(
-                                    RadioGroup.LayoutParams.MATCH_PARENT,
-                                    RadioGroup.LayoutParams.WRAP_CONTENT
-                                )
-
-                                params.setMargins(0,20,0,0)
-                                ticketTypeRadioButton.layoutParams = params
-                                ticketTypeRadioButton.textSize = 18f
                                 ticketTypeRadioGroup.addView(ticketTypeRadioButton)
                             }
 

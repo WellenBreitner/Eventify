@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
+import com.example.eventify.ModelData.BookingModelData
 import com.example.eventify.ModelData.SeatModelData
 import com.example.eventify.R
 import com.example.eventify.attendeesAdapter.SeatAdapter
@@ -35,6 +36,8 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
     private lateinit var selectedSeatTextView: TextView
     private lateinit var attendeesSelectTypeButton: MaterialButton
     private lateinit var attendeesBookingButton: MaterialButton
+    private lateinit var getEventID: String
+    private lateinit var getPriceForEach: String
 
     private val bookSeat = ArrayList<String>()
     private var unavailableSeats = hashSetOf<String>()
@@ -43,6 +46,7 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
     private val cols = 50
     private var isTicketTypeSelected = false
     private var isRecyclerInitialized = false
+    private var price: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,8 +83,9 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
         selectedSeatTextView = findViewById(R.id.attendeesSelectSeat)
         attendeesSelectTypeButton = findViewById(R.id.attendeesSelectTicketType)
         attendeesBookingButton = findViewById(R.id.attendeesBookingButton)
+        getEventID = intent.getStringExtra("event_id").toString()
 
-        ticketTypeViewModel.setEventID(intent.getStringExtra("event_id").toString())
+        ticketTypeViewModel.setEventID(getEventID)
         ticketTypeViewModel.getTicketTypeData.observe(this){data ->
             ticketTypeTextView.text = data
             isTicketTypeSelected = data != "Not selected"
@@ -158,12 +163,17 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
                     numberOfTicket.text = bookSeat.size.toString()
 
                     ticketTypeViewModel.getTicketPriceData.observe(this@AttendeesPurchaseTicket){data ->
-                        attendeesTicketTotalPriceTextView.text = (data.toInt() * bookSeat.size).toString()
+                        getPriceForEach = data
+                        price = (data.toInt() * bookSeat.size)
+                        val convertCurrency = "${ (data.toInt() * bookSeat.size).toDouble()}"
+                        attendeesTicketTotalPriceTextView.text = "$${convertCurrency}"
                     }
 
                     selectedSeatTextView.text = ""
-                    for (i in bookSeat){
-                        selectedSeatTextView.append("$i,")
+                    if (bookSeat.size == 0 ) {
+                        selectedSeatTextView.text = "Not selected"
+                    }else{
+                        selectedSeatTextView.text = bookSeat.joinToString(",")
                     }
                 }
             })
@@ -180,6 +190,20 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
         if (isTicketTypeSelected){
             if(numberTicket.toInt() > 0){
                 val intent = Intent(this,AttendeesPaymentInformation::class.java)
+                intent.putExtra("payment_information",
+                    BookingModelData(
+                        null,
+                        null,
+                        "testing",
+                        "testing@gmail.com",
+                        getEventID,
+                        ticketTypeTextView.text.toString(),
+                        numberTicket,
+                        getPriceForEach,
+                        price,
+                        bookSeat
+                    )
+                )
                 startActivity(intent)
             }else{
                 Toast.makeText(this, "You required to select seat", Toast.LENGTH_SHORT).show()

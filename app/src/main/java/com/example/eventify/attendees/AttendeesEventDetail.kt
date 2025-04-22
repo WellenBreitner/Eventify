@@ -39,7 +39,6 @@ class AttendeesEventDetail : AppCompatActivity() {
     private lateinit var expandLayout:LinearLayout
     private lateinit var expandImage:ImageView
     private lateinit var buyTicketButton: MaterialButton
-    private lateinit var eventIDViewModel: TicketTypeViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,8 +105,6 @@ class AttendeesEventDetail : AppCompatActivity() {
             eventTicketRemaining.text = getTicketRemaining
             eventTicketAvailable.text = getTicketAvailable
 
-            eventIDViewModel = ViewModelProvider(this)[TicketTypeViewModel::class.java]
-            eventIDViewModel.setEventID(getEventAndTicket.eventId)
         }
     }
 
