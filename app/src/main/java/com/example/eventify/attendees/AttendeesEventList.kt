@@ -3,10 +3,10 @@ package com.example.eventify.attendees
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventify.ModelData.EventModelData
@@ -16,31 +16,34 @@ import com.example.eventify.attendeesAdapter.AttendeesEventAdapter
 import com.google.firebase.Firebase
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.database
+import java.text.SimpleDateFormat
+import java.util.ArrayList
+import java.util.Calendar
+import java.util.Locale
 
-class AttendeesEventListPage : AppCompatActivity() {
+
+class AttendeesEventList : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var events: ArrayList<EventModelData>
     private lateinit var eventDatabaseReference: DatabaseReference
     private lateinit var adapter: AttendeesEventAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_attendees_event_list_page)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+    private lateinit var view : View
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        view = inflater.inflate(R.layout.fragment_attendees_event_list, container, false)
 
         initializeUI()
         initializeListener()
+        return view
     }
 
     private fun initializeUI() {
         events = ArrayList()
-        recyclerView = findViewById(R.id.attendeesEventListRecyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView = view.findViewById(R.id.attendeesEventListRecyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         adapter = AttendeesEventAdapter(events)
         recyclerView.adapter = adapter
 
@@ -53,11 +56,14 @@ class AttendeesEventListPage : AppCompatActivity() {
                 onClick(dataEvent)
             }
         })
-
     }
 
     private fun getDataEventForAttendees(){
         events.clear()
+
+        val calender = Calendar.getInstance()
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val formattedDate = dateFormat.format(calender.time)
 
         eventDatabaseReference = Firebase.database.getReference("events")
 
@@ -66,8 +72,9 @@ class AttendeesEventListPage : AppCompatActivity() {
                 if (dataEvents.exists()) {
                     for (data in dataEvents.children) {
                         val event = data.getValue(EventModelData::class.java)
-                        if (event != null) {
-                            events.add(EventModelData(
+                        if (event != null && event.eventDate > formattedDate ) {
+                            events.add(0,
+                                EventModelData(
                                 event.eventId,
                                 event.eventName,
                                 event.eventDescription,
@@ -84,11 +91,11 @@ class AttendeesEventListPage : AppCompatActivity() {
                                 )
                             )
                             )
+                        }else{
+                            Log.wtf("date","sudah lama ")
                         }
                     }
                     adapter.notifyDataSetChanged()
-                } else {
-                    Log.e("database", "No events found")
                 }
             }
             .addOnFailureListener {
@@ -98,8 +105,9 @@ class AttendeesEventListPage : AppCompatActivity() {
 
 
     fun onClick(event: EventModelData){
-        val intent = Intent(this,AttendeesEventDetail::class.java)
+        val intent = Intent(requireActivity(),AttendeesEventDetail::class.java)
         intent.putExtra(AttendeesEventDetail.EXTRA_EVENT_DETAIL,event)
         startActivity(intent)
     }
+
 }

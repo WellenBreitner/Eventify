@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Eventify"
         tools:targetApi="31">
         <activity
+            android:name=".attendees.AttendeesEventBookedDetail"
+            android:exported="false" />
+        <activity
             android:name=".attendees.AttendeesPaymentInformation"
             android:exported="false" />
         <activity
@@ -24,7 +27,7 @@
             android:name=".attendees.AttendeesEventDetail"
             android:exported="false" />
         <activity
-            android:name=".attendees.AttendeesEventListPage"
+            android:name=".attendees.AttendeesDashboard"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,12 +35,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_test_sg_kHjyvBwkGj1Jlh"/>
+            android:value="rzp_test_sg_kHjyvBwkGj1Jlh" />
         <meta-data
             android:name="com.google.gms.wallet.api.enabled"
-            android:value="true"/>
+            android:value="true" />
     </application>
 
 </manifest>

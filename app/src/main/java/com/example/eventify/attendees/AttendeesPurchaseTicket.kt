@@ -1,6 +1,7 @@
 package com.example.eventify.attendees
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.example.eventify.ModelData.BookingModelData
+import com.example.eventify.ModelData.EventModelData
 import com.example.eventify.ModelData.SeatModelData
 import com.example.eventify.R
 import com.example.eventify.attendeesAdapter.SeatAdapter
@@ -29,8 +31,6 @@ import com.google.firebase.database.database
 import kotlin.math.log
 
 class AttendeesPurchaseTicket : AppCompatActivity() {
-
-    
 
     private lateinit var ticketTypeViewModel: TicketTypeViewModel
     private lateinit var recyclerView: RecyclerView
@@ -44,6 +44,7 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
     private lateinit var attendeesBookingButton: MaterialButton
     private lateinit var getEventID: String
     private lateinit var getPriceForEach: String
+    private var getEventInformation: EventModelData? = null
 
     private val selectedSeat = ArrayList<String>()
     private var unavailableSeats = hashSetOf<String>()
@@ -90,9 +91,15 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
         selectedSeatTextView = findViewById(R.id.attendeesSelectSeat)
         attendeesSelectTypeButton = findViewById(R.id.attendeesSelectTicketType)
         attendeesBookingButton = findViewById(R.id.attendeesBookingButton)
-        getEventID = intent.getStringExtra("event_id").toString()
 
+        getEventInformation = if (Build.VERSION.SDK_INT >= 33){
+            intent.getParcelableExtra("event_id",EventModelData::class.java)
+        }else{
+            @Suppress("DEPRECATION")
+            intent.getParcelableExtra("event_id")
+        }
 
+        getEventID = getEventInformation?.eventId.toString()
         ticketTypeViewModel.setEventID(getEventID)
         ticketTypeViewModel.getTicketTypeData.observe(this){data ->
             ticketTypeTextView.text = data
@@ -204,6 +211,9 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
                         null,
                         null,
                         getEventID,
+                        getEventInformation?.eventName.toString(),
+                        getEventInformation?.eventDate.toString(),
+                        getEventInformation?.eventLocation.toString(),
                         ticketTypeTextView.text.toString(),
                         numberTicket,
                         getPriceForEach,

@@ -18,9 +18,8 @@ import com.razorpay.Checkout
 import com.razorpay.PaymentResultListener
 import org.json.JSONObject
 
-
-
 class AttendeesPaymentInformation : AppCompatActivity() , PaymentResultListener {
+    //promotioncode
     private lateinit var ticketTypeTextView: TextView
     private lateinit var selectedSeatTextView: TextView
     private lateinit var numberOfTicketTextView: TextView
@@ -111,6 +110,9 @@ class AttendeesPaymentInformation : AppCompatActivity() , PaymentResultListener 
                 getPaymentInformation?.username,
                 getPaymentInformation?.userEmail,
                 getPaymentInformation?.eventID,
+                getPaymentInformation?.eventName,
+                getPaymentInformation?.eventDate,
+                getPaymentInformation?.eventLocation,
                 getPaymentInformation?.ticketType,
                 getPaymentInformation?.numberOfTicket,
                 getPaymentInformation?.priceForEachTicket,
@@ -124,7 +126,7 @@ class AttendeesPaymentInformation : AppCompatActivity() , PaymentResultListener 
             Toast.makeText(this,"Payment not save in to database",Toast.LENGTH_SHORT).show()
         }
 
-        val intent = Intent(this,AttendeesEventListPage::class.java)
+        val intent = Intent(this,AttendeesDashboard::class.java)
         startActivity(intent)
         finish()
     }
