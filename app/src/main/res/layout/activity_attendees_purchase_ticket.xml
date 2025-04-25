@@ -15,8 +15,14 @@
         android:layout_margin="8dp"
         android:orientation="vertical">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/seatlayout"/>
+
         <com.google.android.material.button.MaterialButton
-            style="@style/StyleForText"
+            style="@style/styleTextForTitle"
             android:id="@+id/attendeesSelectTicketType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,118 +31,176 @@
             android:backgroundTint="@color/white"
             app:strokeColor="@color/black"
             app:strokeWidth="2dp"
-            app:cornerRadius="0dp"/>
+            app:cornerRadius="5dp"/>
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/seatlayout"/>
-
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/seatInformation"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fillViewport="true">
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:visibility="gone">
 
-            <HorizontalScrollView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scrollbars="horizontal">
+                android:layout_weight="1"
+                android:layout_gravity="center">
+
+                <View
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="@color/whiteSmoke"
+                    android:layout_gravity="center">
+                </View>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Unavailable Seat"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1">
+
+                <View
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="@color/seatBooked"
+                    android:layout_gravity="center">
+                </View>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Seat Booked"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1">
+
+                <View
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="@color/seatAvailable"
+                    android:layout_gravity="center">
+                </View>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Available Seat"/>
+            </LinearLayout>
+        </LinearLayout>
+
+            <HorizontalScrollView
+                android:id="@+id/horizontalScrollViewForRecyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="250dp"
+                android:visibility="gone">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/eventSeatSelectionForPurchasesTicket"
                     android:layout_width="wrap_content"
-                    android:layout_height="300dp"
+                    android:layout_height="match_parent"
                     android:layout_margin="8dp"
+                    android:scrollbars="vertical"
                     tools:listitem="@layout/seat_item"/>
             </HorizontalScrollView>
-        </androidx.core.widget.NestedScrollView>
 
-        <LinearLayout
+        <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:columnCount="2">
 
             <TextView
                 style="@style/styleTextForTitle"
                 android:textSize="15sp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="Ticket type" />
+                android:layout_columnWeight="1"
+                android:text="Ticket Type" />
 
             <TextView
-                style="@style/styleTextForTitle"
+                style="@style/StyleForText"
                 android:id="@+id/ticketTypeAttendeesChoose"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:text="Not selected"
                 android:textAlignment="textEnd"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="horizontal">
 
             <TextView
                 style="@style/styleTextForTitle"
                 android:textSize="15sp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="Number of ticket" />
+                android:layout_columnWeight="1"
+                android:text="Selected Seat" />
+
+            <TextView
+                style="@style/StyleForText"
+                android:id="@+id/attendeesSelectSeat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:text="Not selected"
+                android:textAlignment="textEnd"/>
 
             <TextView
                 style="@style/styleTextForTitle"
+                android:textSize="15sp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:text="Number Of Ticket" />
+
+            <TextView
+                style="@style/StyleForText"
                 android:id="@+id/numberOfPurchaseTicket"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
                 android:text="0"
                 android:textAlignment="textEnd"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="horizontal">
 
             <TextView
                 style="@style/styleTextForTitle"
                 android:textSize="15sp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_columnWeight="1"
                 android:text="Total Price" />
 
             <TextView
-                style="@style/styleTextForTitle"
+                style="@style/StyleForText"
                 android:id="@+id/attendeesTicketTotalPrice"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
                 android:text="0"
                 android:textAlignment="textEnd"/>
-        </LinearLayout>
+        </GridLayout>
 
-<!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:hint="Promotion Code">-->
-
-<!--            <com.google.android.material.textfield.TextInputEditText-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:inputType="text">-->
-<!--                -->
-<!--            </com.google.android.material.textfield.TextInputEditText>-->
-
-
-<!--        </com.google.android.material.textfield.TextInputLayout>-->
+        <com.google.android.material.button.MaterialButton
+            style="@style/styleTextForTitle"
+            android:id="@+id/attendeesBookingButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Booking"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/black"
+            app:strokeColor="@color/black"
+            app:strokeWidth="2dp"
+            app:cornerRadius="5dp"/>
     </LinearLayout>
 
 

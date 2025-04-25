@@ -15,7 +15,7 @@
         android:padding="8dp">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/attendeesEventListImage"
+            android:id="@+id/attendeesEventBookedImage"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:contentDescription="@string/event_image"
@@ -28,7 +28,7 @@
             tools:src="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/attendeesEventListName"
+            android:id="@+id/attendeesEventBookedName"
             style="@style/styleTextForTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -36,11 +36,11 @@
             android:lines="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/attendeesEventListImage"
+            app:layout_constraintTop_toBottomOf="@+id/attendeesEventBookedImage"
             tools:text="event name" />
 
         <TextView
-            android:id="@+id/attendeesEventListDate"
+            android:id="@+id/attendeesEventBookedDate"
             style="@style/StyleForText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -49,10 +49,10 @@
             android:text="event date"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/attendeesEventListName" />
+            app:layout_constraintTop_toBottomOf="@+id/attendeesEventBookedName" />
 
         <TextView
-            android:id="@+id/attendeesEventListLocation"
+            android:id="@+id/attendeesEventBookedLocation"
             style="@style/StyleForText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -60,20 +60,20 @@
             android:lines="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/attendeesEventListDate"
+            app:layout_constraintTop_toBottomOf="@+id/attendeesEventBookedDate"
             tools:text="event location" />
 
         <TextView
-            android:id="@+id/attendeesEventListTicketAvailable"
+            android:id="@+id/attendeesEventBookedSeat"
             style="@style/StyleForText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:lines="1"
-            android:text="ticket available"
+            android:text="Seat"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/attendeesEventListLocation" />
+            app:layout_constraintTop_toBottomOf="@+id/attendeesEventBookedLocation" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

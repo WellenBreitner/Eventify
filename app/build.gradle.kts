@@ -35,6 +35,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
     buildFeatures{
         viewBinding = true
     }
@@ -47,6 +48,7 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.firebase.database)
+    implementation("com.razorpay:checkout:1.6.40")
     implementation(platform(libs.firebase.bom))
     implementation(libs.google.firebase.analytics)
     implementation(libs.firebase.auth.ktx)

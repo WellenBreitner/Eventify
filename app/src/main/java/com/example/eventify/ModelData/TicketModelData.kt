@@ -2,23 +2,28 @@ package com.example.eventify.ModelData
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import java.util.UUID
 
 @Parcelize
 data class TicketModelData(
-    val ticketId: String,
-    val eventId: String,
-    val ticketType: HashMap<String, Int>,
-    val ticketRemaining: Int,
-    val ticketAvailable: Boolean,
-    val ticketLimit: Int,
-):Parcelable{
+    val ticketId: String? = null,
+    val eventId: String? = null,
+    val ticketType: HashMap<String, Double>? = null,
+    val ticketRemaining: Int? = null,
+    val ticketAvailable: Boolean? = null,
+    val ticketLimit: Int? = null,
+    val promotionCode: String? = null,
+    val discount: Int? = null,
+    val expiryDate: String? = null
+): Parcelable {
     constructor() : this(
-        ticketId = "",
-        eventId = "",
-        ticketType = hashMapOf(),
-        ticketRemaining = 0,
-        ticketAvailable = false,
-        ticketLimit = 0
+        ticketId = null,
+        eventId = null,
+        ticketType = null,
+        ticketRemaining = null,
+        ticketAvailable = null,
+        ticketLimit = null,
+        promotionCode = null,
+        discount = null,
+        expiryDate = null
     )
 }
