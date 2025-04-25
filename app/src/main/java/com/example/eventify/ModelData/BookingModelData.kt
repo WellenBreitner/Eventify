@@ -16,6 +16,6 @@ data class BookingModelData(
     val ticketType:String? = null,
     val numberOfTicket: String? = null,
     val priceForEachTicket:String? =null,
-    val totalPrice:Int? = null,
+    var totalPrice: Double? = null,
     val selectedSeat: ArrayList<String> = arrayListOf()
 ):Parcelable

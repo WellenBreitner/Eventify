@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 data class TicketModelData(
     val ticketId: String? = null,
     val eventId: String? = null,
-    val ticketType: HashMap<String, Int>? = null,
+    val ticketType: HashMap<String, Double>? = null,
     val ticketRemaining: Int? = null,
     val ticketAvailable: Boolean? = null,
     val ticketLimit: Int? = null,

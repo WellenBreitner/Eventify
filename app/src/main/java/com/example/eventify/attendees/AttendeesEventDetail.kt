@@ -2,6 +2,7 @@ package com.example.eventify.attendees
 
 import android.animation.LayoutTransition
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -42,6 +43,7 @@ class AttendeesEventDetail : AppCompatActivity() {
     private lateinit var cardviewDesc:CardView
     private lateinit var expandLayout:LinearLayout
     private lateinit var expandImage:ImageView
+    private lateinit var getTicketAvailable: String
     private lateinit var buyTicketButton: MaterialButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,11 +96,14 @@ class AttendeesEventDetail : AppCompatActivity() {
             getEventLocation = getEventAndTicket.eventLocation
             getEventDescription = getEventAndTicket.eventDescription
             val getTicketRemaining = "Ticket Remaining: ${getEventAndTicket.ticket?.ticketRemaining}"
-            val getTicketAvailable = if (getEventAndTicket.ticket?.ticketAvailable == true) {
+            getTicketAvailable = if (getEventAndTicket.ticket?.ticketAvailable == null) {
+                "Ticket Available: Not Available"
+            } else if (getEventAndTicket.ticket.ticketAvailable == true) {
                 "Ticket Available: Available"
-            } else {
-                "Ticket Available: Sold out"
+            }else{
+                "Ticket Available: Sold Out"
             }
+
 
             getEventID = getEventAndTicket.eventId
             eventDetailImage.setImageResource(R.color.black)
@@ -109,6 +114,12 @@ class AttendeesEventDetail : AppCompatActivity() {
             eventTicketRemaining.text = getTicketRemaining
             eventTicketAvailable.text = getTicketAvailable
 
+            if (getTicketAvailable == "Ticket Available: Not Available"){
+                buyTicketButton.isEnabled = false
+                buyTicketButton.text = "Ticket Not Available"
+                buyTicketButton.setTextColor(Color.parseColor("#000000"))
+                buyTicketButton.setBackgroundColor(Color.parseColor("#F5F5F5"))
+            }
         }
     }
 

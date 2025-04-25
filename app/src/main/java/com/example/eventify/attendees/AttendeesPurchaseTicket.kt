@@ -54,7 +54,7 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
     private val cols = 50
     private var isTicketTypeSelected = false
     private var isRecyclerInitialized = false
-    private var price: Int = 0
+    private var price: Double = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -178,7 +178,7 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
 
                     ticketTypeViewModel.getTicketPriceData.observe(this@AttendeesPurchaseTicket){data ->
                         getPriceForEach = data
-                        price = (data.toInt() * selectedSeat.size)
+                        price = (data.toDouble() * selectedSeat.size)
                         val convertCurrency = "${ (data.toInt() * selectedSeat.size).toDouble()}"
                         attendeesTicketTotalPriceTextView.text = "$${convertCurrency}"
                     }

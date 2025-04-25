@@ -65,7 +65,7 @@ class AttendeesTicketType : BottomSheetDialogFragment() {
 
                         if ((eventTicketType != null) && (eventId == event.eventId)) {
                             for ((keys, value) in eventTicketType) {
-                                ticketTypeHashMap[keys] = value
+                                ticketTypeHashMap[keys] = value.toInt()
 
                                 ticketTypeRadioButton = RadioButton(requireActivity()).apply {
                                     text = "${keys} (${value})"

@@ -58,23 +58,30 @@ class AttendeesEventList : Fragment() {
         })
     }
 
-    private fun getDataEventForAttendees(){
+    private fun getDataEventForAttendees() {
         events.clear()
 
-        val calender = Calendar.getInstance()
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val formattedDate = dateFormat.format(calender.time)
+        val calendar = Calendar.getInstance()
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+        val currentDate = calendar.time
 
-        eventDatabaseReference = Firebase.database.getReference("events")
+        val eventDatabaseReference = Firebase.database.getReference("events")
 
         eventDatabaseReference.get()
             .addOnSuccessListener { dataEvents ->
                 if (dataEvents.exists()) {
                     for (data in dataEvents.children) {
                         val event = data.getValue(EventModelData::class.java)
-                        if (event != null && event.eventDate > formattedDate ) {
-                            events.add(0,
-                                EventModelData(
+                        val eventDateParsed = try {
+                            dateFormat.parse(event?.eventDate ?: "")
+                        } catch (e: Exception) {
+                            null
+                        }
+
+                        if (event != null && eventDateParsed != null && eventDateParsed.after(currentDate)) {
+                            val ticket = event.ticket
+
+                            val newEvent = EventModelData(
                                 event.eventId,
                                 event.eventName,
                                 event.eventDescription,
@@ -82,26 +89,25 @@ class AttendeesEventList : Fragment() {
                                 event.eventLocation,
                                 event.organizerId,
                                 TicketModelData(
-                                    event.ticket?.ticketId,
+                                    ticket?.ticketId,
                                     event.eventId,
-                                    event.ticket?.ticketType,
-                                    event.ticket?.ticketRemaining,
-                                    event.ticket?.ticketAvailable,
-                                    event.ticket?.ticketLimit
+                                    ticket?.ticketType,
+                                    ticket?.ticketRemaining,
+                                    ticket?.ticketAvailable,
+                                    ticket?.ticketLimit
                                 )
                             )
-                            )
-                        }else{
-                            Log.wtf("date","sudah lama ")
+                            events.add(newEvent)
                         }
                     }
                     adapter.notifyDataSetChanged()
                 }
             }
-            .addOnFailureListener {
-                Log.e("database", "Firebase error", it)
+            .addOnFailureListener { error ->
+                Log.e("Firebase", "Failed to fetch events", error)
             }
     }
+
 
 
     fun onClick(event: EventModelData){
