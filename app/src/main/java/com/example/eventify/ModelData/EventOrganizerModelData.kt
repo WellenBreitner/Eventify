@@ -1,6 +1,6 @@
 package com.example.eventify.ModelData
 
-data class UserModelData(
+data class EventOrganizerModelData(
     val userID: String = "",
     val fullName: String = "",
     val email: String = "",

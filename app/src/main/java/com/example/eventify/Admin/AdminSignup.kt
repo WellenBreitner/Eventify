@@ -29,18 +29,15 @@ class AdminSignup : AppCompatActivity() {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
-        binding.signupButton.setOnClickListener {
+        binding.adminSignUpButton.setOnClickListener {
             val email = binding.signupEmail.text.toString()
             val password = binding.signupPassword.text.toString()
             val confirmPassword = binding.signupConfirm.text.toString()
 
             if (email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()) {
                 if (password.length < 8) {
-                    Toast.makeText(
-                        this,
-                        "Password must be at least 8 characters",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    binding.signupPassword.error = "Password Must At Least 8 Character"
+                    binding.signupPassword.requestFocus()
                     return@setOnClickListener
                 }
 
@@ -56,11 +53,18 @@ class AdminSignup : AppCompatActivity() {
                             }
                         }
                 } else {
-                    Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show()
+                    binding.signupPassword.error = "Password Not Match"
+                    binding.signupPassword.requestFocus()
                 }
             } else {
                 Toast.makeText(this, "Fields cannot be empty", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        binding.adminMoveToLoginButton.setOnClickListener {
+            val intent = Intent(this,AdminLoginPage::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 }

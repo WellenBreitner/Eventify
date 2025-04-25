@@ -8,7 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.eventify.ModelData.UserModelData
+import com.example.eventify.ModelData.EventOrganizerModelData
 import com.example.eventify.databinding.ActivityRegisterEoBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -112,7 +112,7 @@ class RegisterActivityEO : AppCompatActivity() {
                         return@addOnCompleteListener
                     }
 
-                    val organizer = UserModelData(uid, fullName, email, phone, organization, role)
+                    val organizer = EventOrganizerModelData(uid, fullName, email, phone, organization, role)
                     usersRef.child(uid)
                         .setValue(organizer)
                         .addOnCompleteListener { dbTask ->

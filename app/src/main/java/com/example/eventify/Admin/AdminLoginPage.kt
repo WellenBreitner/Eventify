@@ -28,7 +28,7 @@ class AdminLoginPage : AppCompatActivity() {
         }
         firebaseAuth = FirebaseAuth.getInstance()
 
-        binding.loginButton.setOnClickListener{
+        binding.adminLoginButton.setOnClickListener{
             val email = binding.loginEmail.text.toString()
             val password = binding.loginPassword.text.toString()
 
@@ -46,9 +46,10 @@ class AdminLoginPage : AppCompatActivity() {
                 Toast.makeText(this, "Fields cannot be empty", Toast.LENGTH_SHORT).show()
             }
         }
-        binding.signupRedirectText.setOnClickListener{
+        binding.adminMoveToSignUpButton.setOnClickListener{
             val signupIntent = Intent(this, AdminSignup::class.java)
             startActivity(signupIntent)
+            finish()
         }
     }
 }

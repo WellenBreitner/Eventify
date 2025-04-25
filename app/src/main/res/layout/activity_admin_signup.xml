@@ -5,32 +5,30 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:fillViewport="true"
     tools:context=".Admin.AdminSignup">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp"
-            android:gravity="center_horizontal">
+        android:padding="16dp"
+        android:gravity="center_vertical">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:hint="Email"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginVertical="8dp"
+                android:layout_margin="8dp"
+                app:hintTextColor="@color/black"
+                app:boxStrokeColor="@color/black"
                 app:helperText="Required*"
                 app:helperTextTextColor="#E50046"
-                >
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -42,17 +40,20 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:hint="Password"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginVertical="8dp"
+                android:layout_margin="8dp"
+                app:boxStrokeColor="@color/black"
                 app:helperText="Required*"
                 app:helperTextTextColor="#E50046"
-                >
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:hintTextColor="@color/black"
                     android:id="@+id/signup_password"
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -60,13 +61,16 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:hint="Confirm Password"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginVertical="8dp"
+                android:layout_margin="8dp"
+                app:hintTextColor="@color/black"
+                app:boxStrokeColor="@color/black"
                 app:helperText="Required*"
                 app:helperTextTextColor="#E50046"
-                >
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -75,25 +79,36 @@
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
-                android:id="@+id/signup_button"
+            <com.google.android.material.button.MaterialButton
+                style="@style/styleTextForTitle"
+                android:id="@+id/adminSignUpButton"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="30dp"
-                android:text="Sign up"
-                android:textSize="18sp"
-                app:cornerRadius="30dp" />
+                android:layout_height="wrap_content"
+                android:text="Sign Up"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/black"
+                app:strokeColor="@color/black"
+                app:strokeWidth="2dp"
+                app:cornerRadius="10dp"/>
 
             <TextView
+                style="@style/StyleForText"
                 android:id="@+id/loginRedirectText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="8dp"
-                android:layout_marginTop="8dp"
-                android:text="Already an user? Login"
-                android:textSize="18sp"
-                android:textColor="#222222" />
+                android:layout_gravity="center_horizontal"
+                android:text="Already an user?" />
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/styleTextForTitle"
+                android:id="@+id/adminMoveToLoginButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Login"
+                android:textColor="@color/black"
+                android:backgroundTint="@color/white"
+                app:strokeColor="@color/black"
+                app:strokeWidth="2dp"
+                app:cornerRadius="10dp"/>
         </LinearLayout>
-    </LinearLayout>
 </ScrollView>
