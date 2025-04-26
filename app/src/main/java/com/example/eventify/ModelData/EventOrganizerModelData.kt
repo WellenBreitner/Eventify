@@ -1,10 +1,12 @@
 package com.example.eventify.ModelData
 
 data class EventOrganizerModelData(
-    val userID: String = "",
+    val eventOrganizerID: String = "",
     val fullName: String = "",
     val email: String = "",
     val phone: String = "",
     val organization: String? = "",
-    val role: String = ""
+    val role: String = "event organizer",
+    var isFirstTimeLogin: Boolean = true,
+    var isPasswordChange: Boolean = false
 )

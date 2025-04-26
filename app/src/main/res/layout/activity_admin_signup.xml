@@ -16,7 +16,29 @@
         android:padding="16dp"
         android:gravity="center_vertical">
 
-            <com.google.android.material.textfield.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Username"
+            android:layout_margin="8dp"
+            app:hintTextColor="@color/black"
+            app:boxStrokeColor="@color/black"
+            app:helperText="Required*"
+            app:helperTextTextColor="#E50046"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/signup_username"
+                android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email"
@@ -42,6 +64,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Password"
                 android:layout_margin="8dp"
+                app:hintTextColor="@color/black"
                 app:boxStrokeColor="@color/black"
                 app:helperText="Required*"
                 app:helperTextTextColor="#E50046"
