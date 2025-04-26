@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Eventify"
         tools:targetApi="31">
         <activity
+            android:name=".eventOrganizer.EOAddEvent"
+            android:exported="false" />
+        <activity
             android:name=".attendees.AttendeesPaymentInformation"
             android:exported="false" />
         <activity
@@ -29,6 +32,9 @@
             android:exported="false" />
         <activity
             android:name=".attendees.AttendeesEventListPage"
+            android:exported="false" />
+        <activity
+            android:name=".eventOrganizer.EventOrganizerDashboard"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -47,7 +47,7 @@ class AttendeesEventAdapter (
         if (event.ticket?.ticketAvailable == true){
             holder.ticketAvailable.text = "Ticket Available: Available"
         }else{
-            holder.ticketAvailable.text = "Ticket Available: Sold Out"
+            holder.ticketAvailable.text = "Ticket Available: Not Available"
         }
 
         holder.itemView.setOnClickListener {
