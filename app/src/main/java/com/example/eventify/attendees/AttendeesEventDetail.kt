@@ -20,6 +20,7 @@ import androidx.transition.TransitionManager
 import com.example.eventify.ModelData.EventModelData
 import com.example.eventify.R
 import com.example.eventify.attendeesViewModel.TicketTypeViewModel
+import com.example.eventify.databinding.ActivityAttendeesEventDetailBinding
 import com.google.android.material.button.MaterialButton
 
 class AttendeesEventDetail : AppCompatActivity() {
@@ -28,28 +29,19 @@ class AttendeesEventDetail : AppCompatActivity() {
         const val EXTRA_EVENT_DETAIL = "EVENT_DETAIL"
     }
 
-    private lateinit var eventDetailImage:ImageView
-    private lateinit var eventDetailName:TextView
-    private lateinit var eventDetailDate:TextView
-    private lateinit var eventDetailLocation:TextView
-    private lateinit var eventDetailDescription:TextView
-    private lateinit var eventTicketRemaining: TextView
-    private lateinit var eventTicketAvailable: TextView
     private lateinit var getEventID: String
     private lateinit var getEventName: String
     private lateinit var getEventDate: String
     private lateinit var getEventLocation: String
     private lateinit var getEventDescription: String
-    private lateinit var cardviewDesc:CardView
-    private lateinit var expandLayout:LinearLayout
-    private lateinit var expandImage:ImageView
     private lateinit var getTicketAvailable: String
-    private lateinit var buyTicketButton: MaterialButton
+    private lateinit var binding : ActivityAttendeesEventDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        binding = ActivityAttendeesEventDetailBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_attendees_event_detail)
+        setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -62,18 +54,6 @@ class AttendeesEventDetail : AppCompatActivity() {
     }
 
     private fun initializeUI() {
-        eventDetailImage = findViewById(R.id.attendeesEventDetailImage)
-        eventDetailName = findViewById(R.id.attendeesEventDetailName)
-        eventDetailDate = findViewById(R.id.attendeesEventDetailDate)
-        eventDetailLocation = findViewById(R.id.attendeesEventDetailLocation)
-        eventDetailDescription = findViewById(R.id.attendeesEventDetailDesc)
-        eventTicketRemaining = findViewById(R.id.attendeesEventTicketRemaining)
-        eventTicketAvailable = findViewById(R.id.attendeesEventTicketAvailable)
-        cardviewDesc = findViewById(R.id.descriptionCardView)
-        expandLayout = findViewById(R.id.expandLayout)
-        expandImage = findViewById(R.id.expandImage)
-        buyTicketButton = findViewById(R.id.attendeesEventDetailBuyTicketButton)
-
         getEventAndTicketDataByIntent()
     }
 
@@ -106,41 +86,41 @@ class AttendeesEventDetail : AppCompatActivity() {
 
 
             getEventID = getEventAndTicket.eventId
-            eventDetailImage.setImageResource(R.color.black)
-            eventDetailName.text = getEventName
-            eventDetailDate.text = "Date: $getEventDate"
-            eventDetailLocation.text = "Location: $getEventLocation"
-            eventDetailDescription.text = getEventDescription
-            eventTicketRemaining.text = getTicketRemaining
-            eventTicketAvailable.text = getTicketAvailable
+            binding.attendeesEventDetailImage.setImageResource(R.color.black)
+            binding.attendeesEventDetailName.text = getEventName
+            binding.attendeesEventDetailDate.text = "Date: $getEventDate"
+            binding.attendeesEventDetailLocation.text = "Location: $getEventLocation"
+            binding.attendeesEventDetailDesc.text = getEventDescription
+            binding.attendeesEventTicketRemaining.text = getTicketRemaining
+            binding.attendeesEventTicketAvailable.text = getTicketAvailable
 
             if (getTicketAvailable == "Ticket Available: Not Available"){
-                buyTicketButton.isEnabled = false
-                buyTicketButton.text = "Ticket Not Available"
-                buyTicketButton.setTextColor(Color.parseColor("#000000"))
-                buyTicketButton.setBackgroundColor(Color.parseColor("#F5F5F5"))
+                binding.attendeesEventDetailBuyTicketButton.isEnabled = false
+                binding.attendeesEventDetailBuyTicketButton.text = "Ticket Not Available"
+                binding.attendeesEventDetailBuyTicketButton.setTextColor(Color.parseColor("#000000"))
+                binding.attendeesEventDetailBuyTicketButton.setBackgroundColor(Color.parseColor("#F5F5F5"))
             }
         }
     }
 
     private fun cardviewDescOnClick() {
-        expandLayout.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-        expandImage.setBackgroundResource(R.drawable.down_icon)
-        cardviewDesc.setOnClickListener {
-            if(eventDetailDescription.visibility == View.GONE){
-                expandImage.setBackgroundResource(R.drawable.up_icon)
-                TransitionManager.beginDelayedTransition(expandLayout, AutoTransition())
-                eventDetailDescription.visibility = View.VISIBLE
+        binding.expandLayout.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        binding.expandImage.setBackgroundResource(R.drawable.down_icon)
+        binding.descriptionCardView.setOnClickListener {
+            if(binding.attendeesEventDetailDesc.visibility == View.GONE){
+                binding.expandImage.setBackgroundResource(R.drawable.up_icon)
+                TransitionManager.beginDelayedTransition(binding.expandLayout, AutoTransition())
+                binding.attendeesEventDetailDesc.visibility = View.VISIBLE
             }else{
-                expandImage.setBackgroundResource(R.drawable.down_icon)
-                eventDetailDescription.visibility = View.GONE
-                TransitionManager.beginDelayedTransition(expandLayout, AutoTransition())
+                binding.expandImage.setBackgroundResource(R.drawable.down_icon)
+                binding.attendeesEventDetailDesc.visibility = View.GONE
+                TransitionManager.beginDelayedTransition(binding.expandLayout, AutoTransition())
             }
         }
     }
 
     private fun buyTicketButtonOnClick() {
-        buyTicketButton.setOnClickListener {
+        binding.attendeesEventDetailBuyTicketButton.setOnClickListener {
             val intent = Intent(this,AttendeesPurchaseTicket::class.java)
             intent.putExtra("event_id",EventModelData(
                 getEventID,
