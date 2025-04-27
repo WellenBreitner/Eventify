@@ -25,7 +25,6 @@ import java.util.Locale
 class AttendeesEventList : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var events: ArrayList<EventModelData>
-    private lateinit var eventDatabaseReference: DatabaseReference
     private lateinit var adapter: AttendeesEventAdapter
     private lateinit var view : View
     override fun onCreateView(
