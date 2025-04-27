@@ -14,11 +14,13 @@ import com.example.eventify.R
 import com.example.eventify.databinding.ActivityEoAddEventBinding
 import com.example.eventify.databinding.ActivityEventOrganizerDashboardBinding
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.database
 
 class EOAddEvent : AppCompatActivity() {
 
     private lateinit var binding: ActivityEoAddEventBinding
+    private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +32,9 @@ class EOAddEvent : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        firebaseAuth = FirebaseAuth.getInstance()
+
 
         initializeListeners()
     }
@@ -53,6 +58,7 @@ class EOAddEvent : AppCompatActivity() {
         binding.addEventButton.setOnClickListener {
             val timeValue = binding.addEventTimeTimePicker.text.toString().takeIf { it != "Set time" } ?: ""
             val dateValue = binding.addEventDateDatePicker.text.toString().takeIf { it != "Set date" } ?: ""
+            val getUser = firebaseAuth.currentUser?.uid
 
             addEvent(
                 binding.addEventNameEditText.text.toString(),
@@ -60,7 +66,7 @@ class EOAddEvent : AppCompatActivity() {
                 binding.addEventLocationEditText.text.toString(),
                 dateValue,
                 timeValue,
-                null.toString(),
+                getUser.toString(),
                 TicketModelData(null),
                 null.toString()
             )
@@ -93,6 +99,7 @@ class EOAddEvent : AppCompatActivity() {
             eventDateTime.isEmpty() -> Toast.makeText(this, "time can't be empty", Toast.LENGTH_SHORT).show()
             else -> {
                 val eventRef = Firebase.database.getReference("events")
+
                 val getID = eventRef.push().key
                 val newEvent = getID?.let {
                     EventModelData(
@@ -101,7 +108,7 @@ class EOAddEvent : AppCompatActivity() {
                         eventDescription,
                         "$eventDate $eventDateTime",
                         eventLocation,
-                        null.toString(),
+                        organizerID,
                         TicketModelData(null,it,null,null,null,null),
                         null
                     )

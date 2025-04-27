@@ -14,6 +14,8 @@ import com.example.eventify.ModelData.TicketModelData
 import com.example.eventify.R
 import com.example.eventify.eoAdapter.EOAdapter
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.database
 
 
@@ -23,6 +25,7 @@ class EventOrganizerHome : Fragment() {
     private lateinit var eventList: ArrayList<EventModelData>
     private lateinit var view: View
     private lateinit var addClassButton: Button
+    private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,6 +33,7 @@ class EventOrganizerHome : Fragment() {
     ): View? {
         view = inflater.inflate(R.layout.fragment_eo_home, container, false)
 
+        firebaseAuth = FirebaseAuth.getInstance()
         eventList = arrayListOf()
 
         recyclerView = view.findViewById(R.id.EORVEventList)
@@ -50,6 +54,7 @@ class EventOrganizerHome : Fragment() {
     }
 
     private fun getEventData() {
+        val userID = firebaseAuth.currentUser?.uid
         eventList.clear()
         val eventRef = Firebase.database.getReference("events")
 
@@ -57,7 +62,7 @@ class EventOrganizerHome : Fragment() {
             if(dataEvent.exists()){
                 for (data in dataEvent.children){
                     val event = data.getValue(EventModelData::class.java)
-                    if (event!=null){
+                    if (event!=null && event.organizerId == userID){
                         eventList.add(0,
                             EventModelData(
                                 event.eventId,

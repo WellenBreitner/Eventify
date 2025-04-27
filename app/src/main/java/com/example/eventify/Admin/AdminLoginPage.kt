@@ -9,6 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.eventify.R
 import com.example.eventify.attendees.AttendeesDashboard
 import com.example.eventify.databinding.ActivityAdminLoginPageBinding
+import com.example.eventify.eventOrganizer.EventOrganizerDashboard
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
@@ -107,7 +108,8 @@ class AdminLoginPage : AppCompatActivity() {
                 if (snapshot.exists()) {
                     val role = snapshot.child("role").getValue(String::class.java)
                     if (role == "event organizer") {
-                        Toast.makeText(this, "event organizer login", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this,EventOrganizerDashboard::class.java)
+                        startActivity(intent)
                         finish()
                     } else {
                         Toast.makeText(this, "Unknown role in eventOrganizers: $role", Toast.LENGTH_SHORT).show()
