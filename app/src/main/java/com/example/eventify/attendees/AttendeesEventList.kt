@@ -96,7 +96,7 @@ class AttendeesEventList : Fragment() {
                                     ticket?.ticketLimit
                                 )
                             )
-                            events.add(newEvent)
+                            events.add(0,newEvent)
                         }
                     }
                     adapter.notifyDataSetChanged()

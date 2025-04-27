@@ -50,7 +50,6 @@ class EventDatePicker(private val datePicker: TextView) : DialogFragment(), Date
             }
 
             datePickerDialog.show()
-            dismiss()
         }
 
         return super.onCreateDialog(savedInstanceState)

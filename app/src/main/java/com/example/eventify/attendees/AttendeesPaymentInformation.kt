@@ -4,8 +4,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +13,6 @@ import com.example.eventify.ModelData.BookingModelData
 import com.example.eventify.ModelData.EventModelData
 import com.example.eventify.R
 import com.example.eventify.databinding.ActivityAttendeesPaymentInformationBinding
-import com.google.android.material.button.MaterialButton
 import com.google.firebase.Firebase
 import com.google.firebase.database.database
 import com.razorpay.Checkout
@@ -149,7 +146,6 @@ class AttendeesPaymentInformation : AppCompatActivity() , PaymentResultListener 
             BookingModelData(
                 getID,
                 getPaymentInformation?.userId,
-                getPaymentInformation?.username,
                 getPaymentInformation?.userEmail,
                 getPaymentInformation?.eventID,
                 getPaymentInformation?.eventName,
