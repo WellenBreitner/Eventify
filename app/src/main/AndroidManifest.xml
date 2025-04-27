@@ -15,19 +15,43 @@
         android:theme="@style/Theme.Eventify"
         tools:targetApi="31">
         <activity
-            android:name=".attendees.AttendeesEventBookedDetail"
+            android:name=".eventOrganizer.EOAddEvent"
             android:exported="false" />
         <activity
             android:name=".attendees.AttendeesPaymentInformation"
+            android:exported="false"/>
+        <activity
+            android:name=".Admin.EventOrganizerResetPassword"
+            android:exported="false" />
+        <activity
+            android:name=".Admin.AdminDashboard"
+            android:exported="false" />
+        <activity
+            android:name=".Admin.RegisterActivityEO"
+            android:exported="false" />
+        <activity
+            android:name=".Admin.AdminSignup"
+            android:exported="false" />
+        <activity
+            android:name=".attendees.AttendeesEventList"
             android:exported="false" />
         <activity
             android:name=".attendees.AttendeesPurchaseTicket"
+            android:exported="false"/>
+        <activity
+            android:name=".attendees.AttendeesEventBookedDetail"
             android:exported="false" />
         <activity
             android:name=".attendees.AttendeesEventDetail"
             android:exported="false" />
         <activity
+            android:name=".eventOrganizer.EventOrganizerDashboard"
+            android:exported="false"/>
+        <activity
             android:name=".attendees.AttendeesDashboard"
+            android:exported="false"/>
+        <activity
+            android:name=".Admin.AdminLoginPage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
