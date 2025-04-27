@@ -1,11 +1,8 @@
 package com.example.eventify.attendees
 
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
@@ -13,10 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.eventify.ModelData.BookingModelData
-import com.example.eventify.ModelData.TicketModelData
 import com.example.eventify.R
-import com.example.eventify.attendees.AttendeesEventDetail.Companion.EXTRA_EVENT_DETAIL
-import com.example.eventify.attendeesAdapter.AttendeesEventBookedAdapter
 import com.example.eventify.databinding.ActivityAttendeesEventBookedDetailBinding
 import com.google.firebase.Firebase
 import com.google.firebase.database.database
@@ -49,10 +43,10 @@ class AttendeesEventBookedDetail : AppCompatActivity() {
                     val bookingsRef = Firebase.database.getReference("bookings")
                     getEventBooked.bookingId?.let { id ->
                         bookingsRef.child(id).removeValue().addOnSuccessListener {
-                            Toast.makeText(this, "Event Delete Successfully", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "Event Cancel Successfully", Toast.LENGTH_SHORT).show()
                             finish()
                         }
-                            .addOnSuccessListener {
+                            .addOnFailureListener{
                                 Toast.makeText(this, "Event Delete Failed", Toast.LENGTH_SHORT).show()
                             }
                     }
@@ -73,7 +67,7 @@ class AttendeesEventBookedDetail : AppCompatActivity() {
             intent.getParcelableExtra("event_booked_detail")
         } ?: return
 
-        binding.attendeesEventBookedDetailName.text = getEventBooked?.eventName
+        binding.attendeesEventBookedDetailName.text = getEventBooked.eventName
         binding.attendeesEventBookedDetailBookingId.text = "Booking ID: ${getEventBooked?.bookingId}"
         binding.attendeesEventBookedDetailDate.text ="Event Date: ${getEventBooked?.eventDate}"
         binding.attendeesEventBookedDetailLocation.text = "Event Location: ${getEventBooked?.eventLocation}"

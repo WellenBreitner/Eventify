@@ -25,8 +25,11 @@ import com.example.eventify.ModelData.SeatModelData
 import com.example.eventify.R
 import com.example.eventify.attendeesAdapter.SeatAdapter
 import com.example.eventify.attendeesViewModel.TicketTypeViewModel
+import com.example.eventify.databinding.ActivityAttendeesDashboardBinding
+import com.example.eventify.databinding.ActivityAttendeesPurchaseTicketBinding
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.database
 import kotlin.math.log
 
@@ -34,14 +37,9 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
 
     private lateinit var ticketTypeViewModel: TicketTypeViewModel
     private lateinit var recyclerView: RecyclerView
-    private lateinit var horizontalScrollView: HorizontalScrollView
-    private lateinit var seatInformationLayout: LinearLayout
-    private lateinit var numberOfTicket: TextView
-    private lateinit var ticketTypeTextView: TextView
-    private lateinit var attendeesTicketTotalPriceTextView: TextView
-    private lateinit var selectedSeatTextView: TextView
-    private lateinit var attendeesSelectTypeButton: MaterialButton
-    private lateinit var attendeesBookingButton: MaterialButton
+    private lateinit var binding: ActivityAttendeesPurchaseTicketBinding
+    private lateinit var firebaseAuth: FirebaseAuth
+
     private lateinit var getEventID: String
     private lateinit var getPriceForEach: String
     private var getEventInformation: EventModelData? = null
@@ -57,25 +55,27 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
     private var price: Double = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        binding = ActivityAttendeesPurchaseTicketBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_attendees_purchase_ticket)
+        setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        
+
+        firebaseAuth = FirebaseAuth.getInstance()
         initializeUI()
         initializeListener()
     }
 
     private fun initializeListener() {
-        attendeesSelectTypeButton.setOnClickListener {
+        binding.attendeesSelectTicketType.setOnClickListener {
             attendeesSelectTypeOnClick()
         }
 
-        attendeesBookingButton.setOnClickListener {
+        binding.attendeesBookingButton.setOnClickListener {
             attendeesBookingButtonOnClick()
         }
     }
@@ -83,14 +83,6 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
     private fun initializeUI() {
         ticketTypeViewModel = ViewModelProvider(this)[TicketTypeViewModel::class.java]
         recyclerView = findViewById(R.id.eventSeatSelectionForPurchasesTicket)
-        horizontalScrollView = findViewById(R.id.horizontalScrollViewForRecyclerView)
-        seatInformationLayout = findViewById(R.id.seatInformation)
-        numberOfTicket = findViewById(R.id.numberOfPurchaseTicket)
-        ticketTypeTextView = findViewById(R.id.ticketTypeAttendeesChoose)
-        attendeesTicketTotalPriceTextView = findViewById(R.id.attendeesTicketTotalPrice)
-        selectedSeatTextView = findViewById(R.id.attendeesSelectSeat)
-        attendeesSelectTypeButton = findViewById(R.id.attendeesSelectTicketType)
-        attendeesBookingButton = findViewById(R.id.attendeesBookingButton)
 
         getEventInformation = if (Build.VERSION.SDK_INT >= 33){
             intent.getParcelableExtra("event_id",EventModelData::class.java)
@@ -102,15 +94,13 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
         getEventID = getEventInformation?.eventId.toString()
         ticketTypeViewModel.setEventID(getEventID)
         ticketTypeViewModel.getTicketTypeData.observe(this){data ->
-            ticketTypeTextView.text = data
+            binding.ticketTypeAttendeesChoose.text = data
             isTicketTypeSelected = data != "Not selected"
 
             if (isTicketTypeSelected) {
                 showNestedScrollWithAnimation(true)
-
             } else {
                 showNestedScrollWithAnimation(false)
-
             }
         }
 
@@ -145,10 +135,10 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
     }
 
     private fun showNestedScrollWithAnimation(show: Boolean) {
-        TransitionManager.beginDelayedTransition(horizontalScrollView.parent as ViewGroup, AutoTransition())
-        TransitionManager.beginDelayedTransition(seatInformationLayout.parent as ViewGroup, AutoTransition())
-        horizontalScrollView.visibility = if (show) View.VISIBLE else View.GONE
-        seatInformationLayout.visibility = if (show) View.VISIBLE else View.GONE
+        TransitionManager.beginDelayedTransition(binding.horizontalScrollViewForRecyclerView.parent as ViewGroup, AutoTransition())
+        TransitionManager.beginDelayedTransition(binding.seatInformation.parent as ViewGroup, AutoTransition())
+        binding.horizontalScrollViewForRecyclerView.visibility = if (show) View.VISIBLE else View.GONE
+        binding.seatInformation.visibility = if (show) View.VISIBLE else View.GONE
         if (show && !isRecyclerInitialized) {
             getSelectedSeat()
         }
@@ -174,20 +164,20 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
                         seatModelData.isSelected = false
                         selectedSeat.remove(seatModelData.label)
                     }
-                    numberOfTicket.text = selectedSeat.size.toString()
+                    binding.numberOfPurchaseTicket.text = selectedSeat.size.toString()
 
                     ticketTypeViewModel.getTicketPriceData.observe(this@AttendeesPurchaseTicket){data ->
                         getPriceForEach = data
                         price = (data.toDouble() * selectedSeat.size)
                         val convertCurrency = "${ (data.toInt() * selectedSeat.size).toDouble()}"
-                        attendeesTicketTotalPriceTextView.text = "$${convertCurrency}"
+                        binding.attendeesTicketTotalPrice.text = "$${convertCurrency}"
                     }
 
-                    selectedSeatTextView.text = ""
+                    binding.attendeesSelectSeat.text = ""
                     if (selectedSeat.size == 0 ) {
-                        selectedSeatTextView.text = "Not selected"
+                        binding.attendeesSelectSeat.text = "Not selected"
                     }else{
-                        selectedSeatTextView.text = selectedSeat.joinToString(",")
+                        binding.attendeesSelectSeat.text = selectedSeat.joinToString(",")
                     }
                 }
             })
@@ -200,21 +190,21 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
     }
 
     private fun attendeesBookingButtonOnClick() {
-        val numberTicket = numberOfTicket.text.toString()
+        val user = firebaseAuth.currentUser
+        val numberTicket = binding.numberOfPurchaseTicket.text.toString()
         if (isTicketTypeSelected){
             if(numberTicket.toInt() > 0){
                 val intent = Intent(this,AttendeesPaymentInformation::class.java)
                 intent.putExtra("payment_information",
                     BookingModelData(
                         null,
-                        null,
-                        null,
-                        null,
+                        user?.uid,
+                        user?.email,
                         getEventID,
                         getEventInformation?.eventName.toString(),
                         getEventInformation?.eventDate.toString(),
                         getEventInformation?.eventLocation.toString(),
-                        ticketTypeTextView.text.toString(),
+                        binding.ticketTypeAttendeesChoose.text.toString(),
                         numberTicket,
                         getPriceForEach,
                         price,
@@ -222,6 +212,7 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
                     )
                 )
                 startActivity(intent)
+                finish()
             }else{
                 Toast.makeText(this, "You required to select seat", Toast.LENGTH_SHORT).show()
             }

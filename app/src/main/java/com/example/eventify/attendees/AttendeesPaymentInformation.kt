@@ -4,8 +4,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.eventify.ModelData.BookingModelData
 import com.example.eventify.ModelData.EventModelData
 import com.example.eventify.R
-import com.google.android.material.button.MaterialButton
+import com.example.eventify.databinding.ActivityAttendeesPaymentInformationBinding
 import com.google.firebase.Firebase
 import com.google.firebase.database.database
 import com.razorpay.Checkout
@@ -25,21 +23,14 @@ import java.util.Calendar
 import java.util.Locale
 
 class AttendeesPaymentInformation : AppCompatActivity() , PaymentResultListener {
-    private lateinit var ticketTypeTextView: TextView
-    private lateinit var selectedSeatTextView: TextView
-    private lateinit var numberOfTicketTextView: TextView
-    private lateinit var priceForEachTicketTextView: TextView
-    private lateinit var discountTextView: TextView
-    private lateinit var totalPriceTextView: TextView
-    private lateinit var promotionCodeEditText: EditText
-    private lateinit var payButton: MaterialButton
-    private lateinit var promotionCodeButton: MaterialButton
     private var getPaymentInformation: BookingModelData? = null
+    private lateinit var binding: ActivityAttendeesPaymentInformationBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        binding = ActivityAttendeesPaymentInformationBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_attendees_payment_information)
+        setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -51,16 +42,6 @@ class AttendeesPaymentInformation : AppCompatActivity() , PaymentResultListener 
     }
 
     private fun initializeUI() {
-        ticketTypeTextView = findViewById(R.id.paymentInformationTicketType)
-        selectedSeatTextView = findViewById(R.id.paymentInformationSelectedSeat)
-        numberOfTicketTextView = findViewById(R.id.paymentInformationNumberOfTicket)
-        priceForEachTicketTextView = findViewById(R.id.paymentInformationPriceForEachTicket)
-        discountTextView = findViewById(R.id.paymentInformationDiscount)
-        totalPriceTextView = findViewById(R.id.paymentInformationTotalPrice)
-        payButton = findViewById(R.id.paymentInformationPayButton)
-        promotionCodeEditText = findViewById(R.id.paymentInformationPromotionCodeEditText)
-        promotionCodeButton = findViewById(R.id.paymentInformationPromotionCodeButton)
-
         getPaymentInformation = if (Build.VERSION.SDK_INT >= 33) {
             intent.getParcelableExtra("payment_information", BookingModelData::class.java)
         } else {
@@ -68,20 +49,20 @@ class AttendeesPaymentInformation : AppCompatActivity() , PaymentResultListener 
             intent.getParcelableExtra("payment_information")
         }
 
-        ticketTypeTextView.text = getPaymentInformation?.ticketType.toString()
-        selectedSeatTextView.text = getPaymentInformation?.selectedSeat?.joinToString(",")
-        numberOfTicketTextView.text = getPaymentInformation?.numberOfTicket
-        priceForEachTicketTextView.text =
-            "${getPaymentInformation?.priceForEachTicket} x ${getPaymentInformation?.numberOfTicket}"
-        totalPriceTextView.text = "$${getPaymentInformation?.totalPrice?.toDouble().toString()}"
+        binding.paymentInformationTicketType.text = getPaymentInformation?.ticketType.toString()
+        binding.paymentInformationSelectedSeat.text = getPaymentInformation?.selectedSeat?.joinToString(",")
+        binding.paymentInformationNumberOfTicket.text = getPaymentInformation?.numberOfTicket
+        binding.paymentInformationPriceForEachTicket.text =
+            "$${getPaymentInformation?.priceForEachTicket} x ${getPaymentInformation?.numberOfTicket}"
+        binding.paymentInformationTotalPrice.text = "$${getPaymentInformation?.totalPrice?.toDouble().toString()}"
     }
 
     private fun initializeListener() {
-        payButton.setOnClickListener {
+        binding.paymentInformationPayButton.setOnClickListener {
             makePayment()
         }
 
-        promotionCodeButton.setOnClickListener {
+        binding.paymentInformationPromotionCodeButton.setOnClickListener {
             applyPromotionCode()
         }
     }
@@ -90,11 +71,11 @@ class AttendeesPaymentInformation : AppCompatActivity() , PaymentResultListener 
         val calender = Calendar.getInstance()
         val simpleFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
-        if (promotionCodeEditText.text.isEmpty()) {
-            promotionCodeEditText.error = "Promotion code can't be empty"
-            promotionCodeEditText.requestFocus()
+        if (binding.paymentInformationPromotionCodeEditText.text?.isEmpty() == true) {
+            binding.paymentInformationPromotionCodeEditText.error = "Promotion code can't be empty"
+            binding.paymentInformationPromotionCodeEditText.requestFocus()
         } else {
-            val getPromotionCode = promotionCodeEditText.text.toString()
+            val getPromotionCode = binding.paymentInformationPromotionCodeEditText.text.toString()
             val eventRef = Firebase.database.getReference("events")
 
             eventRef.get().addOnSuccessListener { dataEvent ->
@@ -113,16 +94,17 @@ class AttendeesPaymentInformation : AppCompatActivity() , PaymentResultListener 
                             if (ticket.promotionCode == getPromotionCode && expiryDate?.after(calender.time) == true) {
                                 val getDiscount = (ticket.discount ?: 0)
                                 val originalPrice = (getPaymentInformation?.priceForEachTicket.toString().toDouble() * getPaymentInformation?.numberOfTicket.toString().toInt())
-                                discountTextView.text = "${ticket.discount.toString()}%"
+                                binding.paymentInformationDiscount.text = "${ticket.discount.toString()}%"
                                 val newTotalPrice = originalPrice - (originalPrice * getDiscount / 100)
-                                totalPriceTextView.text = "$newTotalPrice"
+                                binding.paymentInformationTotalPrice.text = "$newTotalPrice"
                                 getPaymentInformation?.totalPrice = newTotalPrice
 
-                                promotionCodeButton.isEnabled = false
-                                promotionCodeEditText.isEnabled = false
+                                binding.paymentInformationPromotionCodeEditText.isEnabled = false
+                                binding.paymentInformationPromotionCodeButton.isEnabled = false
+                                Toast.makeText(this, "Valid Promotion Code", Toast.LENGTH_SHORT).show()
                             }else{
-                                promotionCodeEditText.error = "Invalid Promotion Code"
-                                promotionCodeEditText.requestFocus()
+                                binding.paymentInformationPromotionCodeEditText.error = "Invalid Promotion Code"
+                                binding.paymentInformationPromotionCodeEditText.requestFocus()
                             }
                         }
                     }
@@ -164,7 +146,6 @@ class AttendeesPaymentInformation : AppCompatActivity() , PaymentResultListener 
             BookingModelData(
                 getID,
                 getPaymentInformation?.userId,
-                getPaymentInformation?.username,
                 getPaymentInformation?.userEmail,
                 getPaymentInformation?.eventID,
                 getPaymentInformation?.eventName,

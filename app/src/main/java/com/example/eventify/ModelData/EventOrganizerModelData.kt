@@ -7,6 +7,6 @@ data class EventOrganizerModelData(
     val phone: String = "",
     val organization: String? = "",
     val role: String = "event organizer",
-    var isFirstTimeLogin: Boolean = true,
-    var isPasswordChange: Boolean = false
+    var firstTimeLogin: Boolean = true,
+
 )

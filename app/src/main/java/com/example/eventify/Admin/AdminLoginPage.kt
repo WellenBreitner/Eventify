@@ -6,9 +6,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.eventify.ModelData.EventOrganizerModelData
 import com.example.eventify.R
 import com.example.eventify.attendees.AttendeesDashboard
 import com.example.eventify.databinding.ActivityAdminLoginPageBinding
+import com.example.eventify.eventOrganizer.EventOrganizerDashboard
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
@@ -16,6 +18,7 @@ class AdminLoginPage : AppCompatActivity() {
 
     private lateinit var binding: ActivityAdminLoginPageBinding
     private lateinit var firebaseAuth: FirebaseAuth
+    private val defaultPassword = "neweo123"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -100,18 +103,45 @@ class AdminLoginPage : AppCompatActivity() {
 
     private fun checkEventOrganizerRole(userID: String) {
         val database = FirebaseDatabase.getInstance()
-        val eoRef = database.getReference("event_organizers").child(userID)
+        val eoRef = database.getReference("event_organizers")
+        val password = binding.loginPassword.text.toString()
 
         eoRef.get()
             .addOnSuccessListener { snapshot ->
                 if (snapshot.exists()) {
-                    val role = snapshot.child("role").getValue(String::class.java)
-                    if (role == "event organizer") {
-                        Toast.makeText(this, "event organizer login", Toast.LENGTH_SHORT).show()
-                        finish()
-                    } else {
-                        Toast.makeText(this, "Unknown role in eventOrganizers: $role", Toast.LENGTH_SHORT).show()
+                    var found = false
+                    for (eo in snapshot.children) {
+                        val eventOrganizer = eo.getValue(EventOrganizerModelData::class.java)
+                        if (eventOrganizer != null && eventOrganizer.role == "event organizer" && eventOrganizer.eventOrganizerID == userID) {
+                            found = true
+                            if (eventOrganizer.firstTimeLogin) {
+                                if (password == defaultPassword) {
+                                    val intent = Intent(this, EventOrganizerResetPassword::class.java)
+                                    startActivity(intent)
+                                } else {
+                                    val intent = Intent(this, EventOrganizerDashboard::class.java)
+                                    startActivity(intent)
+                                    finish()
+                                }
+                                eoRef.child(eventOrganizer.eventOrganizerID).child("firstTimeLogin").setValue(false)
+                            } else {
+                                if (password == defaultPassword) {
+                                    val intent = Intent(this, EventOrganizerDashboard::class.java)
+                                    intent.putExtra("showSnackbar", true)
+                                    startActivity(intent)
+                                } else {
+                                    val intent = Intent(this, EventOrganizerDashboard::class.java)
+                                    startActivity(intent)
+                                    finish()
+                                }
+                            }
+                        }
                     }
+
+                    if (!found) {
+                        Toast.makeText(this, "Unknown role in eventOrganizers.", Toast.LENGTH_SHORT).show()
+                    }
+
                 } else {
                     Toast.makeText(this, "Account not found in system", Toast.LENGTH_SHORT).show()
                 }
@@ -120,4 +150,5 @@ class AdminLoginPage : AppCompatActivity() {
                 Toast.makeText(this, "Failed to fetch Event Organizer data", Toast.LENGTH_SHORT).show()
             }
     }
+
 }

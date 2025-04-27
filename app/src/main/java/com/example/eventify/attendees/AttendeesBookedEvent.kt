@@ -18,6 +18,7 @@ import com.example.eventify.attendeesAdapter.AttendeesEventAdapter
 import com.example.eventify.attendeesAdapter.AttendeesEventBookedAdapter
 import com.example.eventify.attendeesAdapter.SeatAdapter
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.database
 import java.util.ArrayList
@@ -29,11 +30,14 @@ class AttendeesBookedEvent : Fragment() {
     private lateinit var view: View
     private lateinit var eventDatabaseReference: DatabaseReference
     private lateinit var adapter: AttendeesEventBookedAdapter
+    private lateinit var firebaseAuth: FirebaseAuth
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         view = inflater.inflate(R.layout.fragment_attendees_booked_event, container, false)
+
+        firebaseAuth = FirebaseAuth.getInstance()
 
         initializeUI()
         initializeListener()
@@ -64,6 +68,7 @@ class AttendeesBookedEvent : Fragment() {
 
     private fun getEventBookingFromUserDataBase() {
             events.clear()
+            val userID = firebaseAuth.currentUser?.uid
 
             eventDatabaseReference = Firebase.database.getReference("bookings")
 
@@ -72,12 +77,11 @@ class AttendeesBookedEvent : Fragment() {
                     if (dataBookings.exists()) {
                         for (data in dataBookings.children) {
                             val bookingEvent = data.getValue(BookingModelData::class.java)
-                            if (bookingEvent != null) {
+                            if (bookingEvent != null && bookingEvent.userId == userID) {
                                 events.add(0,
                                     BookingModelData(
                                     bookingEvent.bookingId,
                                         bookingEvent.userId,
-                                        bookingEvent.eventName,
                                         bookingEvent.userEmail,
                                         bookingEvent.eventID,
                                         bookingEvent.eventName,
