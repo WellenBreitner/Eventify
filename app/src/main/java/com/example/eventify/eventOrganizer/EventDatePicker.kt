@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import android.widget.DatePicker
 import android.widget.TextView
@@ -49,6 +50,7 @@ class EventDatePicker(private val datePicker: TextView) : DialogFragment(), Date
             }
 
             datePickerDialog.show()
+            dismiss()
         }
 
         return super.onCreateDialog(savedInstanceState)
@@ -97,6 +99,7 @@ class EventDatePicker(private val datePicker: TextView) : DialogFragment(), Date
             val formattedDate = String.format(Locale.getDefault(), "%d-%02d-%02d", year, month + 1, day)
             datePicker.text = formattedDate
         }
+        dismiss()
     }
 }
 
