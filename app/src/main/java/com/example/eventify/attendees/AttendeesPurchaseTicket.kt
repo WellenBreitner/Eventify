@@ -29,6 +29,7 @@ import com.example.eventify.databinding.ActivityAttendeesDashboardBinding
 import com.example.eventify.databinding.ActivityAttendeesPurchaseTicketBinding
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.database
 import kotlin.math.log
 
@@ -36,8 +37,8 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
 
     private lateinit var ticketTypeViewModel: TicketTypeViewModel
     private lateinit var recyclerView: RecyclerView
-    private lateinit var ticketTypeTextView: TextView
     private lateinit var binding: ActivityAttendeesPurchaseTicketBinding
+    private lateinit var firebaseAuth: FirebaseAuth
 
     private lateinit var getEventID: String
     private lateinit var getPriceForEach: String
@@ -63,7 +64,8 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        
+
+        firebaseAuth = FirebaseAuth.getInstance()
         initializeUI()
         initializeListener()
     }
@@ -188,6 +190,7 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
     }
 
     private fun attendeesBookingButtonOnClick() {
+        val user = firebaseAuth.currentUser
         val numberTicket = binding.numberOfPurchaseTicket.text.toString()
         if (isTicketTypeSelected){
             if(numberTicket.toInt() > 0){
@@ -195,9 +198,8 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
                 intent.putExtra("payment_information",
                     BookingModelData(
                         null,
-                        null,
-                        null,
-                        null,
+                        user?.uid,
+                        user?.email,
                         getEventID,
                         getEventInformation?.eventName.toString(),
                         getEventInformation?.eventDate.toString(),
@@ -210,6 +212,7 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
                     )
                 )
                 startActivity(intent)
+                finish()
             }else{
                 Toast.makeText(this, "You required to select seat", Toast.LENGTH_SHORT).show()
             }
