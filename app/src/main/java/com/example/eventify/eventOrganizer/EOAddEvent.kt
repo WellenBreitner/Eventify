@@ -33,6 +33,7 @@ class EOAddEvent : AppCompatActivity() {
 
         initializeListeners()
     }
+
     private fun initializeListeners() {
         binding.addEventTimeTimePicker.setOnClickListener {
             val dialog: DialogFragment = EventTimePicker(binding.addEventTimeTimePicker)
@@ -57,8 +58,8 @@ class EOAddEvent : AppCompatActivity() {
                 binding.addEventNameEditText.text.toString(),
                 binding.addEventDescEditText.text.toString(),
                 binding.addEventLocationEditText.text.toString(),
-                binding.addEventDateDatePicker.text.toString(),
-                binding.addEventTimeTimePicker.text.toString(),
+                dateValue,
+                timeValue,
                 null.toString(),
                 TicketModelData(null),
                 null.toString()
@@ -98,7 +99,7 @@ class EOAddEvent : AppCompatActivity() {
                         it,
                         eventName,
                         eventDescription,
-                        eventDate,
+                        "$eventDate $eventDateTime",
                         eventLocation,
                         null.toString(),
                         TicketModelData(null,it,null,null,null,null),

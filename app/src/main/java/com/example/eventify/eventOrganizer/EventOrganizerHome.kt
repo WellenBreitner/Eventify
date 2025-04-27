@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.findViewTreeViewModelStoreOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventify.ModelData.EventModelData
@@ -29,7 +28,7 @@ class EventOrganizerHome : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        view = inflater.inflate(R.layout.fragment_home, container, false)
+        view = inflater.inflate(R.layout.fragment_eo_home, container, false)
 
         eventList = arrayListOf()
 

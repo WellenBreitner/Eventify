@@ -15,7 +15,7 @@ class EventOrganizerAnalyticReport : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_analytic_report, container, false)
+        return inflater.inflate(R.layout.fragment_eo_analytic_report, container, false)
     }
 
 
