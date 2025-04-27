@@ -1,13 +1,17 @@
 package com.example.eventify.eventOrganizer
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import com.example.eventify.Admin.EventOrganizerResetPassword
 import com.example.eventify.R
 import com.example.eventify.databinding.ActivityEventOrganizerDashboardBinding
+import com.google.android.material.snackbar.Snackbar
 
 class EventOrganizerDashboard : AppCompatActivity() {
 
@@ -33,6 +37,18 @@ class EventOrganizerDashboard : AppCompatActivity() {
                 else -> {}
             }
             true
+        }
+
+        val showSnackbar = intent.getBooleanExtra("showSnackbar", false)
+
+        if (showSnackbar) {
+            Snackbar.make(findViewById(android.R.id.content), "Please change your password!", Snackbar.LENGTH_LONG)
+                .setAction("Change Now") {
+                    val intent = Intent(this,EventOrganizerResetPassword::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+                .show()
         }
     }
 
