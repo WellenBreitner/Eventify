@@ -2,6 +2,7 @@ package com.example.eventify.attendees
 
 import android.animation.LayoutTransition
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -34,12 +35,16 @@ class AttendeesEventDetail : AppCompatActivity() {
     private lateinit var eventDetailDescription:TextView
     private lateinit var eventTicketRemaining: TextView
     private lateinit var eventTicketAvailable: TextView
-    private lateinit var eventID: String
+    private lateinit var getEventID: String
+    private lateinit var getEventName: String
+    private lateinit var getEventDate: String
+    private lateinit var getEventLocation: String
+    private lateinit var getEventDescription: String
     private lateinit var cardviewDesc:CardView
     private lateinit var expandLayout:LinearLayout
     private lateinit var expandImage:ImageView
+    private lateinit var getTicketAvailable: String
     private lateinit var buyTicketButton: MaterialButton
-    private lateinit var eventIDViewModel: TicketTypeViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,28 +91,35 @@ class AttendeesEventDetail : AppCompatActivity() {
         }
 
         if(getEventAndTicket!=null) {
-            val getEventName = getEventAndTicket.eventName
-            val getEventDate = "Date: ${getEventAndTicket.eventDate}"
-            val getEventLocation = "Location: ${getEventAndTicket.eventLocation}"
-            val getEventDescription = getEventAndTicket.eventDescription
+            getEventName = getEventAndTicket.eventName
+            getEventDate = getEventAndTicket.eventDate
+            getEventLocation = getEventAndTicket.eventLocation
+            getEventDescription = getEventAndTicket.eventDescription
             val getTicketRemaining = "Ticket Remaining: ${getEventAndTicket.ticket?.ticketRemaining}"
-            val getTicketAvailable = if (getEventAndTicket.ticket?.ticketAvailable == true) {
+            getTicketAvailable = if (getEventAndTicket.ticket?.ticketAvailable == null) {
+                "Ticket Available: Not Available"
+            } else if (getEventAndTicket.ticket.ticketAvailable == true) {
                 "Ticket Available: Available"
-            } else {
-                "Ticket Available: Sold out"
+            }else{
+                "Ticket Available: Sold Out"
             }
 
-            eventID = getEventAndTicket.eventId
+
+            getEventID = getEventAndTicket.eventId
             eventDetailImage.setImageResource(R.color.black)
             eventDetailName.text = getEventName
-            eventDetailDate.text = getEventDate
-            eventDetailLocation.text = getEventLocation
+            eventDetailDate.text = "Date: $getEventDate"
+            eventDetailLocation.text = "Location: $getEventLocation"
             eventDetailDescription.text = getEventDescription
             eventTicketRemaining.text = getTicketRemaining
             eventTicketAvailable.text = getTicketAvailable
 
-            eventIDViewModel = ViewModelProvider(this)[TicketTypeViewModel::class.java]
-            eventIDViewModel.setEventID(getEventAndTicket.eventId)
+            if (getTicketAvailable == "Ticket Available: Not Available"){
+                buyTicketButton.isEnabled = false
+                buyTicketButton.text = "Ticket Not Available"
+                buyTicketButton.setTextColor(Color.parseColor("#000000"))
+                buyTicketButton.setBackgroundColor(Color.parseColor("#F5F5F5"))
+            }
         }
     }
 
@@ -130,7 +142,13 @@ class AttendeesEventDetail : AppCompatActivity() {
     private fun buyTicketButtonOnClick() {
         buyTicketButton.setOnClickListener {
             val intent = Intent(this,AttendeesPurchaseTicket::class.java)
-            intent.putExtra("event_id",eventID)
+            intent.putExtra("event_id",EventModelData(
+                getEventID,
+                getEventName,
+                getEventDescription,
+                getEventDate,
+                getEventLocation,
+                null,null,null))
             startActivity(intent)
         }
     }

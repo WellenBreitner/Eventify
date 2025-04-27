@@ -44,7 +44,9 @@ class AttendeesEventAdapter (
         holder.eventLocation.text = "Location: ${event.eventLocation}"
         holder.eventDate.text = "Date: ${event.eventDate}"
 
-        if (event.ticket?.ticketAvailable == true){
+        if (event.ticket?.ticketAvailable == null) {
+            holder.ticketAvailable.text = "Ticket Available: Not Available"
+        } else if (event.ticket.ticketAvailable == true) {
             holder.ticketAvailable.text = "Ticket Available: Available"
         }else{
             holder.ticketAvailable.text = "Ticket Available: Not Available"

@@ -10,7 +10,8 @@ import com.example.eventify.R
 import com.google.android.material.button.MaterialButton
 
 class SeatAdapter(private val seatList: MutableList<SeatModelData>,
-    private val unavailableSeats: HashSet<String>) :
+    private val unavailableSeats: HashSet<String>,
+    private val bookedSeat: HashSet<String>):
     RecyclerView.Adapter<SeatAdapter.ViewHolder>(){
     private lateinit var listener: seatOnClick
 
@@ -40,6 +41,11 @@ class SeatAdapter(private val seatList: MutableList<SeatModelData>,
             holder.seatButton.setBackgroundColor(Color.parseColor("#F5F5F5"))
             holder.seatButton.isEnabled = false
             holder.seatButton.setTextColor(Color.BLACK)
+        }
+
+        if (bookedSeat.contains(seat.label.trim().uppercase())) {
+            holder.seatButton.setBackgroundColor(Color.parseColor("#A62C2C"))
+            holder.seatButton.isEnabled = false
         }
 
         holder.seatButton.setOnClickListener {

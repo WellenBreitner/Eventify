@@ -5,4 +5,5 @@
     <color name="whiteSmoke">#F5F5F5</color>
     <color name="seatBooked">#A62C2C</color>
     <color name="seatAvailable">#5F8B4C</color>
+    <color name="red">#fe0000</color>
 </resources>

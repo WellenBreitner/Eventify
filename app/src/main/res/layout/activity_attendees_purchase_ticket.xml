@@ -31,7 +31,7 @@
             android:backgroundTint="@color/white"
             app:strokeColor="@color/black"
             app:strokeWidth="2dp"
-            app:cornerRadius="0dp"/>
+            app:cornerRadius="5dp"/>
 
         <LinearLayout
             android:id="@+id/seatInformation"
@@ -133,7 +133,7 @@
                 style="@style/StyleForText"
                 android:id="@+id/ticketTypeAttendeesChoose"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
                 android:text="Not selected"
                 android:textAlignment="textEnd"/>
@@ -167,7 +167,7 @@
                 style="@style/StyleForText"
                 android:id="@+id/numberOfPurchaseTicket"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
                 android:text="0"
                 android:textAlignment="textEnd"/>
@@ -184,7 +184,7 @@
                 style="@style/StyleForText"
                 android:id="@+id/attendeesTicketTotalPrice"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
                 android:text="0"
                 android:textAlignment="textEnd"/>
@@ -200,7 +200,7 @@
             android:backgroundTint="@color/black"
             app:strokeColor="@color/black"
             app:strokeWidth="2dp"
-            app:cornerRadius="0dp"/>
+            app:cornerRadius="5dp"/>
     </LinearLayout>
 
 
