@@ -1,4 +1,4 @@
-package com.example.eventify
+package eventify
 
 import org.junit.Test
 
