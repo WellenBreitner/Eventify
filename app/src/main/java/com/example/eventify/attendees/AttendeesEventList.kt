@@ -16,6 +16,7 @@ import com.example.eventify.attendeesAdapter.AttendeesEventAdapter
 import com.google.firebase.Firebase
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.database
+import kotlinx.coroutines.channels.ticker
 import java.text.SimpleDateFormat
 import java.util.ArrayList
 import java.util.Calendar
@@ -92,7 +93,11 @@ class AttendeesEventList : Fragment() {
                                     ticket?.ticketType,
                                     ticket?.ticketRemaining,
                                     ticket?.ticketAvailable,
-                                    ticket?.ticketLimit
+                                    ticket?.ticketLimit,
+                                    ticket?.promotionCode,
+                                    ticket?.discount,
+                                    ticket?.expiryDate,
+                                    ticket?.maxWaitingList,
                                 )
                             )
                             events.add(0,newEvent)
@@ -105,8 +110,6 @@ class AttendeesEventList : Fragment() {
                 Log.e("Firebase", "Failed to fetch events", error)
             }
     }
-
-
 
     fun onClick(event: EventModelData){
         val intent = Intent(requireActivity(),AttendeesEventDetail::class.java)

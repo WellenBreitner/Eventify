@@ -1,0 +1,62 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".attendees.AttendeesEventWaitingListPhoneNumber">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            style="@style/styleTextForTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:text="Submit Email"/>
+
+        <TextView
+            style="@style/StyleForText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Please submit the email for us to notified you when the event become available."/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:layout_margin="8dp"
+            app:hintTextColor="@color/black"
+            app:boxStrokeColor="@color/black"
+            app:helperText="Required*"
+            app:helperTextTextColor="#E50046"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/emailWaitingList"
+                android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/styleTextForTitle"
+            android:id="@+id/addWaitingListEmailButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Email"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/black"
+            app:strokeColor="@color/black"
+            app:strokeWidth="2dp"
+            app:cornerRadius="10dp"/>
+    </LinearLayout>
+
+</ScrollView>

@@ -5,10 +5,12 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -35,6 +37,8 @@ class AttendeesEventDetail : AppCompatActivity() {
     private lateinit var getEventLocation: String
     private lateinit var getEventDescription: String
     private lateinit var getTicketAvailable: String
+    private var getTicketRemaining: Int = 0
+    private var getMaxWaitingList: Int = 0
     private lateinit var binding : ActivityAttendeesEventDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,10 +79,12 @@ class AttendeesEventDetail : AppCompatActivity() {
             getEventDate = getEventAndTicket.eventDate
             getEventLocation = getEventAndTicket.eventLocation
             getEventDescription = getEventAndTicket.eventDescription
-            val getTicketRemaining = "Ticket Remaining: ${getEventAndTicket.ticket?.ticketRemaining}"
+            val getTicketRemainingText = "Ticket Remaining: ${getEventAndTicket.ticket?.ticketRemaining}"
+            getTicketRemaining = getEventAndTicket.ticket?.ticketRemaining ?:0
+            getMaxWaitingList = getEventAndTicket.ticket?.maxWaitingList ?:0
             getTicketAvailable = if (getEventAndTicket.ticket?.ticketAvailable == null) {
                 "Ticket Available: Not Available"
-            } else if (getEventAndTicket.ticket.ticketAvailable == true) {
+            } else if (getTicketRemaining > 0) {
                 "Ticket Available: Available"
             }else{
                 "Ticket Available: Sold Out"
@@ -91,7 +97,7 @@ class AttendeesEventDetail : AppCompatActivity() {
             binding.attendeesEventDetailDate.text = "Date: $getEventDate"
             binding.attendeesEventDetailLocation.text = "Location: $getEventLocation"
             binding.attendeesEventDetailDesc.text = getEventDescription
-            binding.attendeesEventTicketRemaining.text = getTicketRemaining
+            binding.attendeesEventTicketRemaining.text = getTicketRemainingText
             binding.attendeesEventTicketAvailable.text = getTicketAvailable
 
             if (getTicketAvailable == "Ticket Available: Not Available"){
@@ -99,8 +105,12 @@ class AttendeesEventDetail : AppCompatActivity() {
                 binding.attendeesEventDetailBuyTicketButton.text = "Ticket Not Available"
                 binding.attendeesEventDetailBuyTicketButton.setTextColor(Color.parseColor("#000000"))
                 binding.attendeesEventDetailBuyTicketButton.setBackgroundColor(Color.parseColor("#F5F5F5"))
+            }else if(getTicketAvailable == "Ticket Available: Sold Out"){
+                binding.attendeesEventDetailBuyTicketButton.text = "Join Waitling List"
+                binding.attendeesEventDetailBuyTicketButton.setBackgroundColor(Color.parseColor("#A62C2C"))
             }
         }
+
     }
 
     private fun cardviewDescOnClick() {
@@ -121,15 +131,24 @@ class AttendeesEventDetail : AppCompatActivity() {
 
     private fun buyTicketButtonOnClick() {
         binding.attendeesEventDetailBuyTicketButton.setOnClickListener {
-            val intent = Intent(this,AttendeesPurchaseTicket::class.java)
-            intent.putExtra("event_id",EventModelData(
-                getEventID,
-                getEventName,
-                getEventDescription,
-                getEventDate,
-                getEventLocation,
-                null,null,null))
-            startActivity(intent)
+            if (getTicketRemaining > 0) {
+                val intent = Intent(this, AttendeesPurchaseTicket::class.java)
+                intent.putExtra(
+                    "event_id", EventModelData(
+                        getEventID,
+                        getEventName,
+                        getEventDescription,
+                        getEventDate,
+                        getEventLocation,
+                        null, null, null
+                    )
+                )
+                startActivity(intent)
+            }else{
+                val addEmailDialog = AttendeesEventWaitingListPhoneNumber(getEventID, getMaxWaitingList)
+                addEmailDialog.show(supportFragmentManager,"add_email_dialog")
+            }
         }
+
     }
 }
