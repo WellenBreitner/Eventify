@@ -3,7 +3,6 @@ package com.example.eventify.ModelData
 import android.os.Parcel
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import java.util.Date
 
 @Parcelize
 data class WaitingListModelData(
@@ -13,7 +12,7 @@ data class WaitingListModelData(
     val email: String ? = null,
     var status: String? = null,
     var notification_sent: Boolean? = null,
-    val timeJoin: String? = null
+    val timeJoin: Long? = null
 ):Parcelable {
     constructor(parcel: Parcel) : this(
         waitingListId = null,

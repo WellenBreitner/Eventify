@@ -116,7 +116,6 @@ class AdminSignup : AppCompatActivity() {
             username = username,
             userID = userID,
             email = email,
-            phone = "",
             role = "attendees"
         )
 

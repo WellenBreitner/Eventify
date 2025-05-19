@@ -5,35 +5,30 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.example.eventify.ModelData.EventModelData
+import com.example.eventify.ModelData.TicketModelData
 import com.example.eventify.R
-import com.example.eventify.attendeesViewModel.TicketTypeViewModel
 import com.example.eventify.databinding.ActivityAttendeesEventDetailBinding
-import com.google.android.material.button.MaterialButton
 
 class AttendeesEventDetail : AppCompatActivity() {
 
     companion object{
         const val EXTRA_EVENT_DETAIL = "EVENT_DETAIL"
+        const val EXTRA_TICKET_DETAIL = "TICKET_DETAIL"
     }
 
     private lateinit var getEventID: String
     private lateinit var getEventName: String
     private lateinit var getEventDate: String
+    private lateinit var getEventTime: String
+    private lateinit var getOrganizerID : String
     private lateinit var getEventLocation: String
     private lateinit var getEventDescription: String
     private lateinit var getTicketAvailable: String
@@ -67,45 +62,47 @@ class AttendeesEventDetail : AppCompatActivity() {
     }
 
     private fun getEventAndTicketDataByIntent() {
-        val getEventAndTicket = if (Build.VERSION.SDK_INT >= 33){
+        val getEvent = if (Build.VERSION.SDK_INT >= 33){
             intent.getParcelableExtra(EXTRA_EVENT_DETAIL,EventModelData::class.java)
         }else{
             @Suppress("DEPRECATION")
             intent.getParcelableExtra(EXTRA_EVENT_DETAIL)
         }
 
-        if(getEventAndTicket!=null) {
-            getEventName = getEventAndTicket.eventName
-            getEventDate = getEventAndTicket.eventDate
-            getEventLocation = getEventAndTicket.eventLocation
-            getEventDescription = getEventAndTicket.eventDescription
-            val getTicketRemainingText = "Ticket Remaining: ${getEventAndTicket.ticket?.ticketRemaining}"
-            getTicketRemaining = getEventAndTicket.ticket?.ticketRemaining ?:0
-            getMaxWaitingList = getEventAndTicket.ticket?.maxWaitingList ?:0
-            getTicketAvailable = if (getEventAndTicket.ticket?.ticketAvailable == null) {
-                "Ticket Available: Not Available"
-            } else if (getTicketRemaining > 0) {
+        val getTicket = if (Build.VERSION.SDK_INT >= 33){
+            intent.getParcelableExtra(EXTRA_TICKET_DETAIL,TicketModelData::class.java)
+        }else{
+            @Suppress("DEPRECATION")
+            intent.getParcelableExtra(EXTRA_TICKET_DETAIL)
+        }
+
+        if(getEvent != null && getTicket != null) {
+            getEventName = getEvent.eventName
+            getEventDate = getEvent.eventDate
+            getEventTime = getEvent.eventTime
+            getOrganizerID = getEvent.organizerId.toString()
+            getEventLocation = getEvent.eventLocation
+            getEventDescription = getEvent.eventDescription
+            val getTicketRemainingText = "Ticket Remaining: ${getTicket.ticketRemaining}"
+            getTicketRemaining = getTicket.ticketRemaining ?:0
+            getMaxWaitingList = getTicket.maxWaitingList ?:0
+            getTicketAvailable = if (getTicketRemaining > 0) {
                 "Ticket Available: Available"
             }else{
                 "Ticket Available: Sold Out"
             }
 
 
-            getEventID = getEventAndTicket.eventId
+            getEventID = getEvent.eventId
             binding.attendeesEventDetailImage.setImageResource(R.color.black)
             binding.attendeesEventDetailName.text = getEventName
-            binding.attendeesEventDetailDate.text = "Date: $getEventDate"
+            binding.attendeesEventDetailDate.text = "Date: $getEventDate $getEventTime"
             binding.attendeesEventDetailLocation.text = "Location: $getEventLocation"
             binding.attendeesEventDetailDesc.text = getEventDescription
             binding.attendeesEventTicketRemaining.text = getTicketRemainingText
             binding.attendeesEventTicketAvailable.text = getTicketAvailable
 
-            if (getTicketAvailable == "Ticket Available: Not Available"){
-                binding.attendeesEventDetailBuyTicketButton.isEnabled = false
-                binding.attendeesEventDetailBuyTicketButton.text = "Ticket Not Available"
-                binding.attendeesEventDetailBuyTicketButton.setTextColor(Color.parseColor("#000000"))
-                binding.attendeesEventDetailBuyTicketButton.setBackgroundColor(Color.parseColor("#F5F5F5"))
-            }else if(getTicketAvailable == "Ticket Available: Sold Out"){
+            if(getTicketAvailable == "Ticket Available: Sold Out"){
                 binding.attendeesEventDetailBuyTicketButton.text = "Join Waitling List"
                 binding.attendeesEventDetailBuyTicketButton.setBackgroundColor(Color.parseColor("#A62C2C"))
             }
@@ -139,13 +136,15 @@ class AttendeesEventDetail : AppCompatActivity() {
                         getEventName,
                         getEventDescription,
                         getEventDate,
+                        getEventTime,
                         getEventLocation,
-                        null, null, null
+                        getOrganizerID,
+                        null
                     )
                 )
                 startActivity(intent)
             }else{
-                val addEmailDialog = AttendeesEventWaitingListPhoneNumber(getEventID, getMaxWaitingList)
+                val addEmailDialog = AttendeesEventWaitingListEmail(getEventID, getMaxWaitingList)
                 addEmailDialog.show(supportFragmentManager,"add_email_dialog")
             }
         }

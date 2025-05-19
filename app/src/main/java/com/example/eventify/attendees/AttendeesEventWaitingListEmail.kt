@@ -1,11 +1,8 @@
 package com.example.eventify.attendees
 
-import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,16 +17,10 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.database
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
-import kotlin.math.log
 
-class AttendeesEventWaitingListPhoneNumber (private val eventID:String, private val maxWaitingList:Int): DialogFragment() {
+class AttendeesEventWaitingListEmail (private val eventID:String, private val maxWaitingList:Int): DialogFragment() {
 
     private lateinit var view:View;
     private lateinit var emailEditText: EditText
@@ -42,7 +33,7 @@ class AttendeesEventWaitingListPhoneNumber (private val eventID:String, private 
         savedInstanceState: Bundle?
     ): View {
         view = inflater.inflate(
-            R.layout.fragment_attendees_event_waiting_list_phone_number,
+            R.layout.fragment_attendees_event_waiting_list_email,
             container,
             false
         )
@@ -57,7 +48,6 @@ class AttendeesEventWaitingListPhoneNumber (private val eventID:String, private 
         }else{
             user = firebaseAuth.currentUser
         }
-
 
         initializeUI()
         initializeListener()
@@ -78,10 +68,6 @@ class AttendeesEventWaitingListPhoneNumber (private val eventID:String, private 
     }
 
     private fun addEmailWaitingList(){
-        val currentDate = LocalDateTime.now()
-        val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
-        val formatted = currentDate.format(dateFormat)
-
         var emailAlreadyExists = false
         var isWaitingListFull = false
         var userWaitingListCount = 0
@@ -136,7 +122,7 @@ class AttendeesEventWaitingListPhoneNumber (private val eventID:String, private 
                                     waitingListEmail,
                                     "active",
                                     false,
-                                    formatted.toString()
+                                    System.currentTimeMillis()
                                 )
                                 waitingListDatabaseReference.child(pushKey.toString()).setValue(newData)
                                 userWaitingListCount++
@@ -152,15 +138,13 @@ class AttendeesEventWaitingListPhoneNumber (private val eventID:String, private 
                                 waitingListEmail,
                                "active",
                                 false,
-                                formatted.toString()
+                                System.currentTimeMillis()
                             )
                             waitingListDatabaseReference.child(pushKey.toString()).setValue(newData)
                             userWaitingListCount++
                             Toast.makeText(requireActivity(), "You have been added into the waiting list", Toast.LENGTH_SHORT).show()
                             dismiss()
                         }
-                        Log.wtf("user4", "max user: " + maxWaitingList.toString())
-                        Log.wtf("user4", "total current user: " + userWaitingListCount.toString())
                     }
             }
     }

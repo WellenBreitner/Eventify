@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.eventify.ModelData.EventModelData
+import com.example.eventify.ModelData.TicketModelData
 import com.example.eventify.R
 import com.example.eventify.attendeesViewModel.TicketTypeViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -54,50 +55,61 @@ class AttendeesTicketType : BottomSheetDialogFragment() {
         ticketTypeHashMap.clear()
 
         val eventDatabaseReference: DatabaseReference = Firebase.database.getReference("events")
+        val ticketDatabaseReference: DatabaseReference = Firebase.database.getReference("ticket")
 
         eventDatabaseReference.get()
             .addOnSuccessListener { dataEvent ->
                 if (dataEvent.exists()) {
-                    for (data in dataEvent.children) {
-                        val event = data.getValue(EventModelData::class.java)
-                        val ticket = event?.ticket
-                        val eventTicketType = ticket?.ticketType
+                    ticketDatabaseReference.get().addOnSuccessListener {
+                        ticketSnapShot ->
+                        if (ticketSnapShot.exists()){
+                            for (data in dataEvent.children) {
+                                val event = data.getValue(EventModelData::class.java)
+                                for (dataTicket in ticketSnapShot.children){
+                                    val ticket = dataTicket.getValue(TicketModelData::class.java)
+                                    val eventTicketType = ticket?.ticketType
+                                    val eventTicketPrice = ticket?.ticketPrice
 
-                        if ((eventTicketType != null) && (eventId == event.eventId)) {
-                            for ((keys, value) in eventTicketType) {
-                                ticketTypeHashMap[keys] = value.toInt()
+                                    if ((eventTicketType != null) &&
+                                        (eventTicketPrice != null) &&
+                                        (eventId == event?.eventId) &&
+                                        (ticket.eventId == event.eventId) &&
+                                        (eventId == ticket.eventId)) {
 
-                                ticketTypeRadioButton = RadioButton(requireActivity()).apply {
-                                    text = "${keys} (${value})"
-                                    textSize = 18f
-                                    id = View.generateViewId()
-                                    tag = keys
-                                    setPadding(10,10,10,10)
+                                        ticketTypeHashMap[eventTicketType] = eventTicketPrice.toInt()
+
+                                        ticketTypeRadioButton =
+                                            RadioButton(requireActivity()).apply {
+                                                text = "${eventTicketType} (${eventTicketPrice})"
+                                                textSize = 18f
+                                                id = View.generateViewId()
+                                                tag = eventTicketType
+                                                setPadding(10, 10, 10, 10)
+                                            }
+
+                                        if (ticketViewModel.getTicketTypeData.value == ticketTypeRadioButton.tag.toString()) {
+                                            ticketTypeRadioButton.isChecked = true
+                                        }
+
+                                        ticketTypeRadioGroup.addView(ticketTypeRadioButton)
+                                    }
+                                        attendeesSaveTicketTypeButton.setOnClickListener {
+                                            val selectedId = ticketTypeRadioGroup.checkedRadioButtonId
+                                            val selectedRadioButton = view?.findViewById<RadioButton>(selectedId)
+                                            if (selectedRadioButton != null){
+                                                val selectedValue = selectedRadioButton.tag.toString()
+                                                val selectedPrice = ticketTypeHashMap.getValue(selectedValue)
+                                                ticketViewModel.setTicketType(selectedValue)
+                                                ticketViewModel.setTicketPrice(selectedPrice.toString())
+                                                dismiss()
+                                            }else{
+                                                Toast.makeText(requireActivity(), "You must one of the ticket type", Toast.LENGTH_SHORT).show()
+                                            }
+                                        }
+                                    }
                                 }
-
-                                if (ticketViewModel.getTicketTypeData.value == ticketTypeRadioButton.tag.toString()) {
-                                        ticketTypeRadioButton.isChecked = true
-                                }
-
-                                ticketTypeRadioGroup.addView(ticketTypeRadioButton)
-                            }
-
-                            attendeesSaveTicketTypeButton.setOnClickListener {
-                                val selectedId = ticketTypeRadioGroup.checkedRadioButtonId
-                                val selectedRadioButton = view?.findViewById<RadioButton>(selectedId)
-                                if (selectedRadioButton != null){
-                                    val selectedValue = selectedRadioButton.tag.toString()
-                                    val selectedPrice = ticketTypeHashMap.getValue(selectedValue)
-                                    ticketViewModel.setTicketType(selectedValue)
-                                    ticketViewModel.setTicketPrice(selectedPrice.toString())
-                                    dismiss()
-                                }else{
-                                    Toast.makeText(requireActivity(), "You must one of the ticket type", Toast.LENGTH_SHORT).show()
-                                }
-                            }
                         }
                     }
-
                 }
             }
     }

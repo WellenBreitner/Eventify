@@ -9,9 +9,9 @@ data class EventModelData(
     val eventName: String,
     val eventDescription:  String,
     val eventDate: String,
+    val eventTime: String,
     val eventLocation: String,
     val organizerId: String? = null,
-    val ticket: TicketModelData?,
     val eventImage: Int? = null,
 ) : Parcelable{
     constructor() : this(
@@ -19,9 +19,9 @@ data class EventModelData(
         eventName = "",
         eventDescription = "",
         eventDate = "",
+        eventTime = "",
         eventLocation = "",
         organizerId = "",
-        ticket = null,
         eventImage = null,
     )
 }
