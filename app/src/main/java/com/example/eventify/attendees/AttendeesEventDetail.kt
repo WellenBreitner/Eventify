@@ -85,12 +85,12 @@ class AttendeesEventDetail : AppCompatActivity() {
         }
 
         if(getEvent != null && getTicket != null) {
-            getEventName = getEvent.eventName
-            getEventDate = getEvent.eventDate
-            getEventTime = getEvent.eventTime
+            getEventName = getEvent.eventName.toString()
+            getEventDate = getEvent.eventDate.toString()
+            getEventTime = getEvent.eventTime.toString()
             getOrganizerID = getEvent.organizerId.toString()
-            getEventLocation = getEvent.eventLocation
-            getEventDescription = getEvent.eventDescription
+            getEventLocation = getEvent.eventLocation.toString()
+            getEventDescription = getEvent.eventDescription.toString()
             val getTicketRemainingText = "Ticket Remaining: $getTotalTicket"
             getTicketRemaining = getTotalTicket
             getMaxWaitingList = getTicket.maxWaitingList ?:0
@@ -101,7 +101,7 @@ class AttendeesEventDetail : AppCompatActivity() {
             }
 
 
-            getEventID = getEvent.eventId
+            getEventID = getEvent.eventId.toString()
             binding.attendeesEventDetailImage.setImageResource(R.color.black)
             binding.attendeesEventDetailName.text = getEventName
             binding.attendeesEventDetailDate.text = "Date: $getEventDate $getEventTime"

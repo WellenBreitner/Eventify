@@ -5,23 +5,23 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class EventModelData(
-    val eventId: String,
-    val eventName: String,
-    val eventDescription:  String,
-    val eventDate: String,
-    val eventTime: String,
-    val eventLocation: String,
+    val eventId: String? = null,
+    val eventName: String? = null,
+    val eventDescription:  String? = null,
+    val eventDate: String? = null,
+    val eventTime: String? = null,
+    val eventLocation: String? = null,
     val organizerId: String? = null,
     val eventImage: Int? = null,
 ) : Parcelable{
     constructor() : this(
-        eventId = "",
-        eventName = "",
-        eventDescription = "",
-        eventDate = "",
-        eventTime = "",
-        eventLocation = "",
-        organizerId = "",
+        eventId = null,
+        eventName = null,
+        eventDescription = null,
+        eventDate = null,
+        eventTime = null,
+        eventLocation = null,
+        organizerId = null,
         eventImage = null,
     )
 }

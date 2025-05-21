@@ -41,7 +41,7 @@ class EventOrganizerHome : Fragment() {
         recyclerView.adapter = EOAdapter(eventList)
         recyclerView.setHasFixedSize(true)
 
-//        getEventData()
+        getEventData()
 
         addClassButton = view.findViewById(R.id.adminAddClassButton)
 
@@ -53,39 +53,31 @@ class EventOrganizerHome : Fragment() {
         return view
     }
 
-//    private fun getEventData() {
-//        val userID = firebaseAuth.currentUser?.uid
-//        eventList.clear()
-//        val eventRef = Firebase.database.getReference("events")
-//
-//        eventRef.get().addOnSuccessListener { dataEvent ->
-//            if(dataEvent.exists()){
-//                for (data in dataEvent.children){
-//                    val event = data.getValue(EventModelData::class.java)
-//                    if (event!=null && event.organizerId == userID){
-//                        eventList.add(0,
-//                            EventModelData(
-//                                event.eventId,
-//                                event.eventName,
-//                                event.eventDescription,
-//                                event.eventDate,
-//                                event.eventLocation,
-//                                event.organizerId,
-//                                TicketModelData(
-//                                    event.ticket?.ticketId,
-//                                    event.ticket?.eventId,
-//                                    event.ticket?.ticketType,
-//                                    event.ticket?.ticketRemaining,
-//                                    event.ticket?.ticketAvailable,
-//                                    event.ticket?.ticketLimit
-//                                ),
-//                                null)
-//                        )
-//                    }
-//                }
-//                recyclerView.adapter?.notifyDataSetChanged()
-//            }
-//
-//        }
-//    }
+    private fun getEventData() {
+        val userID = firebaseAuth.currentUser?.uid
+        eventList.clear()
+        val eventRef = Firebase.database.getReference("events")
+
+        eventRef.get().addOnSuccessListener { dataEvent ->
+            if(dataEvent.exists()){
+                for (data in dataEvent.children){
+                    val event = data.getValue(EventModelData::class.java)
+                    if (event!=null && event.organizerId == userID){
+                        eventList.add(0,
+                            EventModelData(
+                                event.eventId,
+                                event.eventName,
+                                event.eventDescription,
+                                event.eventDate,
+                                event.eventLocation,
+                                event.organizerId,
+                                null)
+                        )
+                    }
+                }
+                recyclerView.adapter?.notifyDataSetChanged()
+            }
+
+        }
+    }
 }
