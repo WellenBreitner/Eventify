@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Eventify"
         tools:targetApi="31">
         <activity
+            android:name=".Admin.AdminAnalyticsReports"
+            android:exported="false" />
+        <activity
             android:name=".attendees.AttendeesWaitingListDetail"
             android:exported="false" />
         <activity

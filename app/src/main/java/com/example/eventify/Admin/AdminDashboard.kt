@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.eventify.Admin.AdminAnalyticsReports.Companion.EVENT_ORGANIZER_DATA
+import com.example.eventify.ModelData.EventModelData
 import com.example.eventify.ModelData.EventOrganizerModelData
 import com.example.eventify.R
 import com.example.eventify.adminAdapter.AdminAdapter
@@ -28,6 +30,7 @@ class AdminDashboard : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         binding.adminDashboardRecyclerView.layoutManager = LinearLayoutManager(this)
         val adapter = AdminAdapter(eventOrgList)
         binding.adminDashboardRecyclerView.adapter = adapter
@@ -40,6 +43,15 @@ class AdminDashboard : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+
+        adapter.setEventOrganizerOnClick(object :AdminAdapter.eventOrganizerOnCLick {
+            override fun onClick(data: EventOrganizerModelData) {
+                val intent = Intent(this@AdminDashboard,AdminAnalyticsReports::class.java)
+                intent.putExtra(EVENT_ORGANIZER_DATA,data)
+                startActivity(intent)
+            }
+
+        })
     }
 
     private fun getEventOrgList() {

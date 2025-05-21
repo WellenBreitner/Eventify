@@ -53,6 +53,7 @@ dependencies {
     implementation(libs.google.firebase.analytics)
     implementation(libs.firebase.auth.ktx)
     implementation(libs.androidx.espresso.contrib)
+    implementation(libs.mpandroidchart)
     testImplementation(libs.junit)
     testImplementation(libs.testng)
     androidTestImplementation(libs.androidx.junit)

@@ -10,6 +10,12 @@ import com.example.eventify.R
 
 class AdminAdapter (private val EOList: List<EventOrganizerModelData>): RecyclerView.Adapter<AdminAdapter.ViewHolder>() {
 
+    private lateinit var listener : eventOrganizerOnCLick
+
+    fun setEventOrganizerOnClick(listener:eventOrganizerOnCLick){
+        this.listener = listener
+    }
+
     class ViewHolder(itemView:View): RecyclerView.ViewHolder(itemView){
         val eventOrganizerName = itemView.findViewById<TextView>(R.id.EventOrganizerNameTextView)
         val eventOrganizerEmail = itemView.findViewById<TextView>(R.id.EventOrganizerEmailTextView)
@@ -27,9 +33,17 @@ class AdminAdapter (private val EOList: List<EventOrganizerModelData>): Recycler
         holder.eventOrganizerPhone.text = "Phone Number: ${eventOrganizer.phone}"
         holder.eventOrganizerEmail.text = "Email: ${eventOrganizer.email}"
         holder.eventOrganizerOrgName.text = "Organization Name: ${eventOrganizer.organization}"
+
+        holder.itemView.setOnClickListener {
+            listener.onClick(eventOrganizer)
+        }
     }
 
     override fun getItemCount(): Int {
         return EOList.size
+    }
+
+    interface eventOrganizerOnCLick{
+        fun onClick(data: EventOrganizerModelData)
     }
 }
