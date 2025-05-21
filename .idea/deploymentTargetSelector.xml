@@ -13,22 +13,19 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="AdminLoginTest">
+      <SelectionState runConfigName="testActivityLaunches()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="testLoginWithEmptyEmail()">
+      <SelectionState runConfigName="testEmptyUsernameField()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="EventOrganizerTesting">
+      <SelectionState runConfigName="testEmailValidation()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="Eventify">
+      <SelectionState runConfigName="testPasswordMismatch()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="AdminSignupTest">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="SignUpAttendeesTest">
+      <SelectionState runConfigName="testMoveToLoginPage()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
