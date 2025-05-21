@@ -7,11 +7,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventify.ModelData.EventModelData
+import com.example.eventify.ModelData.TicketModelData
 import com.example.eventify.R
 
 class AttendeesEventAdapter (
-    private val eventList: List<EventModelData>
-): RecyclerView.Adapter<AttendeesEventAdapter.ViewHolder>() {
+    private val eventTicketPairs: List<Pair<EventModelData, List<TicketModelData>>>
+) : RecyclerView.Adapter<AttendeesEventAdapter.ViewHolder>() {
     private lateinit var listener: onClickEventListener
 
     fun setOnClickEventListener(listener: onClickEventListener){
@@ -34,35 +35,41 @@ class AttendeesEventAdapter (
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val event = eventList[position]
-        if (event.eventImage == null){
-            holder.eventImage.setImageResource(R.color.black)
-        }else{
-            holder.eventImage.setImageResource(event.eventImage)
-        }
+        val (event, tickets) = eventTicketPairs[position]
+
+        val totalRemaining = tickets.sumOf { it.ticketRemaining ?: 0 }
+
         holder.eventName.text = event.eventName
         holder.eventLocation.text = "Location: ${event.eventLocation}"
-        holder.eventDate.text = "Date: ${event.eventDate}"
+        holder.eventDate.text = "Date: ${event.eventDate}  ${event.eventTime}"
 
-        if (event.ticket?.ticketAvailable == null) {
-            holder.ticketAvailable.text = "Ticket Available: Not Available"
-        } else if (event.ticket.ticketAvailable == true) {
+        if (event.eventImage == null){
+            holder.eventImage.setImageResource(R.color.black)
+        } else {
+            holder.eventImage.setImageResource(event.eventImage)
+        }
+
+        if (totalRemaining > 0) {
             holder.ticketAvailable.text = "Ticket Available: Available"
-        }else{
-            holder.ticketAvailable.text = "Ticket Available: Not Available"
+        } else {
+            holder.ticketAvailable.text = "Ticket Available: Waiting List"
         }
 
         holder.itemView.setOnClickListener {
-            listener.onClickItem(event)
+            val defaultTicket = tickets.firstOrNull()
+            if (defaultTicket != null) {
+                listener.onClickItem(event, defaultTicket, totalRemaining)
+            }
         }
     }
 
+
     override fun getItemCount(): Int {
-        return eventList.size
+        return eventTicketPairs.size
     }
 
     interface onClickEventListener{
-        fun onClickItem(dataEvent: EventModelData)
+        fun onClickItem(dataEvent: EventModelData, dataTicket: TicketModelData, totalOfTicket: Int)
     }
 
 }

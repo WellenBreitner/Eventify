@@ -6,35 +6,35 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.example.eventify.ModelData.EventModelData
+import com.example.eventify.ModelData.TicketModelData
 import com.example.eventify.R
-import com.example.eventify.attendeesViewModel.TicketTypeViewModel
 import com.example.eventify.databinding.ActivityAttendeesEventDetailBinding
-import com.google.android.material.button.MaterialButton
 
 class AttendeesEventDetail : AppCompatActivity() {
 
     companion object{
         const val EXTRA_EVENT_DETAIL = "EVENT_DETAIL"
+        const val EXTRA_TICKET_DETAIL = "TICKET_DETAIL"
+        const val EXTRA_TICKET_TOTAL = "TICKET_TOTAL"
     }
 
     private lateinit var getEventID: String
     private lateinit var getEventName: String
     private lateinit var getEventDate: String
+    private lateinit var getEventTime: String
+    private lateinit var getOrganizerID : String
     private lateinit var getEventLocation: String
     private lateinit var getEventDescription: String
     private lateinit var getTicketAvailable: String
+    private var getTicketRemaining: Int = 0
+    private var getMaxWaitingList: Int = 0
     private lateinit var binding : ActivityAttendeesEventDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,44 +63,59 @@ class AttendeesEventDetail : AppCompatActivity() {
     }
 
     private fun getEventAndTicketDataByIntent() {
-        val getEventAndTicket = if (Build.VERSION.SDK_INT >= 33){
+        val getEvent = if (Build.VERSION.SDK_INT >= 33){
             intent.getParcelableExtra(EXTRA_EVENT_DETAIL,EventModelData::class.java)
         }else{
             @Suppress("DEPRECATION")
             intent.getParcelableExtra(EXTRA_EVENT_DETAIL)
         }
 
-        if(getEventAndTicket!=null) {
-            getEventName = getEventAndTicket.eventName
-            getEventDate = getEventAndTicket.eventDate
-            getEventLocation = getEventAndTicket.eventLocation
-            getEventDescription = getEventAndTicket.eventDescription
-            val getTicketRemaining = "Ticket Remaining: ${getEventAndTicket.ticket?.ticketRemaining}"
-            getTicketAvailable = if (getEventAndTicket.ticket?.ticketAvailable == null) {
-                "Ticket Available: Not Available"
-            } else if (getEventAndTicket.ticket.ticketAvailable == true) {
+        val getTicket = if (Build.VERSION.SDK_INT >= 33){
+            intent.getParcelableExtra(EXTRA_TICKET_DETAIL,TicketModelData::class.java)
+        }else{
+            @Suppress("DEPRECATION")
+            intent.getParcelableExtra(EXTRA_TICKET_DETAIL)
+        }
+
+        val getTotalTicket = if (Build.VERSION.SDK_INT >= 33){
+            intent.getIntExtra(EXTRA_TICKET_TOTAL,0)
+        }else{
+            @Suppress("DEPRECATION")
+            intent.getIntExtra(EXTRA_TICKET_TOTAL,0)
+        }
+
+        if(getEvent != null && getTicket != null) {
+            getEventName = getEvent.eventName.toString()
+            getEventDate = getEvent.eventDate.toString()
+            getEventTime = getEvent.eventTime.toString()
+            getOrganizerID = getEvent.organizerId.toString()
+            getEventLocation = getEvent.eventLocation.toString()
+            getEventDescription = getEvent.eventDescription.toString()
+            val getTicketRemainingText = "Ticket Remaining: $getTotalTicket"
+            getTicketRemaining = getTotalTicket
+            getMaxWaitingList = getTicket.maxWaitingList ?:0
+            getTicketAvailable = if (getTicketRemaining > 0) {
                 "Ticket Available: Available"
             }else{
                 "Ticket Available: Sold Out"
             }
 
 
-            getEventID = getEventAndTicket.eventId
+            getEventID = getEvent.eventId.toString()
             binding.attendeesEventDetailImage.setImageResource(R.color.black)
             binding.attendeesEventDetailName.text = getEventName
-            binding.attendeesEventDetailDate.text = "Date: $getEventDate"
+            binding.attendeesEventDetailDate.text = "Date: $getEventDate $getEventTime"
             binding.attendeesEventDetailLocation.text = "Location: $getEventLocation"
             binding.attendeesEventDetailDesc.text = getEventDescription
-            binding.attendeesEventTicketRemaining.text = getTicketRemaining
+            binding.attendeesEventTicketRemaining.text = getTicketRemainingText
             binding.attendeesEventTicketAvailable.text = getTicketAvailable
 
-            if (getTicketAvailable == "Ticket Available: Not Available"){
-                binding.attendeesEventDetailBuyTicketButton.isEnabled = false
-                binding.attendeesEventDetailBuyTicketButton.text = "Ticket Not Available"
-                binding.attendeesEventDetailBuyTicketButton.setTextColor(Color.parseColor("#000000"))
-                binding.attendeesEventDetailBuyTicketButton.setBackgroundColor(Color.parseColor("#F5F5F5"))
+            if(getTicketAvailable == "Ticket Available: Sold Out"){
+                binding.attendeesEventDetailBuyTicketButton.text = "Join Waiting List"
+                binding.attendeesEventDetailBuyTicketButton.setBackgroundColor(Color.parseColor("#A62C2C"))
             }
         }
+
     }
 
     private fun cardviewDescOnClick() {
@@ -121,15 +136,25 @@ class AttendeesEventDetail : AppCompatActivity() {
 
     private fun buyTicketButtonOnClick() {
         binding.attendeesEventDetailBuyTicketButton.setOnClickListener {
-            val intent = Intent(this,AttendeesPurchaseTicket::class.java)
-            intent.putExtra("event_id",EventModelData(
-                getEventID,
-                getEventName,
-                getEventDescription,
-                getEventDate,
-                getEventLocation,
-                null,null,null))
-            startActivity(intent)
+            if (getTicketRemaining > 0) {
+                val intent = Intent(this, AttendeesPurchaseTicket::class.java)
+                intent.putExtra(
+                    "event_id", EventModelData(
+                        getEventID,
+                        getEventName,
+                        getEventDescription,
+                        getEventDate,
+                        getEventTime,
+                        getEventLocation,
+                        getOrganizerID,
+                        null
+                    )
+                )
+                startActivity(intent)
+            }else{
+                val addEmailDialog = AttendeesEventWaitingListEmail(getEventID, getMaxWaitingList)
+                addEmailDialog.show(supportFragmentManager,"add_email_dialog")
+            }
         }
     }
 }

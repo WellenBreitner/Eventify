@@ -71,14 +71,6 @@ class EventOrganizerHome : Fragment() {
                                 event.eventDate,
                                 event.eventLocation,
                                 event.organizerId,
-                                TicketModelData(
-                                    event.ticket?.ticketId,
-                                    event.ticket?.eventId,
-                                    event.ticket?.ticketType,
-                                    event.ticket?.ticketRemaining,
-                                    event.ticket?.ticketAvailable,
-                                    event.ticket?.ticketLimit
-                                ),
                                 null)
                         )
                     }

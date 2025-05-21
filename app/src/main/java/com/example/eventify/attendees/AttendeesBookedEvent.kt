@@ -80,7 +80,8 @@ class AttendeesBookedEvent : Fragment() {
                             if (bookingEvent != null && bookingEvent.userId == userID) {
                                 events.add(0,
                                     BookingModelData(
-                                    bookingEvent.bookingId,
+                                        bookingEvent.eventOrganizerID,
+                                        bookingEvent.bookingId,
                                         bookingEvent.userId,
                                         bookingEvent.userEmail,
                                         bookingEvent.eventID,
@@ -91,6 +92,7 @@ class AttendeesBookedEvent : Fragment() {
                                         bookingEvent.numberOfTicket,
                                         bookingEvent.priceForEachTicket,
                                         bookingEvent.totalPrice,
+                                        bookingEvent.bookedAt,
                                         bookingEvent.selectedSeat
                                 )
                                 )

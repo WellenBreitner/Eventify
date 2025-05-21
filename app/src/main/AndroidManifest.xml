@@ -15,11 +15,14 @@
         android:theme="@style/Theme.Eventify"
         tools:targetApi="31">
         <activity
+            android:name=".attendees.AttendeesWaitingListDetail"
+            android:exported="false" />
+        <activity
             android:name=".eventOrganizer.EOAddEvent"
             android:exported="false" />
         <activity
             android:name=".attendees.AttendeesPaymentInformation"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".Admin.EventOrganizerResetPassword"
             android:exported="false" />
@@ -37,7 +40,7 @@
             android:exported="false" />
         <activity
             android:name=".attendees.AttendeesPurchaseTicket"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".attendees.AttendeesEventBookedDetail"
             android:exported="false" />
@@ -46,10 +49,10 @@
             android:exported="false" />
         <activity
             android:name=".eventOrganizer.EventOrganizerDashboard"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".attendees.AttendeesDashboard"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".Admin.AdminLoginPage"
             android:exported="true">

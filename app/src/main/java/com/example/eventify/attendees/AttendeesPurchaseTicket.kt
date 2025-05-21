@@ -1,17 +1,16 @@
 package com.example.eventify.attendees
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.HorizontalScrollView
-import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
@@ -22,16 +21,17 @@ import androidx.transition.TransitionManager
 import com.example.eventify.ModelData.BookingModelData
 import com.example.eventify.ModelData.EventModelData
 import com.example.eventify.ModelData.SeatModelData
+import com.example.eventify.ModelData.TicketModelData
 import com.example.eventify.R
 import com.example.eventify.attendeesAdapter.SeatAdapter
 import com.example.eventify.attendeesViewModel.TicketTypeViewModel
-import com.example.eventify.databinding.ActivityAttendeesDashboardBinding
 import com.example.eventify.databinding.ActivityAttendeesPurchaseTicketBinding
-import com.google.android.material.button.MaterialButton
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.database
-import kotlin.math.log
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class AttendeesPurchaseTicket : AppCompatActivity() {
 
@@ -41,7 +41,10 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
 
     private lateinit var getEventID: String
+    private lateinit var eventName: String
     private lateinit var getPriceForEach: String
+    private var getTicketRemaining: Int = 0
+    private var getMaxWaitingList: Int = 0
     private var getEventInformation: EventModelData? = null
 
     private val selectedSeat = ArrayList<String>()
@@ -74,7 +77,6 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
         binding.attendeesSelectTicketType.setOnClickListener {
             attendeesSelectTypeOnClick()
         }
-
         binding.attendeesBookingButton.setOnClickListener {
             attendeesBookingButtonOnClick()
         }
@@ -91,17 +93,16 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
             intent.getParcelableExtra("event_id")
         }
 
+        eventName = getEventInformation?.eventName.toString()
         getEventID = getEventInformation?.eventId.toString()
+
+        binding.eventAttendeesChoose.text = eventName
         ticketTypeViewModel.setEventID(getEventID)
         ticketTypeViewModel.getTicketTypeData.observe(this){data ->
             binding.ticketTypeAttendeesChoose.text = data
             isTicketTypeSelected = data != "Not selected"
 
-            if (isTicketTypeSelected) {
-                showNestedScrollWithAnimation(true)
-            } else {
-                showNestedScrollWithAnimation(false)
-            }
+            getTicketAvailableFromTicketType(data.toString())
         }
 
         unavailableSeats = hashSetOf(
@@ -155,10 +156,13 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
                 override fun onClick(seatModelData: SeatModelData) {
 
                     if (!seatModelData.isSelected){
-                        Toast.makeText(this@AttendeesPurchaseTicket, "${seatModelData.label} selected", Toast.LENGTH_SHORT).show()
-                        seatModelData.isSelected = true
-                        selectedSeat.add(seatModelData.label)
-
+                        if (getTicketRemaining <= selectedSeat.size){
+                            Toast.makeText(this@AttendeesPurchaseTicket, "No tickets available", Toast.LENGTH_SHORT).show()
+                        }else{
+                            Toast.makeText(this@AttendeesPurchaseTicket, "${seatModelData.label} selected", Toast.LENGTH_SHORT).show()
+                            seatModelData.isSelected = true
+                            selectedSeat.add(seatModelData.label)
+                        }
                     }else{
                         Toast.makeText(this@AttendeesPurchaseTicket, "${seatModelData.label} unselected", Toast.LENGTH_SHORT).show()
                         seatModelData.isSelected = false
@@ -189,35 +193,86 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
         fragment.show(fragmentManager,"Attendees Ticket Type Dialog Fragment")
     }
 
-    private fun attendeesBookingButtonOnClick() {
-        val user = firebaseAuth.currentUser
-        val numberTicket = binding.numberOfPurchaseTicket.text.toString()
-        if (isTicketTypeSelected){
-            if(numberTicket.toInt() > 0){
-                val intent = Intent(this,AttendeesPaymentInformation::class.java)
-                intent.putExtra("payment_information",
-                    BookingModelData(
-                        null,
-                        user?.uid,
-                        user?.email,
-                        getEventID,
-                        getEventInformation?.eventName.toString(),
-                        getEventInformation?.eventDate.toString(),
-                        getEventInformation?.eventLocation.toString(),
-                        binding.ticketTypeAttendeesChoose.text.toString(),
-                        numberTicket,
-                        getPriceForEach,
-                        price,
-                        selectedSeat
-                    )
-                )
-                startActivity(intent)
-                finish()
-            }else{
-                Toast.makeText(this, "You required to select seat", Toast.LENGTH_SHORT).show()
+    private fun getTicketAvailableFromTicketType(ticketType: String){
+        if (ticketType != "Not selected") {
+            val ticketDatabase = FirebaseDatabase.getInstance().getReference("ticket")
+            ticketDatabase.get().addOnSuccessListener { snapshot ->
+                if (snapshot.exists()) {
+                    for (data in snapshot.children) {
+                        val dataTicket = data.getValue(TicketModelData::class.java)
+                        if (dataTicket != null && dataTicket.eventId == getEventID) {
+                            if (ticketType == dataTicket.ticketType){
+                                getTicketRemaining = dataTicket.ticketRemaining ?: 0
+                                binding.totalTicketOfTicketType.text = getTicketRemaining.toString()
+                                getMaxWaitingList = dataTicket.maxWaitingList ?: 0
+
+                                if (getTicketRemaining > 0) {
+                                    showNestedScrollWithAnimation(true)
+                                    binding.attendeesBookingButton.text = "Booking"
+                                    binding.attendeesBookingButton.setBackgroundColor(Color.parseColor("#000000"))
+                                } else {
+                                    showNestedScrollWithAnimation(false)
+                                    binding.attendeesBookingButton.text = "Join Waiting List"
+                                    binding.attendeesBookingButton.setBackgroundColor(Color.parseColor("#A62C2C"))
+                                }
+                                return@addOnSuccessListener
+                            }
+                        }
+                    }
+                } else {
+                    binding.totalTicketOfTicketType.text = "Not selected"
+                    showNestedScrollWithAnimation(false)
+                }
             }
-        }else{
-            Toast.makeText(this, "You required to select ticket type first", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+    private fun attendeesBookingButtonOnClick() {
+        val currentDate = LocalDate.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val formattedDate = currentDate.format(formatter)
+        val totalTicket = binding.totalTicketOfTicketType.text.toString().toIntOrNull() ?: 0
+        if (!isTicketTypeSelected){
+            Toast.makeText(this, "You required to select ticket type first", Toast.LENGTH_SHORT)
+                .show()
+        } else if (totalTicket <= 0){
+            val addEmailDialog = AttendeesEventWaitingListEmail(getEventID, getMaxWaitingList)
+            addEmailDialog.show(supportFragmentManager,"add_email_dialog")
+        }else {
+            val user = firebaseAuth.currentUser
+            val numberTicket = binding.numberOfPurchaseTicket.text.toString()
+            if (isTicketTypeSelected) {
+                if (numberTicket.toInt() > 0) {
+                    val intent = Intent(this, AttendeesPaymentInformation::class.java)
+                    intent.putExtra(
+                        "payment_information",
+                        BookingModelData(
+                            getEventInformation?.organizerId.toString(),
+                            null,
+                            user?.uid,
+                            user?.email,
+                            getEventID,
+                            getEventInformation?.eventName.toString(),
+                            getEventInformation?.eventDate.toString(),
+                            getEventInformation?.eventLocation.toString(),
+                            binding.ticketTypeAttendeesChoose.text.toString(),
+                            numberTicket,
+                            getPriceForEach,
+                            price,
+                            formattedDate,
+                            selectedSeat
+                        )
+                    )
+                    startActivity(intent)
+                    finish()
+                } else {
+                    Toast.makeText(this, "You required to select seat", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(this, "You required to select ticket type first", Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
     }
 
