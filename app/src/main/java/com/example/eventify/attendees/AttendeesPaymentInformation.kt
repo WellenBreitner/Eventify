@@ -11,9 +11,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.eventify.ModelData.BookingModelData
 import com.example.eventify.ModelData.EventModelData
+import com.example.eventify.ModelData.TicketModelData
 import com.example.eventify.R
 import com.example.eventify.databinding.ActivityAttendeesPaymentInformationBinding
 import com.google.firebase.Firebase
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.database
 import com.razorpay.Checkout
 import com.razorpay.PaymentResultListener
@@ -77,34 +79,43 @@ class AttendeesPaymentInformation : AppCompatActivity() , PaymentResultListener 
         } else {
             val getPromotionCode = binding.paymentInformationPromotionCodeEditText.text.toString()
             val eventRef = Firebase.database.getReference("events")
+            val ticketRef = Firebase.database.getReference("ticket")
 
             eventRef.get().addOnSuccessListener { dataEvent ->
                 if (dataEvent.exists()) {
-                    for (data in dataEvent.children) {
-                        val event = data.getValue(EventModelData::class.java)
-                        val ticket = event?.ticket
+                    ticketRef.get().addOnSuccessListener { dataTicket ->
+                        if (dataTicket.exists()){
+                            for (data in dataEvent.children) {
+                                val event = data.getValue(EventModelData::class.java)
 
-                        if (event != null && ticket != null && getPaymentInformation?.eventID == event.eventId) {
-                            val expiryDate = try {
-                                simpleFormat.parse(ticket.expiryDate ?: "")
-                            } catch (e: Exception) {
-                                null
-                            }
+                                for (ticketData in dataTicket.children){
+                                    val ticket =  ticketData.getValue(TicketModelData::class.java)
+                                    if (event != null && ticket != null && getPaymentInformation?.eventID == event.eventId) {
+                                        val expiryDate = try {
+                                            simpleFormat.parse(ticket.expiryDate ?: "")
+                                        } catch (e: Exception) {
+                                            null
+                                        }
 
-                            if (ticket.promotionCode == getPromotionCode && expiryDate?.after(calender.time) == true) {
-                                val getDiscount = (ticket.discount ?: 0)
-                                val originalPrice = (getPaymentInformation?.priceForEachTicket.toString().toDouble() * getPaymentInformation?.numberOfTicket.toString().toInt())
-                                binding.paymentInformationDiscount.text = "${ticket.discount.toString()}%"
-                                val newTotalPrice = originalPrice - (originalPrice * getDiscount / 100)
-                                binding.paymentInformationTotalPrice.text = "$newTotalPrice"
-                                getPaymentInformation?.totalPrice = newTotalPrice
+                                        if (ticket.eventId == getPaymentInformation?.eventID && ticket.ticketType == getPaymentInformation?.ticketType) {
+                                            if (ticket.promotionCode == getPromotionCode && expiryDate?.after(calender.time) == true){
+                                                val getDiscount = (ticket.discount ?: 0)
+                                                val originalPrice = (getPaymentInformation?.priceForEachTicket.toString().toDouble() * getPaymentInformation?.numberOfTicket.toString().toInt())
+                                                binding.paymentInformationDiscount.text = "${ticket.discount.toString()}%"
+                                                val newTotalPrice = originalPrice - (originalPrice * getDiscount / 100)
+                                                binding.paymentInformationTotalPrice.text = "$newTotalPrice"
+                                                getPaymentInformation?.totalPrice = newTotalPrice
 
-                                binding.paymentInformationPromotionCodeEditText.isEnabled = false
-                                binding.paymentInformationPromotionCodeButton.isEnabled = false
-                                Toast.makeText(this, "Valid Promotion Code", Toast.LENGTH_SHORT).show()
-                            }else{
-                                binding.paymentInformationPromotionCodeEditText.error = "Invalid Promotion Code"
-                                binding.paymentInformationPromotionCodeEditText.requestFocus()
+                                                binding.paymentInformationPromotionCodeEditText.isEnabled = false
+                                                binding.paymentInformationPromotionCodeButton.isEnabled = false
+                                                Toast.makeText(this, "Valid Promotion Code", Toast.LENGTH_SHORT).show()
+                                            }else{
+                                                binding.paymentInformationPromotionCodeEditText.error = "Invalid Promotion Code"
+                                                binding.paymentInformationPromotionCodeEditText.requestFocus()
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -155,6 +166,7 @@ class AttendeesPaymentInformation : AppCompatActivity() , PaymentResultListener 
                 getPaymentInformation?.numberOfTicket,
                 getPaymentInformation?.priceForEachTicket,
                 getPaymentInformation?.totalPrice,
+                getPaymentInformation?.bookedAt,
                 it
             )
         }
@@ -164,9 +176,26 @@ class AttendeesPaymentInformation : AppCompatActivity() , PaymentResultListener 
             Toast.makeText(this,"Payment not save in to database",Toast.LENGTH_SHORT).show()
         }
 
+        val ticketRef = FirebaseDatabase.getInstance().getReference("ticket")
+        ticketRef.get().addOnSuccessListener { ticketSnapShot->
+            if (ticketSnapShot.exists()){
+                for (dataTicket in ticketSnapShot.children){
+                    val tickets = dataTicket.getValue(TicketModelData::class.java)
+                    if (tickets?.eventId == getPaymentInformation?.eventID && tickets?.ticketType == getPaymentInformation?.ticketType) {
+                        val ticketRemaining = tickets?.ticketRemaining?.minus(
+                            (getPaymentInformation?.numberOfTicket?.toInt()
+                                ?: 0)
+                        )
+                        ticketRef.child(dataTicket.key.toString()).child("ticketRemaining").setValue(ticketRemaining)
+                    }
+                }
+            }
+        }
+
+
         val intent = Intent(this,AttendeesDashboard::class.java)
-        startActivity(intent)
         finish()
+        startActivity(intent)
     }
 
     override fun onPaymentError(p0: Int, p1: String?) {

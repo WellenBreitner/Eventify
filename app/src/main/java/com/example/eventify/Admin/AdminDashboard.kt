@@ -28,8 +28,6 @@ class AdminDashboard : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-
         binding.adminDashboardRecyclerView.layoutManager = LinearLayoutManager(this)
         val adapter = AdminAdapter(eventOrgList)
         binding.adminDashboardRecyclerView.adapter = adapter

@@ -10,9 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.eventify.ModelData.BookingModelData
+import com.example.eventify.ModelData.TicketModelData
 import com.example.eventify.R
 import com.example.eventify.databinding.ActivityAttendeesEventBookedDetailBinding
 import com.google.firebase.Firebase
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.database
 
 class AttendeesEventBookedDetail : AppCompatActivity() {
@@ -50,7 +52,25 @@ class AttendeesEventBookedDetail : AppCompatActivity() {
                                 Toast.makeText(this, "Event Delete Failed", Toast.LENGTH_SHORT).show()
                             }
                     }
-                    dialog.dismiss()
+
+                    val eventId = getEventBooked.eventID.toString()
+                    val ticketType = getEventBooked.ticketType.toString()
+                    val numberOfTicket = getEventBooked.numberOfTicket?.toInt()
+                    val ticketRef = FirebaseDatabase.getInstance().getReference("ticket")
+                    ticketRef.get().addOnSuccessListener { ticketSnapShot->
+                        if (ticketSnapShot.exists()){
+                            for (dataTicket in ticketSnapShot.children){
+                                val tickets = dataTicket.getValue(TicketModelData::class.java)
+                                if (tickets?.eventId == eventId && tickets.ticketType == ticketType) {
+                                    val ticketRemaining = tickets.ticketRemaining?.plus(
+                                        (numberOfTicket
+                                            ?: 0)
+                                    )
+                                    ticketRef.child(dataTicket.key.toString()).child("ticketRemaining").setValue(ticketRemaining)
+                                }
+                            }
+                        }
+                    }
                 })
                 .setNegativeButton("No",DialogInterface.OnClickListener{ dialog,_ ->
                     dialog.cancel()
@@ -71,11 +91,8 @@ class AttendeesEventBookedDetail : AppCompatActivity() {
         binding.attendeesEventBookedDetailBookingId.text = "Booking ID: ${getEventBooked?.bookingId}"
         binding.attendeesEventBookedDetailDate.text ="Event Date: ${getEventBooked?.eventDate}"
         binding.attendeesEventBookedDetailLocation.text = "Event Location: ${getEventBooked?.eventLocation}"
-        binding.attendeesEventBookedDetailSeat.text = "Selected Seat: ${
-            getEventBooked?.selectedSeat?.joinToString(
-                ","
-            )
-        }"
+        binding.attendeesEventBookedDetailSeat.text = "Selected Seat: ${getEventBooked?.selectedSeat?.joinToString(",")}"
+        binding.attendeesEventBookedDate.text = "Booked At: ${getEventBooked.bookedAt}"
         binding.attendeesEventBookedDetailNumberOfTicket.text = "Number Of Ticket: ${getEventBooked?.numberOfTicket}"
         binding.attendeesEventBookedDetailTicketType.text = "Ticket Type: ${getEventBooked?.ticketType}"
         binding.attendeesEventBookedDetailTotalPrice.text = "Total Price: $${getEventBooked?.totalPrice.toString()}"

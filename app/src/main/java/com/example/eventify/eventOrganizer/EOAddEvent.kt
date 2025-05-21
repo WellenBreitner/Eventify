@@ -55,72 +55,72 @@ class EOAddEvent : AppCompatActivity() {
             finish()
         }
 
-        binding.addEventButton.setOnClickListener {
-            val timeValue = binding.addEventTimeTimePicker.text.toString().takeIf { it != "Set time" } ?: ""
-            val dateValue = binding.addEventDateDatePicker.text.toString().takeIf { it != "Set date" } ?: ""
-            val getUser = firebaseAuth.currentUser?.uid
-
-            addEvent(
-                binding.addEventNameEditText.text.toString(),
-                binding.addEventDescEditText.text.toString(),
-                binding.addEventLocationEditText.text.toString(),
-                dateValue,
-                timeValue,
-                getUser.toString(),
-                TicketModelData(null),
-                null.toString()
-            )
-        }
+//        binding.addEventButton.setOnClickListener {
+//            val timeValue = binding.addEventTimeTimePicker.text.toString().takeIf { it != "Set time" } ?: ""
+//            val dateValue = binding.addEventDateDatePicker.text.toString().takeIf { it != "Set date" } ?: ""
+//            val getUser = firebaseAuth.currentUser?.uid
+//
+//            addEvent(
+//                binding.addEventNameEditText.text.toString(),
+//                binding.addEventDescEditText.text.toString(),
+//                binding.addEventLocationEditText.text.toString(),
+//                dateValue,
+//                timeValue,
+//                getUser.toString(),
+//                TicketModelData(null),
+//                null.toString()
+//            )
+//        }
     }
-    private fun addEvent(
-        eventName: String,
-        eventDescription: String,
-        eventLocation: String,
-        eventDate:String,
-        eventDateTime: String,
-        organizerID: String,
-        ticket: TicketModelData,
-        eventImage: String
-    ) {
-        when {
-            eventName.isEmpty() -> binding.addEventNameEditText.apply {
-                error = "Event name can't be empty"
-                requestFocus()
-            }
-            eventDescription.isEmpty() -> binding.addEventDescEditText.apply {
-                error = "Event description can't be empty"
-                requestFocus()
-            }
-            eventLocation.isEmpty() -> binding.addEventLocationEditText.apply {
-                error = "Event location can't be empty"
-                requestFocus()
-            }
-            eventDate.isEmpty() -> Toast.makeText(this, "date can't be empty", Toast.LENGTH_SHORT).show()
-            eventDateTime.isEmpty() -> Toast.makeText(this, "time can't be empty", Toast.LENGTH_SHORT).show()
-            else -> {
-                val eventRef = Firebase.database.getReference("events")
-
-                val getID = eventRef.push().key
-                val newEvent = getID?.let {
-                    EventModelData(
-                        it,
-                        eventName,
-                        eventDescription,
-                        "$eventDate $eventDateTime",
-                        eventLocation,
-                        organizerID,
-                        TicketModelData(null,it,null,null,null,null),
-                        null
-                    )
-                }
-
-                eventRef.child(getID.toString()).setValue(newEvent).addOnSuccessListener {
-                    Toast.makeText(this, "Event Added Successfully", Toast.LENGTH_SHORT).show()
-                    finish()
-                }.addOnFailureListener{
-                    Toast.makeText(this, "Event Added Failed", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }
+//    private fun addEvent(
+//        eventName: String,
+//        eventDescription: String,
+//        eventLocation: String,
+//        eventDate:String,
+//        eventDateTime: String,
+//        organizerID: String,
+//        ticket: TicketModelData,
+//        eventImage: String
+//    ) {
+//        when {
+//            eventName.isEmpty() -> binding.addEventNameEditText.apply {
+//                error = "Event name can't be empty"
+//                requestFocus()
+//            }
+//            eventDescription.isEmpty() -> binding.addEventDescEditText.apply {
+//                error = "Event description can't be empty"
+//                requestFocus()
+//            }
+//            eventLocation.isEmpty() -> binding.addEventLocationEditText.apply {
+//                error = "Event location can't be empty"
+//                requestFocus()
+//            }
+//            eventDate.isEmpty() -> Toast.makeText(this, "date can't be empty", Toast.LENGTH_SHORT).show()
+//            eventDateTime.isEmpty() -> Toast.makeText(this, "time can't be empty", Toast.LENGTH_SHORT).show()
+//            else -> {
+//                val eventRef = Firebase.database.getReference("events")
+//
+//                val getID = eventRef.push().key
+//                val newEvent = getID?.let {
+//                    EventModelData(
+//                        it,
+//                        eventName,
+//                        eventDescription,
+//                        "$eventDate $eventDateTime",
+//                        eventLocation,
+//                        organizerID,
+//                        TicketModelData(null,it,null,null,null,null),
+//                        null
+//                    )
+//                }
+//
+//                eventRef.child(getID.toString()).setValue(newEvent).addOnSuccessListener {
+//                    Toast.makeText(this, "Event Added Successfully", Toast.LENGTH_SHORT).show()
+//                    finish()
+//                }.addOnFailureListener{
+//                    Toast.makeText(this, "Event Added Failed", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//        }
+//    }
 }

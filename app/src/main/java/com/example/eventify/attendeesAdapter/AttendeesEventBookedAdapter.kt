@@ -19,7 +19,6 @@ class AttendeesEventBookedAdapter (
         this.listener = listener
     }
 
-
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val eventName: TextView = itemView.findViewById(R.id.attendeesEventBookedName)
         val eventDate: TextView = itemView.findViewById(R.id.attendeesEventBookedDate)

@@ -108,10 +108,17 @@
 
                     <TextView
                         style="@style/StyleForText"
+                        android:id="@+id/attendeesEventBookedDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Boooked At: " />
+
+                    <TextView
+                        style="@style/StyleForText"
                         android:id="@+id/attendeesEventBookedDetailNumberOfTicket"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="NumberOf Ticket" />
+                        android:text="Number Of Ticket" />
 
                     <TextView
                         style="@style/StyleForText"
@@ -141,7 +148,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:backgroundTint="@color/black"
-        android:text="cancel"
+        android:text="Cancel"
         app:cornerRadius="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

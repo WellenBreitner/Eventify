@@ -134,7 +134,7 @@
                         android:id="@+id/attendeesEventTicketRemaining"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Ticket remaining" />
+                        android:text="Ticket remaining"/>
 
                     <TextView
                         style="@style/StyleForText"

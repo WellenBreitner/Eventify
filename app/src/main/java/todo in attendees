@@ -1,0 +1,5 @@
+1. Once payment is successful, the system sends a confirmation email or notification with ticket details. System then redirects to the homepage.
+
+2.When tickets become available, the system identifies the next attendee on the waitlist.
+3.The system automatically notifies the attendee via email. System removes the attendee from the waitlist upon successful purchase.
+4. If no tickets become available, the system notifies waitlisted attendees when the event date approaches

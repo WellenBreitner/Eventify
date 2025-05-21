@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/AttendeesWaitingListDetailID"
+                style="@style/StyleForText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="waiting list ID" />
+
+            <TextView
+                android:id="@+id/AttendeesWaitingListDetailEventID"
+                style="@style/StyleForText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="waiting list event ID" />
+
+            <TextView
+                android:id="@+id/AttendeesWaitingListDetailEventName"
+                style="@style/StyleForText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="waiting list event name" />
+
+            <TextView
+                android:id="@+id/AttendeesWaitingListDetailEventDate"
+                style="@style/StyleForText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="waiting list event date"/>
+
+            <TextView
+                android:id="@+id/AttendeesWaitingListDetailEventLocation"
+                style="@style/StyleForText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="waiting list event location" />
+
+            <TextView
+                android:id="@+id/AttendeesWaitingListDetailEmail"
+                style="@style/StyleForText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="waiting list email" />
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/styleTextForTitle"
+                    android:id="@+id/AttendeesWaitingListCloseButton"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Close"
+                    android:textColor="@color/black"
+                    android:backgroundTint="@color/white"
+                    app:strokeColor="@color/black"
+                    app:strokeWidth="2dp"
+                    app:cornerRadius="10dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/styleTextForTitle"
+                    android:id="@+id/AttendeesLeaveWaitingListButton"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Leave Waitlist"
+                    android:textColor="@color/white"
+                    android:backgroundTint="@color/black"
+                    app:strokeColor="@color/white"
+                    app:strokeWidth="2dp"
+                    app:cornerRadius="10dp"/>
+            </LinearLayout>
+        </LinearLayout>
+</ScrollView>

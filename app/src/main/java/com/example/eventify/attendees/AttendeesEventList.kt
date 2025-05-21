@@ -14,24 +14,24 @@ import com.example.eventify.ModelData.TicketModelData
 import com.example.eventify.R
 import com.example.eventify.attendeesAdapter.AttendeesEventAdapter
 import com.google.firebase.Firebase
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.database
 import java.text.SimpleDateFormat
-import java.util.ArrayList
 import java.util.Calendar
 import java.util.Locale
+import kotlin.collections.ArrayList
 
 
 class AttendeesEventList : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var events: ArrayList<EventModelData>
+    private lateinit var ticket: ArrayList<TicketModelData>
     private lateinit var adapter: AttendeesEventAdapter
     private lateinit var view : View
+    private val eventWithTicketsList = mutableListOf<Pair<EventModelData, List<TicketModelData>>>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
         view = inflater.inflate(R.layout.fragment_attendees_event_list, container, false)
 
         initializeUI()
@@ -41,9 +41,10 @@ class AttendeesEventList : Fragment() {
 
     private fun initializeUI() {
         events = ArrayList()
+        ticket = ArrayList()
         recyclerView = view.findViewById(R.id.attendeesEventListRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
-        adapter = AttendeesEventAdapter(events)
+        adapter = AttendeesEventAdapter(eventWithTicketsList)
         recyclerView.adapter = adapter
 
         getDataEventForAttendees()
@@ -51,67 +52,65 @@ class AttendeesEventList : Fragment() {
 
     private fun initializeListener() {
         adapter.setOnClickEventListener(object: AttendeesEventAdapter.onClickEventListener {
-            override fun onClickItem(dataEvent: EventModelData) {
-                onClick(dataEvent)
+            override fun onClickItem(dataEvent: EventModelData, dataTicket: TicketModelData, totalOfTicket: Int) {
+                onClick(dataEvent, dataTicket, totalOfTicket)
             }
         })
     }
 
     private fun getDataEventForAttendees() {
         events.clear()
+        ticket.clear()
+        eventWithTicketsList.clear()
 
         val calendar = Calendar.getInstance()
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val currentDate = calendar.time
 
         val eventDatabaseReference = Firebase.database.getReference("events")
+        val ticketDatabaseReference = Firebase.database.getReference("ticket")
 
-        eventDatabaseReference.get()
-            .addOnSuccessListener { dataEvents ->
-                if (dataEvents.exists()) {
-                    for (data in dataEvents.children) {
-                        val event = data.getValue(EventModelData::class.java)
-                        val eventDateParsed = try {
-                            dateFormat.parse(event?.eventDate ?: "")
-                        } catch (e: Exception) {
-                            null
+        eventDatabaseReference.get().addOnSuccessListener { dataEvents ->
+            if (dataEvents.exists()) {
+                ticketDatabaseReference.get().addOnSuccessListener { ticketSnapshot ->
+                    if (ticketSnapshot.exists()) {
+                        for (data in dataEvents.children) {
+                            val event = data.getValue(EventModelData::class.java)
+                            val eventDateParsed = try {
+                                dateFormat.parse(event?.eventDate ?: "")
+                            } catch (e: Exception) {
+                                null
+                            }
+
+                            if (event != null && eventDateParsed != null && eventDateParsed.after(currentDate)) {
+                                val ticketsForThisEvent = mutableListOf<TicketModelData>()
+
+                                for (ticketDataSnapshot in ticketSnapshot.children) {
+                                    val ticketData = ticketDataSnapshot.getValue(TicketModelData::class.java)
+                                    if (ticketData != null && ticketData.eventId == event.eventId) {
+                                        ticketsForThisEvent.add(ticketData)
+                                    }
+                                }
+
+                                if (ticketsForThisEvent.isNotEmpty()) {
+                                    eventWithTicketsList.add(0,Pair(event, ticketsForThisEvent))
+                                }
+                            }
                         }
-
-                        if (event != null && eventDateParsed != null && eventDateParsed.after(currentDate)) {
-                            val ticket = event.ticket
-
-                            val newEvent = EventModelData(
-                                event.eventId,
-                                event.eventName,
-                                event.eventDescription,
-                                event.eventDate,
-                                event.eventLocation,
-                                event.organizerId,
-                                TicketModelData(
-                                    ticket?.ticketId,
-                                    event.eventId,
-                                    ticket?.ticketType,
-                                    ticket?.ticketRemaining,
-                                    ticket?.ticketAvailable,
-                                    ticket?.ticketLimit
-                                )
-                            )
-                            events.add(0,newEvent)
-                        }
+                        adapter.notifyDataSetChanged()
                     }
-                    adapter.notifyDataSetChanged()
                 }
             }
-            .addOnFailureListener { error ->
-                Log.e("Firebase", "Failed to fetch events", error)
-            }
+        }.addOnFailureListener { error ->
+            Log.e("Firebase", "Failed to fetch events", error)
+        }
     }
 
-
-
-    fun onClick(event: EventModelData){
+    fun onClick(event: EventModelData, ticket: TicketModelData, totalOfTicket:Int){
         val intent = Intent(requireActivity(),AttendeesEventDetail::class.java)
         intent.putExtra(AttendeesEventDetail.EXTRA_EVENT_DETAIL,event)
+        intent.putExtra(AttendeesEventDetail.EXTRA_TICKET_DETAIL,ticket)
+        intent.putExtra(AttendeesEventDetail.EXTRA_TICKET_TOTAL,totalOfTicket)
         startActivity(intent)
     }
 
