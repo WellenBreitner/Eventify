@@ -30,7 +30,8 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.database
-import kotlin.math.log
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class AttendeesPurchaseTicket : AppCompatActivity() {
 
@@ -228,6 +229,9 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
 
 
     private fun attendeesBookingButtonOnClick() {
+        val currentDate = LocalDate.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val formattedDate = currentDate.format(formatter)
         val totalTicket = binding.totalTicketOfTicketType.text.toString().toIntOrNull() ?: 0
         if (!isTicketTypeSelected){
             Toast.makeText(this, "You required to select ticket type first", Toast.LENGTH_SHORT)
@@ -255,6 +259,7 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
                             numberTicket,
                             getPriceForEach,
                             price,
+                            formattedDate,
                             selectedSeat
                         )
                     )

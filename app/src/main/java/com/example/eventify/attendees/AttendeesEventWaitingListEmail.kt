@@ -17,8 +17,6 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.database
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class AttendeesEventWaitingListEmail (private val eventID:String, private val maxWaitingList:Int): DialogFragment() {
 

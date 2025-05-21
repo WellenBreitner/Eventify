@@ -108,10 +108,17 @@
 
                     <TextView
                         style="@style/StyleForText"
+                        android:id="@+id/attendeesEventBookedDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Boooked At: " />
+
+                    <TextView
+                        style="@style/StyleForText"
                         android:id="@+id/attendeesEventBookedDetailNumberOfTicket"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="NumberOf Ticket" />
+                        android:text="Number Of Ticket" />
 
                     <TextView
                         style="@style/StyleForText"

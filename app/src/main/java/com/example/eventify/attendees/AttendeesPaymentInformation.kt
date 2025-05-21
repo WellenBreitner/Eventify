@@ -166,6 +166,7 @@ class AttendeesPaymentInformation : AppCompatActivity() , PaymentResultListener 
                 getPaymentInformation?.numberOfTicket,
                 getPaymentInformation?.priceForEachTicket,
                 getPaymentInformation?.totalPrice,
+                getPaymentInformation?.bookedAt,
                 it
             )
         }

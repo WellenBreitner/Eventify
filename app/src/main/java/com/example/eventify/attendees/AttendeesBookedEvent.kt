@@ -91,6 +91,7 @@ class AttendeesBookedEvent : Fragment() {
                                         bookingEvent.numberOfTicket,
                                         bookingEvent.priceForEachTicket,
                                         bookingEvent.totalPrice,
+                                        bookingEvent.bookedAt,
                                         bookingEvent.selectedSeat
                                 )
                                 )

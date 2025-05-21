@@ -91,11 +91,8 @@ class AttendeesEventBookedDetail : AppCompatActivity() {
         binding.attendeesEventBookedDetailBookingId.text = "Booking ID: ${getEventBooked?.bookingId}"
         binding.attendeesEventBookedDetailDate.text ="Event Date: ${getEventBooked?.eventDate}"
         binding.attendeesEventBookedDetailLocation.text = "Event Location: ${getEventBooked?.eventLocation}"
-        binding.attendeesEventBookedDetailSeat.text = "Selected Seat: ${
-            getEventBooked?.selectedSeat?.joinToString(
-                ","
-            )
-        }"
+        binding.attendeesEventBookedDetailSeat.text = "Selected Seat: ${getEventBooked?.selectedSeat?.joinToString(",")}"
+        binding.attendeesEventBookedDate.text = "Booked At: ${getEventBooked.bookedAt}"
         binding.attendeesEventBookedDetailNumberOfTicket.text = "Number Of Ticket: ${getEventBooked?.numberOfTicket}"
         binding.attendeesEventBookedDetailTicketType.text = "Ticket Type: ${getEventBooked?.ticketType}"
         binding.attendeesEventBookedDetailTotalPrice.text = "Total Price: $${getEventBooked?.totalPrice.toString()}"
