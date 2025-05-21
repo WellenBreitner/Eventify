@@ -5,6 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class BookingModelData(
+    val eventOrganizerID: String? = null,
     val bookingId: String? = null,
     val userId: String? = null,
     val userEmail:String? = null,
