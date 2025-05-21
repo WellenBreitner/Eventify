@@ -155,6 +155,7 @@ class AttendeesPaymentInformation : AppCompatActivity() , PaymentResultListener 
         val getID = bookingRef.push().key
         bookingRef.child(getID.toString()).setValue(getPaymentInformation?.selectedSeat?.let {
             BookingModelData(
+                getPaymentInformation?.eventOrganizerID,
                 getID,
                 getPaymentInformation?.userId,
                 getPaymentInformation?.userEmail,

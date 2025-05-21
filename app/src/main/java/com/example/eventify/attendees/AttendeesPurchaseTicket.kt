@@ -248,6 +248,7 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
                     intent.putExtra(
                         "payment_information",
                         BookingModelData(
+                            getEventInformation?.organizerId.toString(),
                             null,
                             user?.uid,
                             user?.email,
