@@ -27,6 +27,7 @@ class AttendeesEventList : Fragment() {
     private lateinit var ticket: ArrayList<TicketModelData>
     private lateinit var adapter: AttendeesEventAdapter
     private lateinit var view : View
+    private val eventWithTicketsList = mutableListOf<Pair<EventModelData, List<TicketModelData>>>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,7 +44,7 @@ class AttendeesEventList : Fragment() {
         ticket = ArrayList()
         recyclerView = view.findViewById(R.id.attendeesEventListRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
-        adapter = AttendeesEventAdapter(events,ticket)
+        adapter = AttendeesEventAdapter(eventWithTicketsList)
         recyclerView.adapter = adapter
 
         getDataEventForAttendees()
@@ -51,8 +52,8 @@ class AttendeesEventList : Fragment() {
 
     private fun initializeListener() {
         adapter.setOnClickEventListener(object: AttendeesEventAdapter.onClickEventListener {
-            override fun onClickItem(dataEvent: EventModelData, dataTicket: TicketModelData) {
-                onClick(dataEvent, dataTicket)
+            override fun onClickItem(dataEvent: EventModelData, dataTicket: TicketModelData, totalOfTicket: Int) {
+                onClick(dataEvent, dataTicket, totalOfTicket)
             }
         })
     }
@@ -60,6 +61,7 @@ class AttendeesEventList : Fragment() {
     private fun getDataEventForAttendees() {
         events.clear()
         ticket.clear()
+        eventWithTicketsList.clear()
 
         val calendar = Calendar.getInstance()
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -81,13 +83,17 @@ class AttendeesEventList : Fragment() {
                             }
 
                             if (event != null && eventDateParsed != null && eventDateParsed.after(currentDate)) {
+                                val ticketsForThisEvent = mutableListOf<TicketModelData>()
+
                                 for (ticketDataSnapshot in ticketSnapshot.children) {
                                     val ticketData = ticketDataSnapshot.getValue(TicketModelData::class.java)
                                     if (ticketData != null && ticketData.eventId == event.eventId) {
-                                        events.add(event)
-                                        ticket.add(ticketData)
-                                        break
+                                        ticketsForThisEvent.add(ticketData)
                                     }
+                                }
+
+                                if (ticketsForThisEvent.isNotEmpty()) {
+                                    eventWithTicketsList.add(0,Pair(event, ticketsForThisEvent))
                                 }
                             }
                         }
@@ -100,10 +106,11 @@ class AttendeesEventList : Fragment() {
         }
     }
 
-    fun onClick(event: EventModelData, ticket: TicketModelData){
+    fun onClick(event: EventModelData, ticket: TicketModelData, totalOfTicket:Int){
         val intent = Intent(requireActivity(),AttendeesEventDetail::class.java)
         intent.putExtra(AttendeesEventDetail.EXTRA_EVENT_DETAIL,event)
         intent.putExtra(AttendeesEventDetail.EXTRA_TICKET_DETAIL,ticket)
+        intent.putExtra(AttendeesEventDetail.EXTRA_TICKET_TOTAL,totalOfTicket)
         startActivity(intent)
     }
 

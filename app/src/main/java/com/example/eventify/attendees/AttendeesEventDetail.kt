@@ -22,6 +22,7 @@ class AttendeesEventDetail : AppCompatActivity() {
     companion object{
         const val EXTRA_EVENT_DETAIL = "EVENT_DETAIL"
         const val EXTRA_TICKET_DETAIL = "TICKET_DETAIL"
+        const val EXTRA_TICKET_TOTAL = "TICKET_TOTAL"
     }
 
     private lateinit var getEventID: String
@@ -76,6 +77,13 @@ class AttendeesEventDetail : AppCompatActivity() {
             intent.getParcelableExtra(EXTRA_TICKET_DETAIL)
         }
 
+        val getTotalTicket = if (Build.VERSION.SDK_INT >= 33){
+            intent.getIntExtra(EXTRA_TICKET_TOTAL,0)
+        }else{
+            @Suppress("DEPRECATION")
+            intent.getIntExtra(EXTRA_TICKET_TOTAL,0)
+        }
+
         if(getEvent != null && getTicket != null) {
             getEventName = getEvent.eventName
             getEventDate = getEvent.eventDate
@@ -83,8 +91,8 @@ class AttendeesEventDetail : AppCompatActivity() {
             getOrganizerID = getEvent.organizerId.toString()
             getEventLocation = getEvent.eventLocation
             getEventDescription = getEvent.eventDescription
-            val getTicketRemainingText = "Ticket Remaining: ${getTicket.ticketRemaining}"
-            getTicketRemaining = getTicket.ticketRemaining ?:0
+            val getTicketRemainingText = "Ticket Remaining: $getTotalTicket"
+            getTicketRemaining = getTotalTicket
             getMaxWaitingList = getTicket.maxWaitingList ?:0
             getTicketAvailable = if (getTicketRemaining > 0) {
                 "Ticket Available: Available"
@@ -103,7 +111,7 @@ class AttendeesEventDetail : AppCompatActivity() {
             binding.attendeesEventTicketAvailable.text = getTicketAvailable
 
             if(getTicketAvailable == "Ticket Available: Sold Out"){
-                binding.attendeesEventDetailBuyTicketButton.text = "Join Waitling List"
+                binding.attendeesEventDetailBuyTicketButton.text = "Join Waiting List"
                 binding.attendeesEventDetailBuyTicketButton.setBackgroundColor(Color.parseColor("#A62C2C"))
             }
         }
@@ -148,6 +156,5 @@ class AttendeesEventDetail : AppCompatActivity() {
                 addEmailDialog.show(supportFragmentManager,"add_email_dialog")
             }
         }
-
     }
 }

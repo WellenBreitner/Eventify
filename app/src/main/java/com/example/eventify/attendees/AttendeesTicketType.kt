@@ -30,7 +30,6 @@ class AttendeesTicketType : BottomSheetDialogFragment() {
     private lateinit var ticketTypeRadioButton: RadioButton
     private lateinit var ticketViewModel: TicketTypeViewModel
     private lateinit var ticketTypeHashMap: HashMap<String,Int>
-//    private lateinit var ticketTypeArrayList: ArrayList<String>
     private lateinit var eventId: String
 
     override fun onCreateView(

@@ -127,11 +127,45 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
+                android:text="Event Name" />
+
+            <TextView
+                style="@style/StyleForText"
+                android:id="@+id/eventAttendeesChoose"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:text="Not selected"
+                android:textAlignment="textEnd"/>
+
+            <TextView
+                style="@style/styleTextForTitle"
+                android:textSize="15sp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
                 android:text="Ticket Type" />
 
             <TextView
                 style="@style/StyleForText"
                 android:id="@+id/ticketTypeAttendeesChoose"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:text="Not selected"
+                android:textAlignment="textEnd"/>
+
+            <TextView
+                style="@style/styleTextForTitle"
+                android:textSize="15sp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:text="Total Ticket" />
+
+            <TextView
+                style="@style/StyleForText"
+                android:id="@+id/totalTicketOfTicketType"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"

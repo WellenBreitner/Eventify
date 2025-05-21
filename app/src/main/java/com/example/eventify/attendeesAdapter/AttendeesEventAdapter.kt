@@ -11,9 +11,8 @@ import com.example.eventify.ModelData.TicketModelData
 import com.example.eventify.R
 
 class AttendeesEventAdapter (
-    private val eventList: List<EventModelData>,
-    private val ticketForEvent: List<TicketModelData>
-): RecyclerView.Adapter<AttendeesEventAdapter.ViewHolder>() {
+    private val eventTicketPairs: List<Pair<EventModelData, List<TicketModelData>>>
+) : RecyclerView.Adapter<AttendeesEventAdapter.ViewHolder>() {
     private lateinit var listener: onClickEventListener
 
     fun setOnClickEventListener(listener: onClickEventListener){
@@ -36,35 +35,41 @@ class AttendeesEventAdapter (
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val event = eventList[position]
-        val ticket = ticketForEvent[position]
+        val (event, tickets) = eventTicketPairs[position]
+
+        val totalRemaining = tickets.sumOf { it.ticketRemaining ?: 0 }
+
+        holder.eventName.text = event.eventName
+        holder.eventLocation.text = "Location: ${event.eventLocation}"
+        holder.eventDate.text = "Date: ${event.eventDate}  ${event.eventTime}"
 
         if (event.eventImage == null){
             holder.eventImage.setImageResource(R.color.black)
-        }else{
+        } else {
             holder.eventImage.setImageResource(event.eventImage)
         }
-        holder.eventName.text = event.eventName
-        holder.eventLocation.text = "Location: ${event.eventLocation}"
-        holder.eventDate.text = "Date: ${event.eventDate}  ${event.eventTime} "
 
-        if (ticket.ticketRemaining != 0) {
+        if (totalRemaining > 0) {
             holder.ticketAvailable.text = "Ticket Available: Available"
-        }else{
+        } else {
             holder.ticketAvailable.text = "Ticket Available: Waiting List"
         }
 
         holder.itemView.setOnClickListener {
-            listener.onClickItem(event,ticket)
+            val defaultTicket = tickets.firstOrNull()
+            if (defaultTicket != null) {
+                listener.onClickItem(event, defaultTicket, totalRemaining)
+            }
         }
     }
 
+
     override fun getItemCount(): Int {
-        return eventList.size
+        return eventTicketPairs.size
     }
 
     interface onClickEventListener{
-        fun onClickItem(dataEvent: EventModelData, dataTicket: TicketModelData)
+        fun onClickItem(dataEvent: EventModelData, dataTicket: TicketModelData, totalOfTicket: Int)
     }
 
 }
