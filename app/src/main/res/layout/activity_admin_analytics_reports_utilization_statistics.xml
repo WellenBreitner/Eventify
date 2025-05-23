@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".Admin.AdminAnalyticsReportsUtilizationStatistics">
+
+
+    <LinearLayout
+        android:id="@+id/pieAnalytics"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            style="@style/styleTextForTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:text="Graph"/>
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/analyticReportPieChartUtilizationStatisticsd"
+            android:layout_width="match_parent"
+            android:layout_height="300dp" />
+
+        <LinearLayout
+            android:id="@+id/resultLinearLayoutUtilizationStatistics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/xTextViewUtilizationStatistics"
+                style="@style/StyleForText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"/>
+
+            <TextView
+                android:id="@+id/yTextViewUtilizationStatistics"
+                style="@style/StyleForText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"/>
+
+            <TextView
+                android:id="@+id/zTextViewUtilizationStatistics"
+                style="@style/StyleForText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"/>
+
+            <TextView
+                android:id="@+id/vTextViewUtilizationStatistics"
+                style="@style/StyleForText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"/>
+
+        </LinearLayout>
+
+        <TextView
+            style="@style/styleTextForTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:text="Select auditoriutm"/>
+
+        <Spinner
+            android:id="@+id/spinner_auditorium"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:popupBackground="@color/white"/>
+
+        <TextView
+            style="@style/styleTextForTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:text="Select time period"/>
+
+        <Spinner
+            android:id="@+id/spinner_time_period_utilization_statistics"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:entries="@array/time_period_options"
+            android:popupBackground="@color/white"/>
+
+        <LinearLayout
+            android:id="@+id/buttonLinearLayoutUtilizationStatistics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/styleTextForTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
+                android:text="Select custom date range"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/styleTextForTitle"
+                    android:id="@+id/startDateButtonUtilizationStatistics"
+                    android:text="Start Date"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/black"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    app:cornerRadius="10dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/styleTextForTitle"
+                    android:id="@+id/endDateButtonUtilizationStatistics"
+                    android:text="End Date"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/black"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    app:cornerRadius="10dp"/>
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/styleTextForTitle"
+                android:id="@+id/generateDataButtonUtilizationStatistics"
+                android:text="Generate Data"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:backgroundTint="@color/black"
+                android:layout_weight="1"
+                android:textColor="@color/white"
+                app:cornerRadius="10dp"/>
+        </LinearLayout>
+        <com.google.android.material.button.MaterialButton
+            style="@style/styleTextForTitle"
+            android:id="@+id/PDFButton"
+            android:text="Download as PDF"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:backgroundTint="@color/white"
+            android:layout_weight="1"
+            app:icon="@drawable/download_icon"
+            app:iconGravity="end"
+            app:iconTint="@color/black"
+            app:strokeColor="@color/black"
+            app:strokeWidth="2dp"
+            android:textColor="@color/black"
+            app:cornerRadius="10dp"/>
+    </LinearLayout>
+</ScrollView>

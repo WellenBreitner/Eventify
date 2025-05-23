@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".Admin.AdminAnalyticReportsAuditoriumBooking">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            style="@style/styleTextForTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:text="Graph"/>
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/analyticReportBarChartAuditoriumBooking"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/resultLinearLayoutAuditoriumBooking"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/xTextViewAuditoriumBooking"
+                style="@style/StyleForText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:layout_marginHorizontal="0dp"/>
+
+            <TextView
+                android:id="@+id/yTextViewAuditoriumBooking"
+                style="@style/StyleForText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:layout_marginHorizontal="0dp"/>
+
+        </LinearLayout>
+
+        <TextView
+            style="@style/styleTextForTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:text="Select time period"/>
+
+        <Spinner
+            android:id="@+id/spinner_time_period_auditorium_booking"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:entries="@array/time_period_options"
+            android:popupBackground="@color/white"/>
+
+        <LinearLayout
+            android:id="@+id/buttonLinearLayoutAuditoriumBooking"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/styleTextForTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
+                android:text="Select custom date range"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/styleTextForTitle"
+                    android:id="@+id/startDateButtonAuditoriumBooking"
+                    android:text="Start Date"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/black"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    app:cornerRadius="10dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/styleTextForTitle"
+                    android:id="@+id/endDateButtonAuditoriumBooking"
+                    android:text="End Date"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/black"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    app:cornerRadius="10dp"/>
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/styleTextForTitle"
+                android:id="@+id/generateDataButtonAuditoriumBooking"
+                android:text="Generate Data"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/black"
+                android:layout_weight="1"
+                android:textColor="@color/white"
+                app:cornerRadius="10dp"/>
+        </LinearLayout>
+        <com.google.android.material.button.MaterialButton
+            style="@style/styleTextForTitle"
+            android:id="@+id/PDFButton"
+            android:text="Download as PDF"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:backgroundTint="@color/white"
+            android:layout_weight="1"
+            app:icon="@drawable/download_icon"
+            app:iconGravity="end"
+            app:iconTint="@color/black"
+            app:strokeColor="@color/black"
+            app:strokeWidth="2dp"
+            android:textColor="@color/black"
+            app:cornerRadius="10dp"/>
+
+    </LinearLayout>
+
+
+</ScrollView>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:padding="16dp"
+    android:orientation="vertical"
+    tools:context=".Admin.AdminAnalyticsReportFragment">
+
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/styleTextForTitle"
+        android:id="@+id/eventHostedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Event hosted report"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/white"
+        app:icon="@drawable/arrow_right_icon"
+        app:iconTint="@color/black"
+        app:iconGravity="end"
+        app:strokeColor="@color/black"
+        app:strokeWidth="2dp"
+        app:cornerRadius="10dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/styleTextForTitle"
+        android:id="@+id/auditoriumBookingButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Auditorium booking report"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/white"
+        app:icon="@drawable/arrow_right_icon"
+        app:iconTint="@color/black"
+        app:iconGravity="end"
+        app:strokeColor="@color/black"
+        app:strokeWidth="2dp"
+        app:cornerRadius="10dp"/>
+
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/styleTextForTitle"
+        android:id="@+id/utilizationStatisticButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Utilization statistic report"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/white"
+        app:icon="@drawable/arrow_right_icon"
+        app:iconTint="@color/black"
+        app:iconGravity="end"
+        app:strokeColor="@color/black"
+        app:strokeWidth="2dp"
+        app:cornerRadius="10dp"/>
+
+</LinearLayout>

@@ -20,4 +20,25 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="event_list">Event List</string>
+
+    <string-array name="time_period_options">
+        <item>Weekly</item>
+        <item>Monthly</item>
+        <item>Custom range</item>
+    </string-array>
+
+
+    <string-array name="type_report_options_EO">
+        <item>Ticket sales</item>
+        <item>Revenue</item>
+        <item>Seat occupancy</item>
+    </string-array>
+
+
+    <string-array name="time_period_options_EO">
+        <item>Daily</item>
+        <item>Weekly</item>
+        <item>Monthly</item>
+    </string-array>
+
 </resources>
