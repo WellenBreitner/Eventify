@@ -11,12 +11,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.eventify.ModelData.EventModelData
 import com.example.eventify.ModelData.TicketModelData
 import com.example.eventify.R
+import com.google.android.material.button.MaterialButton
 import com.google.firebase.database.collection.LLRBNode.Color
 
 class EOAdapter(
     private val dataList: ArrayList<EventModelData>,
     private val onCardClick: (EventModelData, TicketModelData, Int) -> Unit,
-    private val onEditClick: (EventModelData) -> Unit
+    private val onEditClick: (EventModelData) -> Unit,
+    private val onAddTicketClick: (EventModelData) -> Unit
 ) : RecyclerView.Adapter<EOAdapter.ViewHolderClass>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderClass {
@@ -39,8 +41,11 @@ class EOAdapter(
             onCardClick(currentItem, TicketModelData(/*…*/), 0)
         }
         // button tap
-        holder.rvButton.setOnClickListener {
+        holder.rvEditButton.setOnClickListener {
             onEditClick(currentItem)
+        }
+        holder.rvTicketSetupButton.setOnClickListener {
+            onAddTicketClick(currentItem) // ✅ handle new ticket button
         }
 
     }
@@ -50,6 +55,7 @@ class EOAdapter(
         val rvName:TextView = itemView.findViewById(R.id.eoListEventName)
         val rvDate:TextView = itemView.findViewById(R.id.eoListEventDate)
         val rvLocation:TextView = itemView.findViewById(R.id.eoListLocation)
-        val rvButton:Button = itemView.findViewById(R.id.eoEditButton)
+        val rvEditButton:Button = itemView.findViewById(R.id.eoEditButton)
+        val rvTicketSetupButton:Button = itemView.findViewById(R.id.eoAddTicketTypeButton)
     }
 }

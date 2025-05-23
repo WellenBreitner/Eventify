@@ -52,6 +52,12 @@ class EventOrganizerHome : Fragment() {
                 val intent = Intent(requireActivity(), EventEditPage::class.java)
                 intent.putExtra(EventDetail.EXTRA_EVENT_DETAIL, event)
                 startActivity(intent)
+            },
+            onAddTicketClick = { event ->
+                val intent = Intent(requireActivity(), TicketSetupPage::class.java)
+                intent.putExtra("EXTRA_EVENT_ID", event.eventId)
+                intent.putExtra("EXTRA_EVENT_NAME", event.eventName)
+                startActivity(intent)
             }
         )
         recyclerView.setHasFixedSize(true)

@@ -15,6 +15,7 @@ import com.example.eventify.ModelData.EventModelData
 import com.example.eventify.ModelData.TicketModelData
 import com.example.eventify.R
 import com.example.eventify.databinding.ActivityEventDetailBinding
+import com.example.eventify.databinding.ActivityTicketSetupPageBinding
 
 class EventDetail : AppCompatActivity() {
     companion object {
@@ -25,7 +26,6 @@ class EventDetail : AppCompatActivity() {
 
     private lateinit var binding: ActivityEventDetailBinding
 
-    // these will be set from the Intent:
     private lateinit var eventData: EventModelData
     private lateinit var ticketData: TicketModelData
     private var totalTickets: Int = 0
@@ -36,26 +36,21 @@ class EventDetail : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
 
-        // respect system-bars insets
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val sys = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(sys.left, sys.top, sys.right, sys.bottom)
             insets
         }
 
-        // 1) pull data out of Intent
         extractIntentData()
 
-        // 2) populate UI
         bindDataToViews()
 
-        // 3) wire up expand & button
         setupDescriptionToggle()
         setupBottomButton()
     }
 
     private fun extractIntentData() {
-        // EventModelData
         eventData = if (Build.VERSION.SDK_INT >= 33) {
             intent.getParcelableExtra(EXTRA_EVENT_DETAIL, EventModelData::class.java)!!
         } else {
@@ -63,7 +58,6 @@ class EventDetail : AppCompatActivity() {
             intent.getParcelableExtra(EXTRA_EVENT_DETAIL)!!
         }
 
-        // TicketModelData
         ticketData = if (Build.VERSION.SDK_INT >= 33) {
             intent.getParcelableExtra(EXTRA_TICKET_DETAIL, TicketModelData::class.java)!!
         } else {
@@ -80,7 +74,6 @@ class EventDetail : AppCompatActivity() {
     }
 
     private fun bindDataToViews() {
-        // Image placeholder—replace with your actual image-loading logic
         binding.eventDetailImage.setImageResource(R.color.black)
 
         binding.eventDetailName.text     = eventData.eventName
@@ -98,18 +91,15 @@ class EventDetail : AppCompatActivity() {
     }
 
     private fun setupDescriptionToggle() {
-        // enable animateLayoutChanges on the container
         binding.eventExpandLayout.layoutTransition
             .enableTransitionType(LayoutTransition.CHANGING)
 
-        // initial icon
         binding.eventExpandImage.setImageResource(R.drawable.down_icon)
 
         binding.eventDescriptionCardView.setOnClickListener {
             val desc = binding.eventDetailDesc
             val isHidden = desc.visibility == View.GONE
 
-            // swap icon + animate show/hide
             binding.eventExpandImage.setImageResource(
                 if (isHidden) R.drawable.up_icon
                 else R.drawable.down_icon
@@ -138,6 +128,10 @@ class EventDetail : AppCompatActivity() {
                     )
                 )
             }
+            startActivity(intent)
+        }
+        binding.TicketSetupButton.setOnClickListener {
+            val intent = Intent(this, TicketSetupPage::class.java)
             startActivity(intent)
         }
     }
