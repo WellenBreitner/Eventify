@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.eventify.ModelData.EventModelData
 import com.example.eventify.ModelData.TicketModelData
 import com.example.eventify.R
+import com.example.eventify.attendees.AttendeesEventDetail
 import com.example.eventify.eoAdapter.EOAdapter
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -38,7 +39,21 @@ class EventOrganizerHome : Fragment() {
 
         recyclerView = view.findViewById(R.id.EORVEventList)
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
-        recyclerView.adapter = EOAdapter(eventList)
+        recyclerView.adapter = EOAdapter(
+            eventList,
+            onCardClick = { event, ticket, total ->
+                val intent = Intent(requireActivity(), EventDetail::class.java)
+                intent.putExtra(EventDetail.EXTRA_EVENT_DETAIL, event)
+                intent.putExtra(EventDetail.EXTRA_TICKET_DETAIL, ticket)
+                intent.putExtra(EventDetail.EXTRA_TICKET_TOTAL, total)
+                startActivity(intent)
+            },
+            onEditClick = { event ->
+                val intent = Intent(requireActivity(), EventEditPage::class.java)
+                intent.putExtra(EventDetail.EXTRA_EVENT_DETAIL, event)
+                startActivity(intent)
+            }
+        )
         recyclerView.setHasFixedSize(true)
 
         getEventData()
@@ -52,6 +67,8 @@ class EventOrganizerHome : Fragment() {
 
         return view
     }
+
+
 
     private fun getEventData() {
         val userID = firebaseAuth.currentUser?.uid
@@ -69,6 +86,7 @@ class EventOrganizerHome : Fragment() {
                                 event.eventName,
                                 event.eventDescription,
                                 event.eventDate,
+                                event.eventTime,
                                 event.eventLocation,
                                 event.organizerId,
                                 null)
@@ -79,5 +97,12 @@ class EventOrganizerHome : Fragment() {
             }
 
         }
+    }
+    fun onClick(event: EventModelData, ticket: TicketModelData, totalOfTicket:Int){
+        val intent = Intent(requireActivity(), EventDetail::class.java)
+        intent.putExtra(EventDetail.EXTRA_EVENT_DETAIL,event)
+        intent.putExtra(EventDetail.EXTRA_TICKET_DETAIL,ticket)
+        intent.putExtra(EventDetail.EXTRA_TICKET_TOTAL,totalOfTicket)
+        startActivity(intent)
     }
 }

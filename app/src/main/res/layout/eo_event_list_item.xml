@@ -8,7 +8,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/EOCardView"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp"
         app:cardBackgroundColor="@color/whiteSmoke"
         app:cardCornerRadius="20dp"
@@ -73,32 +73,67 @@
                 app:layout_constraintStart_toEndOf="@+id/eoListEventImage"
                 app:layout_constraintTop_toBottomOf="@id/eoListEventDate" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/buttonConstraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/eoListEventImage"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/eoListEventImage">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/eoEditButton"
-                    android:layout_width="150dp"
+                <LinearLayout
+                    android:id="@+id/editButtonLayout"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="@color/white"
-                    android:text="Edit"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    app:iconGravity="end"
-                    app:iconTint="@color/black"
-                    app:strokeColor="@color/black"
-                    app:strokeWidth="2dp" />
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
 
-            </LinearLayout>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/eoEditButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="8dp"
+                        android:backgroundTint="@color/white"
+                        android:text="Edit"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        app:iconGravity="end"
+                        app:iconTint="@color/black"
+                        app:strokeColor="@color/black"
+                        app:strokeWidth="2dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/addTicketLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@id/editButtonLayout"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/eoAddTicketTypeButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/white"
+                        android:text="Add Ticket Type"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        app:iconGravity="end"
+                        app:iconTint="@color/black"
+                        app:strokeColor="@color/black"
+                        app:strokeWidth="2dp" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

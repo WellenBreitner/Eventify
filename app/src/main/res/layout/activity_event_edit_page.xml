@@ -9,7 +9,7 @@
     tools:context=".eventOrganizer.EOAddEvent">
 
     <LinearLayout
-        android:id="@+id/addEventLinearLayout"
+        android:id="@+id/editEventLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginHorizontal="8dp"
@@ -30,24 +30,23 @@
             android:layout_gravity="center_vertical"
             android:layout_marginHorizontal="8dp"
             android:layout_weight="1"
-            android:text="Add event"
+            android:text="Edit Event"
             android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
 
-    <!-- add class -->
     <LinearLayout
-        android:id="@+id/addEventTextField"
+        android:id="@+id/editEventTextField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addEventLinearLayout">
+        app:layout_constraintTop_toBottomOf="@+id/editEventLinearLayout">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/addEventNameField"
+            android:id="@+id/editEventNameField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
@@ -60,7 +59,7 @@
             app:hintTextColor="@color/black">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/addEventNameEditText"
+                android:id="@+id/editEventNameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:inputType="text" />
@@ -68,7 +67,7 @@
 
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/addEventDescField"
+            android:id="@+id/editEventDescField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
@@ -81,14 +80,14 @@
             app:hintTextColor="@color/black">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/addEventDescEditText"
+                android:id="@+id/editEventDescEditText"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:inputType="textLongMessage" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/addEventLocationField"
+            android:id="@+id/editEventLocationField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
@@ -101,7 +100,7 @@
             app:hintTextColor="@color/black">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/addEventLocationEditText"
+                android:id="@+id/editEventLocationEditText"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:inputType="text" />
@@ -111,7 +110,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/addEventPoster"
+        android:id="@+id/editEventPoster"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp"
@@ -119,29 +118,29 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addEventTextField">
+        app:layout_constraintTop_toBottomOf="@+id/editEventTextField">
 
         <ImageView
-            android:id="@+id/addClassImageView"
+            android:id="@+id/editClassImageView"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:scaleType="centerCrop"
             android:src="@drawable/photo_icon" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/addEventPosterSelector"
+            android:id="@+id/editEventPosterSelector"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="5"
             android:backgroundTint="@color/white"
-            android:text="Add event poster"
+            android:text="Select event poster"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:cornerRadius="0dp" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/addDeadLineDateLinearLayout"
+        android:id="@+id/editEventDateLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp"
@@ -149,7 +148,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addEventPoster">
+        app:layout_constraintTop_toBottomOf="@+id/editEventPoster">
 
 
         <LinearLayout
@@ -177,7 +176,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/addEventDateDatePicker"
+            android:id="@+id/editEventDateDatePicker"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -190,7 +189,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/addDeadLineTimeLinearLayout"
+        android:id="@+id/editEventTimeLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp"
@@ -198,7 +197,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addDeadLineDateLinearLayout">
+        app:layout_constraintTop_toBottomOf="@+id/editEventDateLinearLayout">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -225,7 +224,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/addEventTimeTimePicker"
+            android:id="@+id/editEventTimeTimePicker"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -237,6 +236,7 @@
             app:cornerRadius="0dp" />
     </LinearLayout>
 
+
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
@@ -246,10 +246,10 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addDeadLineTimeLinearLayout">
+        app:layout_constraintTop_toBottomOf="@+id/editEventTimeLinearLayout">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/cancelAddEventButton"
+            android:id="@+id/cancelEditEventButton"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -260,13 +260,13 @@
             app:strokeWidth="2dp" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/addEventButton"
+            android:id="@+id/saveEditedEventButton"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:backgroundTint="@color/black"
-            android:text="Add" />
+            android:text="Save Change" />
 
     </LinearLayout>
 
