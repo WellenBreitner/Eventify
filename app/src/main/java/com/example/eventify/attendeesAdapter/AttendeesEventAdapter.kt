@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.eventify.ModelData.EventModelData
 import com.example.eventify.ModelData.TicketModelData
 import com.example.eventify.R
@@ -43,11 +44,10 @@ class AttendeesEventAdapter (
         holder.eventLocation.text = "Location: ${event.eventLocation}"
         holder.eventDate.text = "Date: ${event.eventDate}  ${event.eventTime}"
 
-        if (event.eventImage == null){
-            holder.eventImage.setImageResource(R.color.black)
-        } else {
-            holder.eventImage.setImageResource(event.eventImage)
-        }
+        Glide.with(holder.itemView.context)
+            .load(event.eventImage)
+            .placeholder(R.drawable.event_default_image)
+            .into(holder.eventImage)
 
         if (totalRemaining > 0) {
             holder.ticketAvailable.text = "Ticket Available: Available"

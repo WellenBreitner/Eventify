@@ -121,7 +121,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editEventTextField">
 
         <ImageView
-            android:id="@+id/editClassImageView"
+            android:id="@+id/editEventImageView"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:scaleType="centerCrop"

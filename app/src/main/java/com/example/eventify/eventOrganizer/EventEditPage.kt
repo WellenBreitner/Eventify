@@ -1,12 +1,20 @@
 package com.example.eventify.eventOrganizer
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.DialogFragment
+import com.bumptech.glide.Glide
+import com.cloudinary.android.MediaManager
+import com.cloudinary.android.callback.ErrorInfo
+import com.cloudinary.android.callback.UploadCallback
 import com.example.eventify.ModelData.EventModelData
 import com.example.eventify.R
 import com.example.eventify.databinding.ActivityEventEditPageBinding
@@ -17,6 +25,7 @@ class  EventEditPage : AppCompatActivity() {
 
     private lateinit var binding: ActivityEventEditPageBinding
     private  var eventData: EventModelData? = null
+    private var imageUrl: String? = null
     private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,9 +54,19 @@ class  EventEditPage : AppCompatActivity() {
             binding.editEventLocationEditText.setText(it.eventLocation)
             binding.editEventDateDatePicker.text = it.eventDate
             binding.editEventTimeTimePicker.text = it.eventTime
+            Glide.with(this)
+                .load(it.eventImage)
+                .placeholder(R.drawable.event_default_image)
+                .into(binding.editEventImageView)
         }
     }
     private fun initializeListeners() {
+        binding.editEventPosterSelector.setOnClickListener {
+            val intent = Intent(Intent.ACTION_GET_CONTENT)
+            intent.type = "image/*"
+            imagePickerLauncher.launch(intent)
+        }
+
         binding.editEventTimeTimePicker.setOnClickListener {
             val dialog: DialogFragment = EventTimePicker(binding.editEventTimeTimePicker)
             dialog.show(supportFragmentManager, "Time picker dialog")
@@ -125,6 +144,11 @@ class  EventEditPage : AppCompatActivity() {
             isUpdated = true
         }
 
+        if (imageUrl != null){
+            eventRef.child("eventImage").setValue(imageUrl)
+            isUpdated = true
+        }
+
         if (isUpdated) {
             Toast.makeText(this, "Event edited successfully", Toast.LENGTH_SHORT).show()
             finish()
@@ -132,4 +156,50 @@ class  EventEditPage : AppCompatActivity() {
             Toast.makeText(this, "Event was not edited", Toast.LENGTH_SHORT).show()
         }
     }
+
+    private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        if (it.resultCode == RESULT_OK){
+            if (it.data != null){
+                val selectedImageURI = it.data?.data
+                selectedImageURI?.let { uri ->
+                    uploadImage(uri)
+                }
+            }
+        }
+    }
+
+    private fun uploadImage(uri: Uri) {
+        MediaManager.get().upload(uri)
+            .unsigned("EventifyPreset")
+            .callback(object : UploadCallback {
+                override fun onStart(requestId: String?) {
+                    Log.d("Cloudinary", "Upload started")
+                    Toast.makeText(this@EventEditPage, "Upload started", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onProgress(requestId: String?, bytes: Long, totalBytes: Long) {
+                    Log.d("Cloudinary", "Uploading... $bytes / $totalBytes")
+                }
+
+                override fun onSuccess(requestId: String?, resultData: MutableMap<Any?, Any?>?) {
+                    imageUrl = resultData?.get("secure_url") as? String
+                    Glide.with(applicationContext)
+                        .load(imageUrl)
+                        .into(binding.editEventImageView)
+                    Toast.makeText(this@EventEditPage, "Upload success", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onError(requestId: String?, error: ErrorInfo?) {
+                    Log.e("Cloudinary", "Upload error: ${error?.description}")
+                    Toast.makeText(this@EventEditPage, "Upload failed: ${error?.description}", Toast.LENGTH_LONG).show()
+                }
+
+                override fun onReschedule(requestId: String?, error: ErrorInfo?) {
+                    Log.e("Cloudinary", "Upload rescheduled: ${error?.description}")
+                }
+            })
+            .dispatch()
+
+    }
+
 }

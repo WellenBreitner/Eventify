@@ -31,11 +31,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="360dp"
                 android:contentDescription="@string/event_image"
-                android:scaleType="fitXY"
+                android:background="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@tools:sample/avatars" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -162,19 +161,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
-
-        <com.google.android.material.button.MaterialButton
-            style="@style/styleTextForTitle"
-            android:id="@+id/TicketSetupButton"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/white"
-            android:text="Ticket Setup"
-            android:textColor="@color/black"
-            app:cornerRadius="10dp"
-            app:strokeWidth="2dp" />
 
         <com.google.android.material.button.MaterialButton
             style="@style/styleTextForTitle"

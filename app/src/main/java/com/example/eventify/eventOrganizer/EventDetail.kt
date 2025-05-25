@@ -11,6 +11,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
+import com.bumptech.glide.Glide
 import com.example.eventify.ModelData.EventModelData
 import com.example.eventify.ModelData.TicketModelData
 import com.example.eventify.R
@@ -74,7 +75,10 @@ class EventDetail : AppCompatActivity() {
     }
 
     private fun bindDataToViews() {
-        binding.eventDetailImage.setImageResource(R.color.black)
+        Glide.with(this)
+            .load(eventData.eventImage)
+            .placeholder(R.drawable.event_default_image)
+            .into(binding.eventDetailImage)
 
         binding.eventDetailName.text     = eventData.eventName
         binding.eventDetailDate.text     = "Date: ${eventData.eventDate} ${eventData.eventTime}"
@@ -124,14 +128,10 @@ class EventDetail : AppCompatActivity() {
                         eventData.eventTime,
                         eventData.eventLocation,
                         eventData.organizerId,
-                        null
+                        eventData.eventImage
                     )
                 )
             }
-            startActivity(intent)
-        }
-        binding.TicketSetupButton.setOnClickListener {
-            val intent = Intent(this, TicketSetupPage::class.java)
             startActivity(intent)
         }
     }

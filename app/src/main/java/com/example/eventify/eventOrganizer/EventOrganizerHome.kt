@@ -93,7 +93,7 @@ class EventOrganizerHome : Fragment() {
                                 event.eventTime,
                                 event.eventLocation,
                                 event.organizerId,
-                                null)
+                                event.eventImage)
                         )
                     }
                 }

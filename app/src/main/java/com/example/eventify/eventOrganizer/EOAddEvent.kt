@@ -4,13 +4,18 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
+import com.cloudinary.android.MediaManager
+import com.cloudinary.android.callback.ErrorInfo
+import com.cloudinary.android.callback.UploadCallback
 import com.example.eventify.ModelData.EventModelData
 import com.example.eventify.R
 import com.example.eventify.databinding.ActivityEoAddEventBinding
@@ -23,7 +28,7 @@ class EOAddEvent : AppCompatActivity() {
 
     private lateinit var binding: ActivityEoAddEventBinding
     private lateinit var firebaseAuth: FirebaseAuth
-    private val PICK_IMAGE_REQUEST = 1
+    private var imageUrl: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,10 +42,44 @@ class EOAddEvent : AppCompatActivity() {
         }
 
         firebaseAuth = FirebaseAuth.getInstance()
-
-
         initializeListeners()
     }
+
+
+    private fun uploadImage(uri: Uri) {
+        MediaManager.get().upload(uri)
+            .unsigned("EventifyPreset")
+            .callback(object : UploadCallback {
+                override fun onStart(requestId: String?) {
+                    Log.d("Cloudinary", "Upload started")
+                    Toast.makeText(this@EOAddEvent, "Upload started", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onProgress(requestId: String?, bytes: Long, totalBytes: Long) {
+                    Log.d("Cloudinary", "Uploading... $bytes / $totalBytes")
+                }
+
+                override fun onSuccess(requestId: String?, resultData: MutableMap<Any?, Any?>?) {
+                    imageUrl = resultData?.get("secure_url") as? String
+                    Glide.with(applicationContext)
+                        .load(imageUrl)
+                        .into(binding.addClassImageView)
+                    Toast.makeText(this@EOAddEvent, "Upload success", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onError(requestId: String?, error: ErrorInfo?) {
+                    Log.e("Cloudinary", "Upload error: ${error?.description}")
+                    Toast.makeText(this@EOAddEvent, "Upload failed: ${error?.description}", Toast.LENGTH_LONG).show()
+                }
+
+                override fun onReschedule(requestId: String?, error: ErrorInfo?) {
+                    Log.e("Cloudinary", "Upload rescheduled: ${error?.description}")
+                }
+            })
+            .dispatch()
+
+    }
+
 
     private fun initializeListeners() {
         binding.addEventTimeTimePicker.setOnClickListener {
@@ -54,12 +93,11 @@ class EOAddEvent : AppCompatActivity() {
         }
 
         binding.addEventPosterSelector.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK)
+            val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "image/*"
-            startActivityForResult(intent, PICK_IMAGE_REQUEST)
+            imagePickerLauncher.launch(intent)
 
         }
-
 
         binding.cancelAddEventButton.setOnClickListener {
             finish()
@@ -130,7 +168,7 @@ class EOAddEvent : AppCompatActivity() {
                         eventDateTime,
                         eventLocation,
                         organizerID,
-                        null,
+                        imageUrl,
                     )
                 }
 
@@ -147,24 +185,15 @@ class EOAddEvent : AppCompatActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
-            val selectedImageUri: Uri? = data.data
-            if (selectedImageUri != null) {
-                val filePath = getRealPathFromUri(this, selectedImageUri)
-                val file = File(filePath)
-
-                uploadImageToCloudinary(file) { imageUrl ->
-                    if (imageUrl != null) {
-                        Glide.with(this).load(imageUrl).into(binding.addClassImageView)
-                        Toast.makeText(this, "Upload berhasil!", Toast.LENGTH_SHORT).show()
-                        // Simpan imageUrl ke Firestore atau database kamu
-                    } else {
-                        Toast.makeText(this, "Upload gagal!", Toast.LENGTH_SHORT).show()
-                    }
+    private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        if (it.resultCode == RESULT_OK){
+            if (it.data != null){
+                val selectedImageURI = it.data?.data
+                selectedImageURI?.let { uri ->
+                    uploadImage(uri)
                 }
             }
         }
     }
+
 }

@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.eventify.ModelData.EventModelData
 import com.example.eventify.ModelData.TicketModelData
 import com.example.eventify.R
@@ -32,10 +33,14 @@ class EOAdapter(
 
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
         val currentItem = dataList[position]
-        currentItem.eventImage?.let { holder.rvImage.setImageResource(it) }
         holder.rvName.text = currentItem.eventName
         holder.rvDate.text = currentItem.eventDate
         holder.rvLocation.text = currentItem.eventLocation
+
+        Glide.with(holder.itemView.context)
+            .load(currentItem.eventImage.toString())
+            .placeholder(R.drawable.event_default_image)
+            .into(holder.rvImage)
 
         holder.itemView.setOnClickListener {
             onCardClick(currentItem, TicketModelData(/*…*/), 0)
