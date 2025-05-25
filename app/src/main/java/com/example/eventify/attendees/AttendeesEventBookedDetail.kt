@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.bumptech.glide.Glide
 import com.example.eventify.ModelData.BookingModelData
 import com.example.eventify.ModelData.TicketModelData
 import com.example.eventify.R
@@ -96,5 +97,10 @@ class AttendeesEventBookedDetail : AppCompatActivity() {
         binding.attendeesEventBookedDetailNumberOfTicket.text = "Number Of Ticket: ${getEventBooked?.numberOfTicket}"
         binding.attendeesEventBookedDetailTicketType.text = "Ticket Type: ${getEventBooked?.ticketType}"
         binding.attendeesEventBookedDetailTotalPrice.text = "Total Price: $${getEventBooked?.totalPrice.toString()}"
+
+//        Glide.with(this)
+//            .load(getEventBooked)
+//            .placeholder(R.drawable.event_default_image)
+//            .into(binding.attendeesEventDetailImage)
     }
 }

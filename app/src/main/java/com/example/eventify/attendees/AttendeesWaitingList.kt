@@ -11,16 +11,13 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventify.Admin.AdminLoginPage
-import com.example.eventify.ModelData.BookingModelData
 import com.example.eventify.ModelData.WaitingListModelData
 import com.example.eventify.R
 import com.example.eventify.attendeesAdapter.AttendeesWaitingListAdapter
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
-import org.checkerframework.checker.index.qual.LengthOf
-import kotlin.math.log
+
 
 class AttendeesWaitingList : Fragment() {
     private var user: FirebaseUser? = null

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:background="@color/white"
-    tools:context=".Admin.AdminAnalyticsReportsUtilizationStatistics">
+    tools:context=".eventOrganizer.EOAnalyticsReport">
 
     <LinearLayout
-        android:id="@+id/pieAnalytics"
+        android:id="@+id/barAnalytics"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -22,41 +22,41 @@
             android:layout_margin="0dp"
             android:text="Graph"/>
 
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/analyticReportPieChartUtilizationStatisticsd"
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/analyticReportBarChartEO"
             android:layout_width="match_parent"
             android:layout_height="300dp" />
 
         <LinearLayout
-            android:id="@+id/resultLinearLayoutUtilizationStatistics"
+            android:id="@+id/resultLinearLayoutEO"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="gone">
 
             <TextView
-                android:id="@+id/xTextViewUtilizationStatistics"
+                android:id="@+id/xTextViewEO"
                 style="@style/StyleForText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="0dp"/>
 
             <TextView
-                android:id="@+id/yTextViewUtilizationStatistics"
+                android:id="@+id/yTextViewEO"
                 style="@style/StyleForText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="0dp"/>
 
             <TextView
-                android:id="@+id/zTextViewUtilizationStatistics"
+                android:id="@+id/zTextViewEO"
                 style="@style/StyleForText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="0dp"/>
 
             <TextView
-                android:id="@+id/vTextViewUtilizationStatistics"
+                android:id="@+id/vTextViewEO"
                 style="@style/StyleForText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,12 +69,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="0dp"
-            android:text="Select auditoriutm"/>
+            android:text="Select Type Report"/>
 
         <Spinner
-            android:id="@+id/spinner_auditorium"
+            android:id="@+id/spinner_type_report"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:entries="@array/type_report_options_EO"
             android:popupBackground="@color/white"/>
 
         <TextView
@@ -85,65 +86,23 @@
             android:text="Select time period"/>
 
         <Spinner
-            android:id="@+id/spinner_time_period_utilization_statistics"
+            android:id="@+id/spinner_time_period_eo"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:entries="@array/time_period_options"
+            android:entries="@array/time_period_options_EO"
             android:popupBackground="@color/white"/>
 
-        <LinearLayout
-            android:id="@+id/buttonLinearLayoutUtilizationStatistics"
+        <com.google.android.material.button.MaterialButton
+            style="@style/styleTextForTitle"
+            android:id="@+id/generateDataButton"
+            android:text="Generate Data"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:layout_height="0dp"
+            android:backgroundTint="@color/black"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            app:cornerRadius="10dp"/>
 
-            <TextView
-                style="@style/styleTextForTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="0dp"
-                android:text="Select custom date range"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <com.google.android.material.button.MaterialButton
-                    style="@style/styleTextForTitle"
-                    android:id="@+id/startDateButtonUtilizationStatistics"
-                    android:text="Start Date"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:backgroundTint="@color/black"
-                    android:layout_weight="1"
-                    android:textColor="@color/white"
-                    app:cornerRadius="10dp"/>
-
-                <com.google.android.material.button.MaterialButton
-                    style="@style/styleTextForTitle"
-                    android:id="@+id/endDateButtonUtilizationStatistics"
-                    android:text="End Date"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:backgroundTint="@color/black"
-                    android:layout_weight="1"
-                    android:textColor="@color/white"
-                    app:cornerRadius="10dp"/>
-            </LinearLayout>
-
-            <com.google.android.material.button.MaterialButton
-                style="@style/styleTextForTitle"
-                android:id="@+id/generateDataButtonUtilizationStatistics"
-                android:text="Generate Data"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:backgroundTint="@color/black"
-                android:layout_weight="1"
-                android:textColor="@color/white"
-                app:cornerRadius="10dp"/>
-        </LinearLayout>
         <com.google.android.material.button.MaterialButton
             style="@style/styleTextForTitle"
             android:id="@+id/PDFButton"
@@ -160,4 +119,5 @@
             android:textColor="@color/black"
             app:cornerRadius="10dp"/>
     </LinearLayout>
+
 </ScrollView>

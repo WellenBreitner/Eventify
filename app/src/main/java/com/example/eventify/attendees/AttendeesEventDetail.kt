@@ -12,6 +12,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
+import com.bumptech.glide.Glide
 import com.example.eventify.ModelData.EventModelData
 import com.example.eventify.ModelData.TicketModelData
 import com.example.eventify.R
@@ -30,6 +31,7 @@ class AttendeesEventDetail : AppCompatActivity() {
     private lateinit var getEventDate: String
     private lateinit var getEventTime: String
     private lateinit var getOrganizerID : String
+    private lateinit var getImage : String
     private lateinit var getEventLocation: String
     private lateinit var getEventDescription: String
     private lateinit var getTicketAvailable: String
@@ -91,6 +93,7 @@ class AttendeesEventDetail : AppCompatActivity() {
             getOrganizerID = getEvent.organizerId.toString()
             getEventLocation = getEvent.eventLocation.toString()
             getEventDescription = getEvent.eventDescription.toString()
+            getImage = getEvent.eventImage.toString()
             val getTicketRemainingText = "Ticket Remaining: $getTotalTicket"
             getTicketRemaining = getTotalTicket
             getMaxWaitingList = getTicket.maxWaitingList ?:0
@@ -114,6 +117,11 @@ class AttendeesEventDetail : AppCompatActivity() {
                 binding.attendeesEventDetailBuyTicketButton.text = "Join Waiting List"
                 binding.attendeesEventDetailBuyTicketButton.setBackgroundColor(Color.parseColor("#A62C2C"))
             }
+
+            Glide.with(this)
+                .load(getImage)
+                .placeholder(R.drawable.event_default_image)
+                .into(binding.attendeesEventDetailImage)
         }
 
     }
@@ -147,7 +155,7 @@ class AttendeesEventDetail : AppCompatActivity() {
                         getEventTime,
                         getEventLocation,
                         getOrganizerID,
-                        null
+                        getImage
                     )
                 )
                 startActivity(intent)

@@ -15,70 +15,93 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Eventify"
+        android:screenOrientation="portrait"
+        android:forceDarkAllowed="false"
         tools:targetApi="31">
 
         <activity
             android:name=".Admin.AdminAnalyticsReportEO"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Admin.AdminAnalyticsReportsUtilizationStatistics"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Admin.AdminAnalyticReportsAuditoriumBooking"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Admin.AdminAnalyticsReportsEventHosted"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".eventOrganizer.EventTicketTypeList"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".eventOrganizer.TicketSetupPage"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".eventOrganizer.EventEditPage"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".eventOrganizer.EventDetail"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".eventOrganizer.EOAddEvent"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".attendees.AttendeesPaymentInformation"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Admin.EventOrganizerResetPassword"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Admin.AdminDashboard"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Admin.RegisterActivityEO"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Admin.AdminSignup"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".attendees.AttendeesEventList"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".attendees.AttendeesPurchaseTicket"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".attendees.AttendeesEventBookedDetail"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".attendees.AttendeesEventDetail"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".eventOrganizer.EventOrganizerDashboard"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".attendees.AttendeesDashboard"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Admin.AdminLoginPage"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

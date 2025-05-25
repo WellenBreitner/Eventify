@@ -31,7 +31,7 @@ class EventOrganizerDashboard : AppCompatActivity() {
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId){
                 R.id.home -> replaceFragment(EventOrganizerHome())
-                R.id.analyticReport -> replaceFragment(EventOrganizerProfile())
+                R.id.analyticReport -> replaceFragment(EOAnalyticsReport())
                 R.id.profile -> replaceFragment(EventOrganizerProfile())
                 else -> {}
             }
