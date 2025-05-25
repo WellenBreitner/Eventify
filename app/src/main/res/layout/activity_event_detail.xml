@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".eventOrganizer.EventDetail">
+
+    <ScrollView
+        android:id="@+id/scrollViewEventDetail"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/eventDetailImage"
+                android:layout_width="match_parent"
+                android:layout_height="360dp"
+                android:contentDescription="@string/event_image"
+                android:background="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:cardBackgroundColor="@color/whiteSmoke">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/eventDetailName"
+                        style="@style/styleTextForTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="Event name" />
+
+                    <TextView
+                        android:id="@+id/eventDetailDate"
+                        style="@style/StyleForText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="Event date" />
+
+                    <TextView
+                        android:id="@+id/eventDetailLocation"
+                        style="@style/StyleForText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="Event location" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/eventDescriptionCardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                app:cardBackgroundColor="@color/whiteSmoke">
+
+                <LinearLayout
+                    android:id="@+id/eventExpandLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:animateLayoutChanges="true"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/styleTextForTitle"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="Description" />
+
+                        <ImageView
+                            android:id="@+id/eventExpandImage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_margin="8dp"
+                            android:contentDescription="expand image" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/eventDetailDesc"
+                        style="@style/StyleForText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"
+                        tools:text="Description" />
+
+                </LinearLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:cardBackgroundColor="@color/whiteSmoke">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/eventTicketRemaining"
+                        style="@style/StyleForText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ticket remaining" />
+
+                    <TextView
+                        android:id="@+id/eventTicketAvailable"
+                        style="@style/StyleForText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ticket available" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginVertical="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/styleTextForTitle"
+            android:id="@+id/editEventButton"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:backgroundTint="@color/black"
+            app:cornerRadius="10dp"
+            android:text="Edit Event" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,11 +8,19 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.eventify.ModelData.EventModelData
+import com.example.eventify.ModelData.TicketModelData
 import com.example.eventify.R
+import com.google.android.material.button.MaterialButton
 import com.google.firebase.database.collection.LLRBNode.Color
 
-class EOAdapter(private val dataList: ArrayList<EventModelData>): RecyclerView.Adapter<EOAdapter.ViewHolderClass>() {
+class EOAdapter(
+    private val dataList: ArrayList<EventModelData>,
+    private val onCardClick: (EventModelData, TicketModelData, Int) -> Unit,
+    private val onEditClick: (EventModelData) -> Unit,
+    private val onAddTicketClick: (EventModelData) -> Unit
+) : RecyclerView.Adapter<EOAdapter.ViewHolderClass>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderClass {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.eo_event_list_item, parent, false)
@@ -25,10 +33,25 @@ class EOAdapter(private val dataList: ArrayList<EventModelData>): RecyclerView.A
 
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
         val currentItem = dataList[position]
-        currentItem.eventImage?.let { holder.rvImage.setImageResource(it) }
         holder.rvName.text = currentItem.eventName
         holder.rvDate.text = currentItem.eventDate
         holder.rvLocation.text = currentItem.eventLocation
+
+        Glide.with(holder.itemView.context)
+            .load(currentItem.eventImage.toString())
+            .placeholder(R.drawable.event_default_image)
+            .into(holder.rvImage)
+
+        holder.itemView.setOnClickListener {
+            onCardClick(currentItem, TicketModelData(/*…*/), 0)
+        }
+        // button tap
+        holder.rvEditButton.setOnClickListener {
+            onEditClick(currentItem)
+        }
+        holder.rvTicketSetupButton.setOnClickListener {
+            onAddTicketClick(currentItem) // ✅ handle new ticket button
+        }
 
     }
 
@@ -37,6 +60,7 @@ class EOAdapter(private val dataList: ArrayList<EventModelData>): RecyclerView.A
         val rvName:TextView = itemView.findViewById(R.id.eoListEventName)
         val rvDate:TextView = itemView.findViewById(R.id.eoListEventDate)
         val rvLocation:TextView = itemView.findViewById(R.id.eoListLocation)
-        val rvButton:Button = itemView.findViewById(R.id.eoEditButton)
+        val rvEditButton:Button = itemView.findViewById(R.id.eoEditButton)
+        val rvTicketSetupButton:Button = itemView.findViewById(R.id.eoAddTicketTypeButton)
     }
 }

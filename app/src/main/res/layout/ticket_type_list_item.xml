@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:strokeWidth="0dp"
+    app:cardCornerRadius="20dp"
+    app:cardBackgroundColor="@color/whiteSmoke">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/ticketIDInfo"
+            style="@style/StyleForText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="ticket ID" />
+
+        <TextView
+            android:id="@+id/ticketTypeInfo"
+            style="@style/StyleForText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="ticket Type" />
+
+        <TextView
+            android:id="@+id/ticketPriceInfo"
+            style="@style/StyleForText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="ticket Price" />
+
+        <TextView
+            android:id="@+id/ticketLimitInfo"
+            style="@style/StyleForText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="ticket waiting list limit" />
+
+        <TextView
+            android:id="@+id/ticketRemainingInfo"
+            style="@style/StyleForText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="ticket Remaining" />
+
+        <TextView
+            android:id="@+id/ticketPromotionCodeInfo"
+            style="@style/StyleForText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="ticket Promotion Code" />
+
+        <TextView
+            android:id="@+id/ticketPromotionExpiryInfo"
+            style="@style/StyleForText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="ticket promotion expiry date" />
+
+        <TextView
+            android:id="@+id/ticketDiscountInfo"
+            style="@style/StyleForText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="ticket discount" />
+
+        <TextView
+            android:id="@+id/ticketAssignSeatInfo"
+            style="@style/StyleForText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Assign seat:" />
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
