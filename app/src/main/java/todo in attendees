@@ -1,5 +1,91 @@
 1. Once payment is successful, the system sends a confirmation email or notification with ticket details. System then redirects to the homepage.
 
 2.When tickets become available, the system identifies the next attendee on the waitlist.
+code:
+private fun checkAndNotifyNextUserInWaitlist(eventId: String) {
+    val waitingListRef = Firebase.database.getReference("waiting_lists")
+
+    waitingListRef.orderByChild("timeJoin").get().addOnSuccessListener { snapshot ->
+        for (child in snapshot.children) {
+            val data = child.getValue(WaitingListModelData::class.java)
+
+            if (data != null &&
+                data.eventId == eventId &&
+                data.status == "active" &&
+                !data.notification_sent
+            ) {
+                // TODO: Replace with FCM/email later
+                Toast.makeText(context, "Notifying: ${data.email}", Toast.LENGTH_LONG).show()
+
+                // Mark as notified
+                child.ref.child("notification_sent").setValue(true)
+
+                break // Notify only one person
+            }
+        }
+    }
+}
+
+
 3.The system automatically notifies the attendee via email. System removes the attendee from the waitlist upon successful purchase.
 4. If no tickets become available, the system notifies waitlisted attendees when the event date approaches
+private fun notifyAllIfEventNear(eventId: String, eventDateMillis: Long) {
+    val oneDayMillis = 24 * 60 * 60 * 1000
+    val currentTime = System.currentTimeMillis()
+
+    if (eventDateMillis - currentTime <= oneDayMillis) {
+        val waitingListRef = Firebase.database.getReference("waiting_lists")
+
+        waitingListRef.orderByChild("timeJoin").get().addOnSuccessListener { snapshot ->
+            for (child in snapshot.children) {
+                val data = child.getValue(WaitingListModelData::class.java)
+
+                if (data != null &&
+                    data.eventId == eventId &&
+                    data.status == "active"
+                ) {
+                    // TODO: Replace with FCM/email later
+                    Toast.makeText(context, "Sorry ${data.email}, no tickets available.", Toast.LENGTH_LONG).show()
+
+                    child.ref.child("status").setValue("expired")
+                }
+            }
+        }
+    }
+}
+
+
+
+
+// EmailSender.kt
+import android.content.Context
+import android.util.Log
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
+import org.json.JSONObject
+
+object EmailSender {
+    fun sendEmailWithEmailJS(context: Context, email: String, subject: String, message: String) {
+        val json = JSONObject().apply {
+            put("service_id", "service_xyz")
+            put("template_id", "template_xyz")
+            put("user_id", "public_xyz")
+            put("template_params", JSONObject().apply {
+                put("to_email", email)
+                put("subject", subject)
+                put("message", message)
+            })
+        }
+
+        val request = JsonObjectRequest(
+            Request.Method.POST,
+            "https://api.emailjs.com/api/v1.0/email/send",
+            json,
+            { response -> Log.d("EmailJS", "Success: $response") },
+            { error -> Log.e("EmailJS", "Error: ${error.message}") }
+        )
+
+        Volley.newRequestQueue(context).add(request)
+    }
+}

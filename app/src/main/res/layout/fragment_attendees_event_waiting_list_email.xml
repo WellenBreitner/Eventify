@@ -23,7 +23,7 @@
             style="@style/StyleForText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Please submit the email for us to notified you when the event become available."/>
+            android:text="Please submit the email for us to notified you through notification when the event become available."/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"

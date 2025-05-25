@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
@@ -51,7 +50,7 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
     private var unavailableSeats = hashSetOf<String>()
     private var bookedSeat = hashSetOf<String>()
     private val seats = mutableListOf<SeatModelData>()
-    private val rows = listOf("A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L","AA","BB","CC","DD","EE")
+    private val rows = ArrayList<String>()
     private val cols = 50
     private var isTicketTypeSelected = false
     private var isRecyclerInitialized = false
@@ -103,6 +102,10 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
             isTicketTypeSelected = data != "Not selected"
 
             getTicketAvailableFromTicketType(data.toString())
+
+            if (isRecyclerInitialized) {
+                seatSetup(data.toString())
+            }
         }
 
         unavailableSeats = hashSetOf(
@@ -127,11 +130,32 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
             )
     }
 
-    private fun seatSetup(){
-        for(row in rows){
-            for (number in cols downTo 1){
-                seats.add(SeatModelData(row + number,row,number,false))
+    private fun seatSetup(ticketType: String){
+        rows.clear()
+        seats.clear()
+        selectedSeat.clear()
+        binding.attendeesSelectSeat.text = "Not selected"
+        binding.numberOfPurchaseTicket.text = "0"
+        Log.d("TAG", "ticket type: $ticketType")
+        val ticketRef = FirebaseDatabase.getInstance().getReference("ticket")
+        ticketRef.get().addOnSuccessListener { snapshot ->
+            if (snapshot.exists()){
+                for(data in snapshot.children){
+                    val ticket = data.getValue(TicketModelData::class.java)
+                    if (ticket != null && ticket.eventId == getEventID && ticket.ticketType == ticketType) {
+                        ticket.assignSeat?.let { rows.addAll(it) }
+                    }
+                }
+
+                for(row in rows){
+                    for (number in cols downTo 1){
+                        seats.add(SeatModelData(row + number,row,number,false))
+                    }
+                }
+                recyclerView.adapter?.notifyDataSetChanged()
             }
+        }.addOnFailureListener {
+            Toast.makeText(this, "Failed to fetch data in database", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -148,7 +172,7 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
     private fun initializeRecycleViewAndSeatSelectionFeature(){
             recyclerView.layoutManager = GridLayoutManager(this,cols)
             recyclerView.setHasFixedSize(true)
-            seatSetup()
+            seatSetup(binding.ticketTypeAttendeesChoose.text.toString())
             val adapter = SeatAdapter(seats,unavailableSeats,bookedSeat)
             recyclerView.adapter = adapter
 
