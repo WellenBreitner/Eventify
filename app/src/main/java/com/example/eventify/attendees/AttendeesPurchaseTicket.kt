@@ -51,7 +51,7 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
     private var unavailableSeats = hashSetOf<String>()
     private var bookedSeat = hashSetOf<String>()
     private val seats = mutableListOf<SeatModelData>()
-    private val rows = listOf("A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L","AA","BB","CC","DD","EE")
+    private val rows = listOf("A" , "B", "C", "D", "E", "F", "G", "H", "J", "K", "L","AA","BB","CC","DD","EE")
     private val cols = 50
     private var isTicketTypeSelected = false
     private var isRecyclerInitialized = false

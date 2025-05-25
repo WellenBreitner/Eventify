@@ -1,5 +1,8 @@
 package com.example.eventify.eventOrganizer
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -7,17 +10,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.DialogFragment
+import com.bumptech.glide.Glide
 import com.example.eventify.ModelData.EventModelData
 import com.example.eventify.R
 import com.example.eventify.databinding.ActivityEoAddEventBinding
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.database
+import java.io.File
 
 class EOAddEvent : AppCompatActivity() {
 
     private lateinit var binding: ActivityEoAddEventBinding
     private lateinit var firebaseAuth: FirebaseAuth
+    private val PICK_IMAGE_REQUEST = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +51,13 @@ class EOAddEvent : AppCompatActivity() {
         binding.addEventDateDatePicker.setOnClickListener {
             val dialog: DialogFragment = EventDatePicker(binding.addEventDateDatePicker)
             dialog.show(supportFragmentManager, "Date picker dialog")
+        }
+
+        binding.addEventPosterSelector.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            startActivityForResult(intent, PICK_IMAGE_REQUEST)
+
         }
 
 
@@ -113,10 +126,11 @@ class EOAddEvent : AppCompatActivity() {
                         it,
                         eventName,
                         eventDescription,
-                        "$eventDate $eventDateTime",
+                        eventDate,
+                        eventDateTime,
                         eventLocation,
                         organizerID,
-                        null
+                        null,
                     )
                 }
 
@@ -129,6 +143,27 @@ class EOAddEvent : AppCompatActivity() {
                     .addOnFailureListener {
                         Toast.makeText(this, "Event Add Failed", Toast.LENGTH_SHORT).show()
                     }
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+            val selectedImageUri: Uri? = data.data
+            if (selectedImageUri != null) {
+                val filePath = getRealPathFromUri(this, selectedImageUri)
+                val file = File(filePath)
+
+                uploadImageToCloudinary(file) { imageUrl ->
+                    if (imageUrl != null) {
+                        Glide.with(this).load(imageUrl).into(binding.addClassImageView)
+                        Toast.makeText(this, "Upload berhasil!", Toast.LENGTH_SHORT).show()
+                        // Simpan imageUrl ke Firestore atau database kamu
+                    } else {
+                        Toast.makeText(this, "Upload gagal!", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
     }

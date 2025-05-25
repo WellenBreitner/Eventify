@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Eventify"
         tools:targetApi="31">
         <activity
+            android:name=".eventOrganizer.EventTicketTypeList"
+            android:exported="false" />
+        <activity
             android:name=".eventOrganizer.TicketSetupPage"
             android:exported="false" />
         <activity

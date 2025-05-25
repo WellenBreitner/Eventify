@@ -15,7 +15,7 @@ import com.example.eventify.ModelData.EventModelData
 import com.example.eventify.ModelData.TicketModelData
 import com.example.eventify.R
 import com.example.eventify.databinding.ActivityEventDetailBinding
-import com.example.eventify.databinding.ActivityTicketSetupPageBinding
+
 
 class EventDetail : AppCompatActivity() {
     companion object {

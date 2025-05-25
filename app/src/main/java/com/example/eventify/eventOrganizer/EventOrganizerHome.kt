@@ -12,11 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.eventify.ModelData.EventModelData
 import com.example.eventify.ModelData.TicketModelData
 import com.example.eventify.R
-import com.example.eventify.attendees.AttendeesEventDetail
 import com.example.eventify.eoAdapter.EOAdapter
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.database
 
 
@@ -54,7 +52,7 @@ class EventOrganizerHome : Fragment() {
                 startActivity(intent)
             },
             onAddTicketClick = { event ->
-                val intent = Intent(requireActivity(), TicketSetupPage::class.java)
+                val intent = Intent(requireActivity(), EventTicketTypeList::class.java)
                 intent.putExtra("EXTRA_EVENT_ID", event.eventId)
                 intent.putExtra("EXTRA_EVENT_NAME", event.eventName)
                 startActivity(intent)

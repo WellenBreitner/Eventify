@@ -12,7 +12,7 @@
         android:id="@+id/scrollViewEventDetail"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/attendeesEventDetailBuyTicketButton"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -56,8 +56,8 @@
                         tools:text="Event name" />
 
                     <TextView
-                        style="@style/StyleForText"
                         android:id="@+id/eventDetailDate"
+                        style="@style/StyleForText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         tools:text="Event date" />
@@ -83,8 +83,8 @@
                     android:id="@+id/eventExpandLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:animateLayoutChanges="true">
+                    android:animateLayoutChanges="true"
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -105,13 +105,14 @@
                             android:layout_margin="8dp"
                             android:contentDescription="expand image" />
                     </LinearLayout>
+
                     <TextView
                         android:id="@+id/eventDetailDesc"
                         style="@style/StyleForText"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        tools:text="Description"
-                        android:visibility="gone"/>
+                        android:visibility="gone"
+                        tools:text="Description" />
 
                 </LinearLayout>
 
@@ -130,15 +131,15 @@
                     android:orientation="vertical">
 
                     <TextView
-                        style="@style/StyleForText"
                         android:id="@+id/eventTicketRemaining"
+                        style="@style/StyleForText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Ticket remaining"/>
+                        android:text="Ticket remaining" />
 
                     <TextView
-                        style="@style/StyleForText"
                         android:id="@+id/eventTicketAvailable"
+                        style="@style/StyleForText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Ticket available" />
@@ -163,6 +164,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.button.MaterialButton
+            style="@style/styleTextForTitle"
             android:id="@+id/TicketSetupButton"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
@@ -171,15 +173,19 @@
             android:backgroundTint="@color/white"
             android:text="Ticket Setup"
             android:textColor="@color/black"
+            app:cornerRadius="10dp"
             app:strokeWidth="2dp" />
 
         <com.google.android.material.button.MaterialButton
+            style="@style/styleTextForTitle"
             android:id="@+id/editEventButton"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:textColor="@color/white"
             android:layout_weight="1"
             android:backgroundTint="@color/black"
+            app:cornerRadius="10dp"
             android:text="Edit Event" />
 
     </LinearLayout>

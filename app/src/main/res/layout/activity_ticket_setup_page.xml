@@ -11,7 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Header -->
         <LinearLayout
             android:id="@+id/setupTicketLinearLayout"
             android:layout_width="match_parent"
@@ -93,6 +92,7 @@
                     android:inputType="numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
 
+
             <!-- Max Waitlist -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/maxWaitlistField"
@@ -121,6 +121,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/addTicketTypeTextField">
 
             <TextView
@@ -159,22 +161,102 @@
                     android:orientation="horizontal">
 
                     <!-- Seat Checkboxes -->
-                    <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="A" />
-                    <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="B" />
-                    <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="C" />
-                    <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="D" />
-                    <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="E" />
-                    <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="F" />
-                    <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="G" />
-                    <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="H" />
-                    <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="J" />
-                    <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="K" />
-                    <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="L" />
-                    <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="AA" />
-                    <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="BB" />
-                    <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="CC" />
-                    <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="DD" />
-                    <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="EE" />
+                    <CheckBox
+                        android:id="@+id/checkboxA"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="A" />
+
+                    <CheckBox
+                        android:id="@+id/checkboxB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="B" />
+
+                    <CheckBox
+                        android:id="@+id/checkboxC"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="C" />
+
+                    <CheckBox
+                        android:id="@+id/checkboxD"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="D" />
+
+                    <CheckBox
+                        android:id="@+id/checkboxE"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="E" />
+
+                    <CheckBox
+                        android:id="@+id/checkboxF"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="F" />
+
+                    <CheckBox
+                        android:id="@+id/checkboxG"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="G" />
+
+                    <CheckBox
+                        android:id="@+id/checkboxH"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="H" />
+
+                    <CheckBox
+                        android:id="@+id/checkboxJ"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="J" />
+
+                    <CheckBox
+                        android:id="@+id/checkboxK"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="K" />
+
+                    <CheckBox
+                        android:id="@+id/checkboxL"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="L" />
+
+                    <CheckBox
+                        android:id="@+id/checkboxAA"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="AA" />
+
+                    <CheckBox
+                        android:id="@+id/checkboxBB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="BB" />
+
+                    <CheckBox
+                        android:id="@+id/checkboxCC"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CC" />
+
+                    <CheckBox
+                        android:id="@+id/checkboxDD"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="DD" />
+
+                    <CheckBox
+                        android:id="@+id/checkboxEE"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="EE" />
+
                 </LinearLayout>
             </HorizontalScrollView>
 
@@ -183,7 +265,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
                 android:layout_marginTop="15dp"
-                android:text="Set Promotion Code"
+                android:text="Set Promotion"
                 android:textSize="20sp"
                 android:textStyle="bold" />
             <!-- Promotion Code -->
@@ -201,10 +283,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="8dp"
                     android:hint="Promotion Code"
-                    app:boxCornerRadiusTopStart="10dp"
-                    app:boxCornerRadiusTopEnd="10dp"
-                    app:boxCornerRadiusBottomStart="10dp"
                     app:boxCornerRadiusBottomEnd="10dp"
+                    app:boxCornerRadiusBottomStart="10dp"
+                    app:boxCornerRadiusTopEnd="10dp"
+                    app:boxCornerRadiusTopStart="10dp"
                     app:boxStrokeColor="@color/black"
                     app:hintTextColor="@color/black">
 
@@ -213,6 +295,26 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/promotionDiscountField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:hint="Promotion Discount"
+                    app:boxCornerRadiusBottomEnd="10dp"
+                    app:boxCornerRadiusBottomStart="10dp"
+                    app:boxCornerRadiusTopEnd="10dp"
+                    app:boxCornerRadiusTopStart="10dp"
+                    app:boxStrokeColor="@color/black"
+                    app:hintTextColor="@color/black">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/promotionDiscountEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:inputType="number" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
@@ -269,23 +371,28 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/cancelAddEventButton"
+                    style="@style/styleTextForTitle"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"
+                    android:backgroundTint="@color/white"
                     android:text="Cancel"
                     android:textColor="@color/black"
-                    android:backgroundTint="@color/white"
+                    app:cornerRadius="10dp"
                     app:strokeWidth="2dp" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/addEventButton"
+                    android:id="@+id/addTicketButton"
+                    style="@style/styleTextForTitle"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_weight="1"
+                    android:backgroundTint="@color/black"
                     android:text="Add"
-                    android:backgroundTint="@color/black" />
+                    android:textColor="@color/white"
+                    app:cornerRadius="10dp" />
             </LinearLayout>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

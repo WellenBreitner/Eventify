@@ -249,6 +249,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editEventTimeLinearLayout">
 
         <com.google.android.material.button.MaterialButton
+            style="@style/styleTextForTitle"
             android:id="@+id/cancelEditEventButton"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
@@ -257,16 +258,20 @@
             android:backgroundTint="@color/white"
             android:text="Cancel"
             android:textColor="@color/black"
+            app:cornerRadius="10dp"
             app:strokeWidth="2dp" />
 
         <com.google.android.material.button.MaterialButton
+            style="@style/styleTextForTitle"
             android:id="@+id/saveEditedEventButton"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
+            android:textColor="@color/white"
             android:backgroundTint="@color/black"
-            android:text="Save Change" />
+            android:text="Save Change"
+            app:cornerRadius="10dp"/>
 
     </LinearLayout>
 

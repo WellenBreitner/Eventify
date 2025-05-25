@@ -2,45 +2,30 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     android:background="@color/white"
-    tools:context=".eventOrganizer.EventOrganizerHome">
+    tools:context=".eventOrganizer.EventTicketTypeList">
 
-    <TextView
-        android:id="@+id/textView2"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ticketTypeRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/event_list"
-        android:textSize="25sp"
-        android:layout_margin="8dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/eoAddTicketTypeButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/EORVEventList"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="8dp"
-        android:layout_marginTop="104dp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/adminAddClassButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        tools:listitem="@layout/eo_event_list_item">
-
-    </androidx.recyclerview.widget.RecyclerView>
-
     <com.google.android.material.button.MaterialButton
         style="@style/styleTextForTitle"
-        android:id="@+id/adminAddClassButton"
+        android:id="@+id/eoAddTicketTypeButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:backgroundTint="@color/black"
-        android:text="Add Event"
+        android:text="Add Ticket Type"
         android:textColor="@color/white"
         app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"

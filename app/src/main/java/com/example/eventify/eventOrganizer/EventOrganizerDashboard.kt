@@ -2,7 +2,6 @@ package com.example.eventify.eventOrganizer
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -32,7 +31,7 @@ class EventOrganizerDashboard : AppCompatActivity() {
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId){
                 R.id.home -> replaceFragment(EventOrganizerHome())
-                R.id.analyticReport -> replaceFragment(EventOrganizerAnalyticReport())
+                R.id.analyticReport -> replaceFragment(EventOrganizerProfile())
                 R.id.profile -> replaceFragment(EventOrganizerProfile())
                 else -> {}
             }

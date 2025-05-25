@@ -93,6 +93,7 @@
                     app:layout_constraintEnd_toEndOf="parent">
 
                     <com.google.android.material.button.MaterialButton
+                        style="@style/styleTextForTitle"
                         android:id="@+id/eoEditButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -105,28 +106,22 @@
                         app:iconGravity="end"
                         app:iconTint="@color/black"
                         app:strokeColor="@color/black"
+                        app:cornerRadius="10dp"
                         app:strokeWidth="2dp" />
-                </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/addTicketLayout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintTop_toBottomOf="@id/editButtonLayout"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent">
 
                     <com.google.android.material.button.MaterialButton
+                        style="@style/styleTextForTitle"
                         android:id="@+id/eoAddTicketTypeButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
                         android:layout_weight="1"
                         android:backgroundTint="@color/white"
-                        android:text="Add Ticket Type"
+                        android:text="Ticket Type"
                         android:textColor="@color/black"
                         android:textStyle="bold"
+                        app:cornerRadius="10dp"
                         app:iconGravity="end"
                         app:iconTint="@color/black"
                         app:strokeColor="@color/black"
