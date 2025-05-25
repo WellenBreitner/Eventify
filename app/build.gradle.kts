@@ -63,9 +63,5 @@ dependencies {
     androidTestImplementation ("androidx.test:rules:1.4.0")
     androidTestImplementation ("androidx.test.ext:junit:1.1.3")
     androidTestImplementation ("androidx.test.espresso:espresso-intents:3.4.0")
-
-
-}
-tasks.withType<Test> {
-    useJUnitPlatform()
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }
