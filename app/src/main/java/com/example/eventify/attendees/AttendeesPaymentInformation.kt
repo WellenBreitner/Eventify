@@ -162,6 +162,7 @@ class AttendeesPaymentInformation : AppCompatActivity() , PaymentResultListener 
                 getPaymentInformation?.eventID,
                 getPaymentInformation?.eventName,
                 getPaymentInformation?.eventDate,
+                getPaymentInformation?.eventImage,
                 getPaymentInformation?.eventLocation,
                 getPaymentInformation?.ticketType,
                 getPaymentInformation?.numberOfTicket,

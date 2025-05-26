@@ -3,8 +3,10 @@ package com.example.eventify.attendeesAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.eventify.ModelData.BookingModelData
 import com.example.eventify.R
 
@@ -23,6 +25,7 @@ class AttendeesEventBookedAdapter (
         val eventName: TextView = itemView.findViewById(R.id.attendeesEventBookedName)
         val eventDate: TextView = itemView.findViewById(R.id.attendeesEventBookedDate)
         val eventLocation: TextView = itemView.findViewById(R.id.attendeesEventBookedLocation)
+        val eventImage: ImageView = itemView.findViewById(R.id.attendeesEventBookedImage)
         val seat: TextView = itemView.findViewById(R.id.attendeesEventBookedSeat)
     }
 
@@ -39,6 +42,11 @@ class AttendeesEventBookedAdapter (
         holder.eventDate.text = "Date: ${bookedEvent.eventDate}"
         holder.eventLocation.text = "Location: ${bookedEvent.eventLocation}"
         holder.seat.text = "Seat: ${bookedEvent.selectedSeat.joinToString(",")}"
+
+        Glide.with(holder.itemView.context)
+            .load(bookedEvent.eventImage)
+            .placeholder(R.drawable.event_default_image)
+            .into(holder.eventImage)
 
         holder.itemView.setOnClickListener{
             listener.onClick(bookedEvent)

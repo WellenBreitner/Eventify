@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.eventify.ModelData.BookedSeatModelData
 import com.example.eventify.ModelData.BookingModelData
 import com.example.eventify.ModelData.EventModelData
@@ -20,6 +21,7 @@ import com.example.eventify.attendeesAdapter.SeatAdapter
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.database
 import java.util.ArrayList
 
@@ -28,6 +30,7 @@ class AttendeesBookedEvent : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var events: ArrayList<BookingModelData>
     private lateinit var view: View
+    private lateinit var getEventID: String
     private lateinit var eventDatabaseReference: DatabaseReference
     private lateinit var adapter: AttendeesEventBookedAdapter
     private lateinit var firebaseAuth: FirebaseAuth
@@ -87,6 +90,7 @@ class AttendeesBookedEvent : Fragment() {
                                         bookingEvent.eventID,
                                         bookingEvent.eventName,
                                         bookingEvent.eventDate,
+                                        bookingEvent.eventImage,
                                         bookingEvent.eventLocation,
                                         bookingEvent.ticketType,
                                         bookingEvent.numberOfTicket,
@@ -96,6 +100,7 @@ class AttendeesBookedEvent : Fragment() {
                                         bookingEvent.selectedSeat
                                 )
                                 )
+                                getEventID = bookingEvent.eventID.toString()
                             }
                         }
                         adapter.notifyDataSetChanged()

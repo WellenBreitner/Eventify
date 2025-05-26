@@ -279,6 +279,7 @@ class AttendeesPurchaseTicket : AppCompatActivity() {
                             getEventID,
                             getEventInformation?.eventName.toString(),
                             getEventInformation?.eventDate.toString(),
+                            getEventInformation?.eventImage.toString(),
                             getEventInformation?.eventLocation.toString(),
                             binding.ticketTypeAttendeesChoose.text.toString(),
                             numberTicket,

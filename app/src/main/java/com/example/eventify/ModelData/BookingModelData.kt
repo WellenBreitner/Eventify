@@ -12,6 +12,7 @@ data class BookingModelData(
     val eventID:String? = null,
     val eventName: String? = null,
     val eventDate: String? = null,
+    val eventImage: String? = null,
     val eventLocation:String? = null,
     val ticketType:String? = null,
     val numberOfTicket: String? = null,

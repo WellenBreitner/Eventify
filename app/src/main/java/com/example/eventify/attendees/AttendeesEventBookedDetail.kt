@@ -97,10 +97,11 @@ class AttendeesEventBookedDetail : AppCompatActivity() {
         binding.attendeesEventBookedDetailNumberOfTicket.text = "Number Of Ticket: ${getEventBooked?.numberOfTicket}"
         binding.attendeesEventBookedDetailTicketType.text = "Ticket Type: ${getEventBooked?.ticketType}"
         binding.attendeesEventBookedDetailTotalPrice.text = "Total Price: $${getEventBooked?.totalPrice.toString()}"
-
-//        Glide.with(this)
-//            .load(getEventBooked)
-//            .placeholder(R.drawable.event_default_image)
-//            .into(binding.attendeesEventDetailImage)
+        Glide.with(this)
+            .load(getEventBooked?.eventImage)
+            .placeholder(R.drawable.event_default_image)
+            .into(binding.attendeesEventBookedDetailImage)
     }
+
+
 }
