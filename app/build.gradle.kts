@@ -53,6 +53,7 @@ dependencies {
     implementation(libs.google.firebase.analytics)
     implementation(libs.firebase.auth.ktx)
     implementation(libs.androidx.espresso.contrib)
+    implementation(libs.androidx.fragment.testing)
     testImplementation(libs.junit)
     testImplementation(libs.testng)
     androidTestImplementation(libs.androidx.junit)
@@ -69,5 +70,4 @@ dependencies {
     implementation ("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.14")
     implementation("com.cloudinary:cloudinary-android:3.0.2")
     implementation("com.github.bumptech.glide:glide:4.16.0")
-
 }

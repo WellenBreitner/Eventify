@@ -25,6 +25,7 @@ seleniumJava = "3.141.59"
 testng = "7.11.0"
 espressoContrib = "3.6.1"
 firebaseMessagingKtx = "24.1.1"
+fragmentTesting = "1.8.7"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -52,6 +53,7 @@ selenium-java = { module = "org.seleniumhq.selenium:selenium-java", version.ref 
 testng = { group = "org.testng", name = "testng", version.ref = "testng" }
 androidx-espresso-contrib = { group = "androidx.test.espresso", name = "espresso-contrib", version.ref = "espressoContrib" }
 firebase-messaging-ktx = { group = "com.google.firebase", name = "firebase-messaging-ktx", version.ref = "firebaseMessagingKtx" }
+androidx-fragment-testing = { group = "androidx.fragment", name = "fragment-testing", version.ref = "fragmentTesting" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
