@@ -163,12 +163,10 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.button.MaterialButton
-            style="@style/styleTextForTitle"
             android:id="@+id/add_ticket_type_event_button"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:textSize="15sp"
             android:textColor="@color/white"
             android:layout_weight="1"
             android:backgroundTint="@color/black"
@@ -176,12 +174,10 @@
             android:text="Add Ticket Setup" />
 
         <com.google.android.material.button.MaterialButton
-            style="@style/styleTextForTitle"
             android:id="@+id/editEventButton"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:textSize="15sp"
             android:textColor="@color/white"
             android:layout_weight="1"
             android:backgroundTint="@color/black"
