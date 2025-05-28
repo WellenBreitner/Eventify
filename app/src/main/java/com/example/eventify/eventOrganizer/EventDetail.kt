@@ -44,12 +44,11 @@ class EventDetail : AppCompatActivity() {
         }
 
         extractIntentData()
-
         bindDataToViews()
-
         setupDescriptionToggle()
         setupBottomButton()
     }
+
 
     private fun extractIntentData() {
         eventData = if (Build.VERSION.SDK_INT >= 33) {
@@ -132,6 +131,12 @@ class EventDetail : AppCompatActivity() {
                     )
                 )
             }
+            startActivity(intent)
+        }
+
+        binding.addTicketTypeEventButton.setOnClickListener {
+            val intent = Intent(this, EventTicketTypeList::class.java)
+            intent.putExtra("EXTRA_EVENT_ID", eventData.eventId)
             startActivity(intent)
         }
     }

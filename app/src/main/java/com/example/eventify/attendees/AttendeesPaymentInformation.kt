@@ -103,7 +103,7 @@ class AttendeesPaymentInformation : AppCompatActivity() , PaymentResultListener 
                                                 val originalPrice = (getPaymentInformation?.priceForEachTicket.toString().toDouble() * getPaymentInformation?.numberOfTicket.toString().toInt())
                                                 binding.paymentInformationDiscount.text = "${ticket.discount.toString()}%"
                                                 val newTotalPrice = originalPrice - (originalPrice * getDiscount / 100)
-                                                binding.paymentInformationTotalPrice.text = "$newTotalPrice"
+                                                binding.paymentInformationTotalPrice.text = "$$newTotalPrice"
                                                 getPaymentInformation?.totalPrice = newTotalPrice
 
                                                 binding.paymentInformationPromotionCodeEditText.isEnabled = false
